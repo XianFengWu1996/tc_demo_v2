@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: ['www.pexels.com', 'firebasestorage.googleapis.com']
+  }
 }
 
 module.exports = nextConfig

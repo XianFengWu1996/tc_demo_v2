@@ -4,7 +4,7 @@ import { darkTheme, lightTheme } from '../functions/theme'
 import { ThemeProvider } from '@mui/material'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <ThemeProvider theme={darkTheme}>
+  return <ThemeProvider theme={lightTheme}>
     <Component {...pageProps} />
   </ThemeProvider>
 }

@@ -12,7 +12,7 @@ interface ICategory {
     ch_name: string,
     document_name: string,
     order: number,
-    dishes: [],
+    dishes: IDish[],
 }
 
 interface IDish {

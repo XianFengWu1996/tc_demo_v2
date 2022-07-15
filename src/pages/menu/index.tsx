@@ -8,6 +8,7 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { getMenuData } from "../../store/slicer/menuSlicer";
 import { isEmpty } from 'lodash'
+import Link from "next/link";
 
 
 
@@ -37,7 +38,7 @@ function MenuPage() {
             category_name = category.en_name
 
             return category.dishes.map((dish) => {
-                
+
             })
 
         })
@@ -63,18 +64,38 @@ function MenuPage() {
             {value === index && (
               <Box sx={{ p: 3 }}>
                 <div style={{ display: 'flex'}}>
-                    <Box sx={{ position: 'sticky', top: '0', left: 0, height: 'calc(100vh - 48px)', backgroundColor: 'background.paper', flex: 1, overflow: 'scroll'}}>    
+                    <Box sx={{ position: 'sticky', top: '0', left: 0, height: 'calc(100vh - 48px)', backgroundColor: 'background.paper', flex: 1, overflow: 'scroll', display: 'flex', flexDirection: 'column', pt:1, mr: 2}}>    
                         {
                             menu.category.map((category) => {
-                                return <Typography key={category.id}>{category.en_name.toUpperCase()}</Typography>
+                                return <Link key={category.id} href={`#${category.id}`} >
+                                    <a style={{ margin: '7px 0'}}>{category.en_name.toUpperCase()}</a>
+                                </Link>
                             })
                         }
                     </Box>
+
                     <Grid container spacing={3} sx={{ flex: 4}}>
                         {
-                           
-                        }            
+                            menu.category.map((category) => {
+                                return <>
+                                    <Grid item xs={12} >
+                                        <Typography id={category.id} component={'div'} sx={{ fontSize:25, fontWeight: 700, pt: 1}}>
+                                            {category.en_name}
+                                        </Typography>
+                                    </Grid>
+
+                                    {
+                                        category.dishes.map((dish) => {
+                                            return <DishDisplayCard key={dish.id} dish={dish}/>
+                                        })
+                                    }
+
+                                </>
+
+                            })
+                        }          
                     </Grid>
+
                 </div>
               </Box>
             )}

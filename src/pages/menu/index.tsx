@@ -7,6 +7,7 @@ import { AppBarNav } from "../../modules/appbar/appbar";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { getMenuData } from "../../store/slicer/menuSlicer";
+import { isEmpty } from 'lodash'
 
 
 
@@ -28,12 +29,25 @@ function MenuPage() {
        retrieveMenu();
     }, [])
 
+    const handleMenuDisplay = (menu: IMenu) => {
+
+        let category_name = '';
+
+        menu.category.map((category) => {
+            category_name = category.en_name
+
+            return category.dishes.map((dish) => {
+                
+            })
+
+        })
+    }
 
     interface TabPanelProps {
         menu: IMenu,
         index: number;
         value: number;
-      }
+    }
 
     function TabPanel(props: TabPanelProps) {
         const { menu, value, index,  ...other } = props;
@@ -58,9 +72,7 @@ function MenuPage() {
                     </Box>
                     <Grid container spacing={3} sx={{ flex: 4}}>
                         {
-                            menu.category[0].dishes.map((dish) => {
-                                return <DishDisplayCard key={v4()} dish={dish} />
-                            })
+                           
                         }            
                     </Grid>
                 </div>
@@ -88,9 +100,9 @@ function MenuPage() {
             </Tabs>
         </Box>
 
-        <TabPanel value={value} index={0} menu={fullday} />
-            
-        <TabPanel value={value} index={1} menu={lunch} />
+        { !isEmpty(fullday) &&  <TabPanel value={value} index={0} menu={fullday} />}
+
+        { !isEmpty(lunch) && <TabPanel value={value} index={1} menu={lunch} />}            
     </Box>
 }
   

@@ -6,6 +6,8 @@ interface IMenuSlicer {
   fullday: IMenu,
   lunch: IMenu,
   listOfDishes: IDish[],
+  
+  selectedCategory: string,
 }
 
 // Define the initial state using that type
@@ -13,6 +15,8 @@ const initialState: IMenuSlicer = {
   fullday: {} as IMenu,
   lunch: {} as IMenu,
   listOfDishes: [],
+
+  selectedCategory: '',
 }
 
 export const menuSlicer = createSlice({
@@ -21,17 +25,19 @@ export const menuSlicer = createSlice({
   initialState,
   reducers: {
     getMenuData: (state, { payload } : PayloadAction<{ fullday: IMenu, lunch: IMenu, dishes: []}>) => {
-        // assign the menus
-        if(payload){
-          state.fullday = payload.fullday;
-          state.lunch = payload.lunch;
-          state.listOfDishes = payload.dishes;
-        }
-      }, 
+      if(payload){
+        state.fullday = payload.fullday;
+        state.lunch = payload.lunch;
+        state.listOfDishes = payload.dishes;
+      }
+    }, 
+    handleCategoryIdChange: (state, { payload } : PayloadAction<{ id: string }>) => {
+      state.selectedCategory = payload.id;
+    }, 
   },
 })
 
-export const { getMenuData } = menuSlicer.actions
+export const { getMenuData, handleCategoryIdChange } = menuSlicer.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const fullday = (state: RootState) => state.menu.fullday

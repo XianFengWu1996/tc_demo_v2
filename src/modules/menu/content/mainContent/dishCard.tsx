@@ -1,10 +1,10 @@
-import { Card, CardContent, CardMedia, Grid, IconButton, styled, Theme, Typography, useTheme } from "@mui/material"
+import { Card, CardContent, CardMedia, Grid, IconButton, styled, Typography } from "@mui/material"
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import { GoFlame } from "react-icons/go";
-import FallBackImg from '../../../public/assets/images/fallback-min.jpg'
+import FallBackImg from '../../../../../public/assets/images/fallback-min.jpg'
 
 const CardContainer = styled(Card)(({ theme }) => ({
-    bgcolor: 'background.default', 
+    backgroundColor: theme.palette.background.default, 
     borderRadius: 10, 
     boxShadow: theme.shadows[4],
     minHeight: '200px'

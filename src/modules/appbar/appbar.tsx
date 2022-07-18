@@ -5,6 +5,8 @@ import BlackLogo from '../../../public/assets/images/blacklogo.png'
 import WhiteLogo from '../../../public/assets/images/whitelogo.png'
 import Image from "next/image";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { MenuDrawer } from "./menuDrawer/menuDrawer";
+import { useState } from "react";
 
 
 export const AppBarNav = () => {
@@ -60,16 +62,16 @@ export const AppBarNav = () => {
         }
     }))
 
-    // const [menuOpen, setMenuOpen] = useState(false);
-    // const [cartOpen, setCartOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [cartOpen, setCartOpen] = useState(false);
 
-    // const handleMenuOpen = () => {
-    //     setMenuOpen(true)
-    // }
+    const handleMenuOpen = () => {
+        setMenuOpen(true)
+    }
 
-    // const handleMenuClose = () => {
-    //     setMenuOpen(false)
-    // }
+    const handleMenuClose = () => {
+        setMenuOpen(false)
+    }
 
     // const handleCartOpen = () => {
     //     setCartOpen(true)
@@ -90,7 +92,7 @@ export const AppBarNav = () => {
                             color="inherit"
                             aria-label="menu"
                             sx={{ mr: 2 }}
-                            // onClick={handleMenuOpen}
+                            onClick={handleMenuOpen}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -106,7 +108,7 @@ export const AppBarNav = () => {
             </StyleAppbar>
         </Box>
 
-        {/* <MenuDrawer open={menuOpen} handleOpen={handleMenuOpen} handleClose={handleMenuClose}/> */}
+        <MenuDrawer open={menuOpen} handleOpen={handleMenuOpen} handleClose={handleMenuClose}/>
         {/* <CartDrawer open={cartOpen} handleOpen={handleCartOpen} handleClose={handleCartClose}/> */}
     </>
 }

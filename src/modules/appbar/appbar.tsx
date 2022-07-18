@@ -2,15 +2,14 @@ import { AppBar, Box, Button, IconButton, Toolbar, useTheme } from "@mui/materia
 import { styled } from "@mui/system";
 import MenuIcon from '@mui/icons-material/Menu';
 import BlackLogo from '../../../public/assets/images/blacklogo.png'
-import WhiteLogo from '../../../public/assets/images/whitelogo.png'
 import Image from "next/image";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MenuDrawer } from "./menuDrawer/menuDrawer";
 import { useState } from "react";
 
 
+
 export const AppBarNav = () => {
-    const mui_theme = useTheme();
 
     const StyleAppbar = styled(AppBar)(({ theme }) => ({
         position: 'static',
@@ -29,12 +28,12 @@ export const AppBarNav = () => {
     }))
     
     const CartButton = styled(Button)(({theme}) => ({
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.secondary.main,
         color: theme.palette.mode === 'dark' ? '#000' : '#fff',
         fontSize: 21,
         padding: '10px 40px',
         '&:hover':{
-            backgroundColor: '#bbb'
+            backgroundColor: theme.palette.secondary.light,
         },
         [theme.breakpoints.down('sm')]: {
             fontSize: 18,
@@ -52,7 +51,7 @@ export const AppBarNav = () => {
         border: '1px solid #fff',
         borderRadius: '50%',
         backgroundColor: '#fff',
-        color: '#555',
+        color: theme.palette.secondary.main,
         [theme.breakpoints.down('sm')]: {
             height: '14px', 
             width: '14px',
@@ -64,6 +63,7 @@ export const AppBarNav = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [cartOpen, setCartOpen] = useState(false);
+
 
     const handleMenuOpen = () => {
         setMenuOpen(true)
@@ -89,18 +89,18 @@ export const AppBarNav = () => {
                         <IconButton
                             size="large"
                             edge="start"
-                            color="inherit"
+                            color="secondary"
                             aria-label="menu"
                             sx={{ mr: 2 }}
                             onClick={handleMenuOpen}
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Image src={mui_theme.palette.mode === 'dark'?  WhiteLogo.src : BlackLogo.src} alt="taipei cuisine logo" width={60} height={50}/> 
+                        <Image src={BlackLogo.src} alt="taipei cuisine logo" width={60} height={50}/> 
                     </div>
                 
                     <CartButton> 
-                        <AiOutlineShoppingCart />
+                        <AiOutlineShoppingCart color={'#fff'}/>
                         <CartCount>5</CartCount>
                     </CartButton>
                         

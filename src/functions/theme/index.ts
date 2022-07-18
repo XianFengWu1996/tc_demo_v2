@@ -1,5 +1,4 @@
 import { createTheme, ThemeOptions } from "@mui/material/styles";
-import { blue, green } from "@mui/material/colors";
 
 export const lightTheme:ThemeOptions = createTheme({
     palette: {
@@ -12,8 +11,8 @@ export const lightTheme:ThemeOptions = createTheme({
             main: '#262626',
         },
         secondary: {
-            main: '#EA464D',
-            contrastText: '#262626'
+            main: '#f38486',
+            contrastText: '#fff'
         }, 
     },
     typography: {
@@ -38,17 +37,19 @@ export const darkTheme:ThemeOptions = createTheme({
         mode: 'dark',
         background: {
             paper: '#262626',
-            default: '#fff'
-        },
-        primary: {
-            main: '#262626', 
-        },
-        secondary: {
-            main: '#f1b8b4',
+            default: '#e3d8cd'
         },
         text: {
-            primary: '#fff',
-        }
+            primary: '#000',
+        },
+        primary: {
+            main: '#e3d8cd', 
+            contrastText: '#000'
+        },
+        secondary: {
+            main: '#262626',
+            contrastText: '#fff'
+        },
     },
     typography: {
         fontFamily: [

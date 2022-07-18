@@ -20,7 +20,8 @@ interface IMenuDrawerProps {
 }
 
 const DrawerItem = styled('div')(() => ({
-    width: '250px'
+    width: '250px',
+    color: 'secondary'
 }))
 
 const SignInLogoutButton = styled(Button)(() => ({
@@ -120,7 +121,7 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
         }}
     >
         <div>
-            <IconButton sx={{ padding: '20px'}} onClick={props.handleClose}>
+            <IconButton sx={{ padding: '20px', color: '#000'}} onClick={props.handleClose}>
                 <AiOutlineClose />
             </IconButton>
         </div>
@@ -144,7 +145,7 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
                                 <ListItem button onClick={() => {
                                     Router.push(item.path)
                                 }}>
-                                    <ListItemIcon>
+                                    <ListItemIcon sx={{ color: '#000'}}>
                                         {item.icon}
                                     </ListItemIcon>
                                     <ListItemText primary={item.text} />
@@ -158,7 +159,7 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
         
 
             {/* <SignInLogoutButton variant="contained" onClick={handleSigninLogout}> */}
-            <SignInLogoutButton variant="contained" onClick={() => {}}>
+            <SignInLogoutButton variant="contained" color="secondary" onClick={() => {}}>
             Login
                 {/* { user ? 'Logout' : 'Login'}  */}
             </SignInLogoutButton>

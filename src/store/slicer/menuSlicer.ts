@@ -33,14 +33,10 @@ export const menuSlicer = createSlice({
     }, 
     handleCategoryIdChange: (state, { payload } : PayloadAction<{ id: string }>) => {
       state.selectedCategory = payload.id;
-    }, 
+    }
   },
 })
 
-export const { getMenuData, handleCategoryIdChange } = menuSlicer.actions
-
-// Other code such as selectors can use the imported `RootState` type
-export const fullday = (state: RootState) => state.menu.fullday
-export const lunch = (state: RootState) => state.menu.lunch
+export const { getMenuData, handleCategoryIdChange} = menuSlicer.actions
 
 export default menuSlicer.reducer

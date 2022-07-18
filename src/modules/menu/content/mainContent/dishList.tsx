@@ -1,9 +1,16 @@
-import { Grid, Typography } from "@mui/material"
+import { Grid, styled, Typography } from "@mui/material"
 import { DishDisplayCard } from "./dishCard"
 
 interface IDishList {
     menu: IMenu,
 }
+
+const CategoryTitle = styled(Typography)(({ theme }) => ({
+    fontSize:25, 
+    fontWeight: 700, 
+    paddingTop: 5,
+    color: theme.palette.primary.main
+})) 
 
 export const DishList = ({ menu }:IDishList) => {
     return <>
@@ -13,9 +20,9 @@ export const DishList = ({ menu }:IDishList) => {
                         return <>
                             {/* displays the category as the tile */}
                             <Grid item xs={12} >
-                                <Typography id={category.id} component={'div'} sx={{ fontSize:25, fontWeight: 700, pt: 1}}>
+                                <CategoryTitle id={category.id}>
                                     {category.en_name}
-                                </Typography>
+                                </CategoryTitle>
                             </Grid>
 
                             {/* display all the list of the categories*/}

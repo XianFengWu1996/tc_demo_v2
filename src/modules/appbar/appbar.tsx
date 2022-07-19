@@ -6,6 +6,7 @@ import Image from "next/image";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MenuDrawer } from "./menuDrawer/menuDrawer";
 import { useState } from "react";
+import { CartDrawer } from "./checkoutDrawer";
 
 
 
@@ -62,7 +63,7 @@ export const AppBarNav = () => {
     }))
 
     const [menuOpen, setMenuOpen] = useState(false);
-    const [cartOpen, setCartOpen] = useState(false);
+    const [cartOpen, setCartOpen] = useState(true);
 
 
     const handleMenuOpen = () => {
@@ -73,13 +74,14 @@ export const AppBarNav = () => {
         setMenuOpen(false)
     }
 
-    // const handleCartOpen = () => {
-    //     setCartOpen(true)
-    // }
+    const handleCartOpen = () => {
+        console.log('open')
+        setCartOpen(true)
+    }
 
-    // const handleCartClose = () => {
-    //     setCartOpen(false)
-    // }
+    const handleCartClose = () => {
+        setCartOpen(false)
+    }
 
     return <>
         <Box>
@@ -99,7 +101,7 @@ export const AppBarNav = () => {
                         <Image src={BlackLogo.src} alt="taipei cuisine logo" width={60} height={50}/> 
                     </div>
                 
-                    <CartButton> 
+                    <CartButton onClick={handleCartOpen}> 
                         <AiOutlineShoppingCart color={'#fff'}/>
                         <CartCount>5</CartCount>
                     </CartButton>
@@ -109,6 +111,6 @@ export const AppBarNav = () => {
         </Box>
 
         <MenuDrawer open={menuOpen} handleOpen={handleMenuOpen} handleClose={handleMenuClose}/>
-        {/* <CartDrawer open={cartOpen} handleOpen={handleCartOpen} handleClose={handleCartClose}/> */}
+        <CartDrawer open={cartOpen} handleOpen={handleCartOpen} handleClose={handleCartClose}/>
     </>
 }

@@ -3,6 +3,7 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import { GoFlame } from "react-icons/go";
 import FallBackImg from '../../../../../public/assets/images/fallback-min.jpg'
 import { red } from "@mui/material/colors";
+import Router from "next/router";
 
 const CardContainer = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.background.default, 
@@ -15,7 +16,7 @@ const FavoriteIcons = styled(IconButton)(({ theme }) => ({
     position: 'absolute', 
     top: '2',
     right: '2', 
-    zIndex: 9999, 
+    zIndex: 999, 
     color: red[400]
 }))
 
@@ -33,7 +34,7 @@ export const DishDisplayCard = ({dish}:{dish: IDish}) => {
     const theme = useTheme()
     return <>
         <Grid item xs={12} sm={6} md={4} lg={4}>
-            <CardContainer>
+            <CardContainer onClick={() => Router.push(`/menu/${dish.id}`)}>
                 <FavoriteIcons>
                     <FavoriteBorder />
                 </FavoriteIcons>

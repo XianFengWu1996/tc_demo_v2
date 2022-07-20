@@ -11,7 +11,6 @@ import { CartDrawer } from "./checkoutDrawer";
 
 
 export const AppBarNav = () => {
-
     const StyleAppbar = styled(AppBar)(({ theme }) => ({
         position: 'static',
         backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.main : '#fff',
@@ -63,7 +62,7 @@ export const AppBarNav = () => {
     }))
 
     const [menuOpen, setMenuOpen] = useState(false);
-    const [cartOpen, setCartOpen] = useState(true);
+    const [cartOpen, setCartOpen] = useState(false);
 
 
     const handleMenuOpen = () => {
@@ -75,7 +74,6 @@ export const AppBarNav = () => {
     }
 
     const handleCartOpen = () => {
-        console.log('open')
         setCartOpen(true)
     }
 

@@ -1,11 +1,7 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
-import { isEmpty } from 'lodash'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { GoFlame } from 'react-icons/go'
 import { AppBarNav } from '../../modules/appbar/appbar'
-import { MenuItem } from '../../modules/menu/item/menuItem'
+import { MenuItem } from '../../modules/menuItem/menuItem'
 import { useAppSelector } from '../../store/hook'
 
 export const DishById = () => {
@@ -24,9 +20,7 @@ export const DishById = () => {
   return <>
     <AppBarNav />
 
-    {
-      dish && <MenuItem dish={dish}/>
-    }
+    { dish && <MenuItem dish={dish}/>}
   </>
 }
 

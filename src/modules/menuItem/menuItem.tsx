@@ -1,6 +1,7 @@
 import { Box, Button, styled } from "@mui/material"
 import { isEmpty } from "lodash"
 import Image from "next/image"
+import { ChangeEvent, useState } from "react"
 import placeholderImage from '../../../public/assets/images/fallback.jpeg'
 import { DishComment } from "./dishComment"
 import { DishDetails } from "./dishDetails"
@@ -22,7 +23,14 @@ const DetailContainer = styled('div')(() => ({
     marginLeft: 50,
 }))
 
-export const MenuItem = ({ dish } :IMenuItem) => {  
+export const MenuItem = ({ dish } :IMenuItem) => { 
+    
+    const [comment, setComment] = useState<string>('');
+
+    const handleCommentChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setComment(e.target.value);
+    }
+    
     return <PageContainer>
            <div>
                 <Image
@@ -39,7 +47,7 @@ export const MenuItem = ({ dish } :IMenuItem) => {
             
             <DishVariant dish={dish} />
 
-            <DishComment />
+            <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
 
             <Button variant='contained' color='primary'>Add To Cart | $10.95</Button>
           </DetailContainer>

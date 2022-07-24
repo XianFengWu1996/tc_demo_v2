@@ -1,7 +1,14 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from "@mui/material"
+import { ChangeEvent } from "react"
 import { GoFlame } from "react-icons/go"
 
-export const DishVariant = ({ dish } : {dish: IDish}) => {
+interface IDishVariant {
+    dish: IDish,
+    optionId: string,
+    handleOptionIdChange: (e: ChangeEvent<HTMLInputElement>) => {}
+}
+
+export const DishVariant = ({ dish, optionId, handleOptionIdChange } : IDishVariant) => {
     return <>
          {
             dish.variant.map((variant) => {
@@ -12,13 +19,15 @@ export const DishVariant = ({ dish } : {dish: IDish}) => {
                     <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         name="radio-buttons-group"
+                        value={optionId}
+                        onChange={handleOptionIdChange}
                     >
                          {
                             variant.options.map((option) => {
                                 return <FormControlLabel
                                     key={option.id} 
                                     value={option.id} 
-                                    control={<Radio required size="small" />} 
+                                    control={<Radio required size="small"/>} 
                                     label={<Typography sx={{ fontSize: 14}}>{option.en_name} {option.ch_name} {option.spicy && <GoFlame size={15} color={'red'}/> } +${option.price.toFixed(2)}</Typography>} 
                                 />
                             })

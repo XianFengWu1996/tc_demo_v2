@@ -26,9 +26,14 @@ const DetailContainer = styled('div')(() => ({
 export const MenuItem = ({ dish } :IMenuItem) => { 
     
     const [comment, setComment] = useState<string>('');
+    const [optionId, setOptionId] = useState<string>('')
 
     const handleCommentChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setComment(e.target.value);
+    }
+
+    const handleOptionIdChange = () => {
+
     }
     
     return <PageContainer>
@@ -45,7 +50,7 @@ export const MenuItem = ({ dish } :IMenuItem) => {
           <DetailContainer> 
             <DishDetails dish={dish}/>
             
-            <DishVariant dish={dish} />
+            <DishVariant dish={dish} option={optionId} handleOptionIdChange={handleOptionIdChange} />
 
             <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
 

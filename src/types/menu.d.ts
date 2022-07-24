@@ -25,7 +25,7 @@ interface IDish {
     is_lunch: boolean,
     in_stock: boolean,
     price: number,
-    variant: IVarirant[],
+    variant: IVariant[],
     description: string,
     label_id: string,
     order: number,
@@ -36,14 +36,14 @@ interface IDish {
     }
 }
 
-interface IVarirant{
+interface IVariant{
     id: string,
     en_name: string,
     ch_name:string,
-    options: IVarirantOption[],
+    options: IVariantOption[],
 }
 
-interface IVarirantOption {
+interface IVariantOption {
     id: string,
     en_name: string,
     ch_name:string,

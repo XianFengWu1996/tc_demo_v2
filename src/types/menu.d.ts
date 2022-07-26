@@ -25,28 +25,38 @@ interface IDish {
     is_lunch: boolean,
     in_stock: boolean,
     price: number,
-    variant: IVariant[],
     description: string,
     label_id: string,
     order: number,
     pic_url:string,
+    choices: IChoice[],
     additional_info: {
         menu: string,
         category: string,
     }
 }
 
-interface IVariant{
+interface IChoice{
     id: string,
-    en_name: string,
-    ch_name:string,
-    options: IVariantOption[],
+    en_choice: string,
+    ch_choice: string,
+    required: boolean,
+    min: number,
+    max: number
+    options: IOption[]
 }
 
-interface IVariantOption {
+interface IOption {
     id: string,
-    en_name: string,
-    ch_name:string,
+    en_option: string,
+    ch_option: string,
     price: number,
     spicy: boolean,
+}
+
+interface ISelectedChoice {
+    id: string,
+    en_choice: string,
+    ch_choice: string,
+    selectedOption: IOption[]
 }

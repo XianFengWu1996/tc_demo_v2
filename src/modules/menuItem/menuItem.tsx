@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from "react"
 import placeholderImage from '../../../public/assets/images/fallback.jpeg'
 import { DishComment } from "./dishComment"
 import { DishDetails } from "./dishDetails"
-import { DishVariant } from "./dishVariant"
+import { DishChoice } from "./dishChoice"
 
 interface IMenuItem {
     dish: IDish
@@ -29,7 +29,7 @@ export const MenuItem = ({ dish } :IMenuItem) => {
 
     // option related
     const [optionId, setOptionId] = useState<string>('')
-    const [option, setOption] = useState<IVariantOption | null>(null)
+    const [option, setOption] = useState<IOption | null>(null)
 
 
     const handleCommentChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -39,8 +39,8 @@ export const MenuItem = ({ dish } :IMenuItem) => {
     const handleOptionIdChange = (e: ChangeEvent<HTMLInputElement>) => {
         setOptionId(e.target.value);
 
-        const found_variant = dish.variant.map((variant) => {
-            return variant.options.findIndex((option) => {
+        const found_variant = dish.choices.map((choice) => {
+            return choice.options.findIndex((option) => {
                 return option.id === e.target.value
             })
         })
@@ -62,7 +62,7 @@ export const MenuItem = ({ dish } :IMenuItem) => {
           <DetailContainer> 
             <DishDetails dish={dish}/>
             
-            <DishVariant dish={dish} optionId={optionId} handleOptionIdChange={handleOptionIdChange} />
+            <DishChoice dish={dish} optionId={optionId} handleOptionIdChange={handleOptionIdChange} />
 
             <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
 

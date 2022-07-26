@@ -26,14 +26,26 @@ const DetailContainer = styled('div')(() => ({
 export const MenuItem = ({ dish } :IMenuItem) => { 
     
     const [comment, setComment] = useState<string>('');
+
+    // option related
     const [optionId, setOptionId] = useState<string>('')
+    const [option, setOption] = useState<IVariantOption | null>(null)
+
 
     const handleCommentChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setComment(e.target.value);
     }
 
-    const handleOptionIdChange = () => {
+    const handleOptionIdChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setOptionId(e.target.value);
 
+        const found_variant = dish.variant.map((variant) => {
+            return variant.options.findIndex((option) => {
+                return option.id === e.target.value
+            })
+        })
+
+        console.log(found_variant)
     }
     
     return <PageContainer>
@@ -50,7 +62,7 @@ export const MenuItem = ({ dish } :IMenuItem) => {
           <DetailContainer> 
             <DishDetails dish={dish}/>
             
-            <DishVariant dish={dish} option={optionId} handleOptionIdChange={handleOptionIdChange} />
+            <DishVariant dish={dish} optionId={optionId} handleOptionIdChange={handleOptionIdChange} />
 
             <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
 

@@ -4,6 +4,8 @@ import { GoFlame } from "react-icons/go";
 import FallBackImg from '../../../../../public/assets/images/fallback-min.jpg'
 import { red } from "@mui/material/colors";
 import Router from "next/router";
+import { useAppDispatch } from "../../../../store/hook";
+import { handleMenuItemChange, toggleMenuItemDialog } from "../../../../store/slicer/menuSlicer";
 
 const CardContainer = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.background.default, 
@@ -32,9 +34,14 @@ const DishPrice = styled(Typography)(({ theme }) => ({
 
 export const DishDisplayCard = ({dish}:{dish: IDish}) => {
     const theme = useTheme()
+    const dispatch = useAppDispatch();
+
     return <>
         <Grid item xs={12} sm={6} md={4} lg={4}>
-            <CardContainer onClick={() => Router.push(`/menu/${dish.id}`)}>
+            <CardContainer onClick={() => {
+                dispatch(toggleMenuItemDialog(true))
+                dispatch(handleMenuItemChange(dish))
+            }}>
                 <FavoriteIcons>
                     <FavoriteBorder />
                 </FavoriteIcons>

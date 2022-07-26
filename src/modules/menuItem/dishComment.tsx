@@ -9,7 +9,7 @@ interface IDishComment {
 export const DishComment = ({comment, handleCommentChange}:IDishComment) => {
     return <div>
         <TextField
-              sx={{ mt: 1, mb:3, width: '600px'}}
+              sx={{ mt: 1, mb:3, minWidth: '300px'}}
               multiline
               minRows={3}
               fullWidth

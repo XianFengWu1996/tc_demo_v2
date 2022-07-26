@@ -1,13 +1,19 @@
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { getMenuData, handleCategoryIdChange, handleMenuItemChange, toggleMenuItemDialog } from "../../store/slicer/menuSlicer";
 import { isEmpty } from 'lodash'
 
-import { Box, Dialog, DialogContent } from "@mui/material"
+import { Box, Button, Dialog, DialogActions, DialogContent, IconButton, Paper, Typography } from "@mui/material"
 import { AppBarNav } from "../../modules/appbar/appbar";
 import { MenuNavigation } from "../../modules/menu/menuNav/menuNavigation";
 import { MenuContents } from "../../modules/menu/content/mainContent";
+import Image from "next/image";
+import { AiOutlineClose } from "react-icons/ai";
+import { IoAddCircleOutline, IoRemoveCircleOutline } from 'react-icons/io5'
+import { DishDetails } from "../../modules/menuItem/dishDetails";
+import { DishComment } from "../../modules/menuItem/dishComment";
+import { DishVariant } from "../../modules/menuItem/dishVariant";
 
 
 
@@ -54,28 +60,88 @@ function MenuPage() {
 
 
   export const MenuItemDialog = () => {
-    const { menuItemDialog, selectedMenuItem } = useAppSelector(state => state.menu);
+    const { menuItemDialog, selectedMenuItem: dish } = useAppSelector(state => state.menu);
     const dispatch = useAppDispatch();
 
-    return <Dialog 
-            PaperProps={{
-                sx: {
-                    minHeight: '80vh',
-                    minWidth: '40vw',
-                    maxHeight: '100vh',
-                    maxWidth: '80vw',
-                }
-            }}
-            open={menuItemDialog}
-            onClose={() => {
-                dispatch(toggleMenuItemDialog(false))
-                dispatch(handleMenuItemChange({} as IDish))
-            }}
-        >
-        <DialogContent>
-            {selectedMenuItem.en_name}
+    const [comment, setComment] = useState<string>('');
+
+    // option related
+    const [optionId, setOptionId] = useState<string>('')
+    const [option, setOption] = useState<IVariantOption | null>(null)
+
+
+    const handleCommentChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setComment(e.target.value);
+    }
+
+    const handleOptionIdChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setOptionId(e.target.value);
+
+        if(dish){
+            let found_variant = dish.variant.map((variant) => {
+                return variant.options.find((option) => {
+                    return option.id === e.target.value
+                })
+            })
+            
+            if(found_variant[0]){
+                setOption(found_variant[0]);
+            }
+
+        }
+    }
+
+    return dish && <Dialog 
+    keepMounted={false}
+    PaperProps={{
+        sx: {
+            height: '95vh',
+            minWidth: '800px',
+            borderRadius: 5
+        }
+    }}
+    open={menuItemDialog}
+    fullWidth
+    onClose={() => {
+        dispatch(toggleMenuItemDialog(false))
+        dispatch(handleMenuItemChange(null))
+    }}
+>
+<DialogContent sx={{ position: 'relative'}}>
+        <div style={{ display: 'flex', justifyContent: 'center'}}>
+            {!isEmpty(dish.pic_url) && <Image 
+                src={dish.pic_url}
+                alt={`Picture of ${dish.en_name}`}
+                height={300}
+                width={350}
+            />}
+        </div>
+
+        <IconButton sx={{ color: '#000', backgroundColor: 'background.default', position: 'absolute', top: 25, left: 25}}>
+            <AiOutlineClose size={30}/>
+        </IconButton> 
+
+        <DishDetails dish={dish} />
+
+        <DishVariant dish={dish} optionId={optionId} handleOptionIdChange={handleOptionIdChange} />
+        <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
+
+    </DialogContent>
+    <DialogActions sx={{ backgroundColor: 'background.default', padding: '10px 30px', position: 'sticky'}}>
+ 
+        <IconButton>
+            <IoRemoveCircleOutline />
+        </IconButton>
+
+        <Box sx={{ padding: '5px 30px', backgroundColor: '#D1CFCF'}}>
+            <Typography>5</Typography>
+        </Box>
         
-        </DialogContent>
+        <IconButton sx={{ marginLeft: '0 !important'}}>
+            <IoAddCircleOutline />
+        </IconButton>
+        <Button variant="contained">Add To Cart | $32.50</Button>
+    </DialogActions>
     </Dialog>
   }
 

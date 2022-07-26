@@ -5,7 +5,7 @@ import { GoFlame } from "react-icons/go"
 interface IDishVariant {
     dish: IDish,
     optionId: string,
-    handleOptionIdChange: (e: ChangeEvent<HTMLInputElement>) => {}
+    handleOptionIdChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 export const DishVariant = ({ dish, optionId, handleOptionIdChange } : IDishVariant) => {

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
-import { getMenuData, handleCategoryIdChange } from "../../store/slicer/menuSlicer";
+import { getMenuData, handleCategoryIdChange, handleMenuItemChange, toggleMenuItemDialog } from "../../store/slicer/menuSlicer";
 import { isEmpty } from 'lodash'
 
-import { Box } from "@mui/material"
+import { Box, Dialog, DialogContent } from "@mui/material"
 import { AppBarNav } from "../../modules/appbar/appbar";
 import { MenuNavigation } from "../../modules/menu/menuNav/menuNavigation";
 import { MenuContents } from "../../modules/menu/content/mainContent";
@@ -44,11 +44,40 @@ function MenuPage() {
 
         { !isEmpty(fullday) &&  <MenuContents value={value} index={0} menu={fullday} />}
 
-        { !isEmpty(lunch) && <MenuContents value={value} index={1} menu={lunch} />}            
+        { !isEmpty(lunch) && <MenuContents value={value} index={1} menu={lunch} />}     
+
+        <MenuItemDialog />
     </Box>
 }
   
   export default MenuPage
+
+
+  export const MenuItemDialog = () => {
+    const { menuItemDialog, selectedMenuItem } = useAppSelector(state => state.menu);
+    const dispatch = useAppDispatch();
+
+    return <Dialog 
+            PaperProps={{
+                sx: {
+                    minHeight: '80vh',
+                    minWidth: '40vw',
+                    maxHeight: '100vh',
+                    maxWidth: '80vw',
+                }
+            }}
+            open={menuItemDialog}
+            onClose={() => {
+                dispatch(toggleMenuItemDialog(false))
+                dispatch(handleMenuItemChange({} as IDish))
+            }}
+        >
+        <DialogContent>
+            {selectedMenuItem.en_name}
+        
+        </DialogContent>
+    </Dialog>
+  }
 
 
 

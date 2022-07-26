@@ -13,7 +13,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { IoAddCircleOutline, IoRemoveCircleOutline } from 'react-icons/io5'
 import { DishDetails } from "../../modules/menuItem/dishDetails";
 import { DishComment } from "../../modules/menuItem/dishComment";
-import { DishVariant } from "../../modules/menuItem/dishVariant";
+import { DishChoice } from "../../modules/menuItem/dishChoice";
 
 
 
@@ -67,28 +67,30 @@ function MenuPage() {
 
     // option related
     const [optionId, setOptionId] = useState<string>('')
-    const [option, setOption] = useState<IVariantOption | null>(null)
+    const [option, setOption] = useState<IOption | undefined>(undefined)
 
 
     const handleCommentChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setComment(e.target.value);
     }
 
-    const handleOptionIdChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setOptionId(e.target.value);
+    const handleOptionIdChange = (e: ChangeEvent<HTMLInputElement>, choice: IChoice) => {
+        setOptionId(e.target.value); // set the option id
 
-        if(dish){
-            let found_variant = dish.variant.map((variant) => {
-                return variant.options.find((option) => {
-                    return option.id === e.target.value
-                })
-            })
-            
-            if(found_variant[0]){
-                setOption(found_variant[0]);
-            }
+        let found_option = choice.options.find((option) => {
+            return option.id === e.target.value
+        })
 
+        let temp_option = [];
+        temp_option.push(found_option);
+
+        let new_choice:ISelectedChoice = {
+            id: choice.id,
+            en_choice: choice.en_choice,
+            ch_choice: choice.ch_choice,
+            selectedOption: []
         }
+
     }
 
     return dish && <Dialog 
@@ -108,24 +110,31 @@ function MenuPage() {
     }}
 >
 <DialogContent sx={{ position: 'relative'}}>
-        <div style={{ display: 'flex', justifyContent: 'center'}}>
-            {!isEmpty(dish.pic_url) && <Image 
-                src={dish.pic_url}
-                alt={`Picture of ${dish.en_name}`}
-                height={300}
-                width={350}
-            />}
-        </div>
 
         <IconButton sx={{ color: '#000', backgroundColor: 'background.default', position: 'absolute', top: 25, left: 25}}>
             <AiOutlineClose size={30}/>
         </IconButton> 
 
-        <DishDetails dish={dish} />
+        <div style={{ marginTop: 50}}>
+            <div style={{ display: 'flex', justifyContent: 'center'}}>
+                {!isEmpty(dish.pic_url) && <Image 
+                    src={dish.pic_url}
+                    alt={`Picture of ${dish.en_name}`}
+                    height={300}
+                    width={350}
+                />}
+            </div>
 
-        <DishVariant dish={dish} optionId={optionId} handleOptionIdChange={handleOptionIdChange} />
-        <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
+        
 
+            <DishDetails dish={dish} />
+
+            {
+                !isEmpty(dish.choices) && <DishChoice dish={dish} optionId={optionId} handleOptionIdChange={handleOptionIdChange} />
+            }
+            <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
+
+        </div>
     </DialogContent>
     <DialogActions sx={{ backgroundColor: 'background.default', padding: '10px 30px', position: 'sticky'}}>
  

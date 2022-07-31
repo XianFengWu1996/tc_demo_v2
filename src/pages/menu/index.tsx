@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { getMenuData, handleCategoryIdChange, handleMenuItemChange, toggleMenuItemDialog } from "../../store/slicer/menuSlicer";
-import { isEmpty } from 'lodash'
+import { cloneDeep, isEmpty } from 'lodash'
 
 import { Box, Button, Dialog, DialogActions, DialogContent, IconButton, Paper, Typography } from "@mui/material"
 import { AppBarNav } from "../../modules/appbar/appbar";
@@ -65,32 +65,33 @@ function MenuPage() {
 
     const [comment, setComment] = useState<string>('');
 
-    // option related
-    const [optionId, setOptionId] = useState<string>('')
-    const [option, setOption] = useState<IOption | undefined>(undefined)
-
-
     const handleCommentChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setComment(e.target.value);
     }
 
-    const handleOptionIdChange = (e: ChangeEvent<HTMLInputElement>, choice: IChoice) => {
-        setOptionId(e.target.value); // set the option id
+    const [choices, setChoices] = useState<ISelectedChoice[]>([]); // this will be the choices that was selected
 
-        let found_option = choice.options.find((option) => {
-            return option.id === e.target.value
+    const handleChoice = (choice: IChoice, option: IOption[]) => {
+        // check if the choice already exist
+        let choice_index = choices.findIndex((val) => {
+            return val.id === choice.id
         })
-
-        let temp_option = [];
-        temp_option.push(found_option);
-
-        let new_choice:ISelectedChoice = {
-            id: choice.id,
-            en_choice: choice.en_choice,
-            ch_choice: choice.ch_choice,
-            selectedOption: []
+    
+        if(choice_index !== -1){
+            let choices_copy = cloneDeep(choices);
+            choices_copy[choice_index].selectedOption = option;
+            setChoices(choices_copy);
+        } else {
+            // if the choice does not exist in the selected choice array
+            // add a new choices into the array
+            setChoices([...choices, {
+                id: choice.id,
+                en_choice: choice.en_choice, 
+                ch_choice: choice.ch_choice,
+                selectedOption: option,
+            }])
         }
-
+       
     }
 
     return dish && <Dialog 
@@ -123,14 +124,12 @@ function MenuPage() {
                     height={300}
                     width={350}
                 />}
-            </div>
-
-        
+            </div>        
 
             <DishDetails dish={dish} />
 
             {
-                !isEmpty(dish.choices) && <DishChoice dish={dish} optionId={optionId} handleOptionIdChange={handleOptionIdChange} />
+                !isEmpty(dish.choices) && <DishChoice dish={dish} handleChoice={handleChoice} />
             }
             <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
 

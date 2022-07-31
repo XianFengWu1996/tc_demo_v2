@@ -36,16 +36,8 @@ export const MenuItem = ({ dish } :IMenuItem) => {
         setComment(e.target.value);
     }
 
-    const handleOptionIdChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setOptionId(e.target.value);
-
-        const found_variant = dish.choices.map((choice) => {
-            return choice.options.findIndex((option) => {
-                return option.id === e.target.value
-            })
-        })
-
-        console.log(found_variant)
+    const handleOptionIdChange = (choice: IChoice, option: IOption[]) => {
+    
     }
     
     return <PageContainer>
@@ -62,7 +54,7 @@ export const MenuItem = ({ dish } :IMenuItem) => {
           <DetailContainer> 
             <DishDetails dish={dish}/>
             
-            <DishChoice dish={dish} optionId={optionId} handleOptionIdChange={handleOptionIdChange} />
+            <DishChoice dish={dish} handleChoice={handleOptionIdChange} />
 
             <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
 

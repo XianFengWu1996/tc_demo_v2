@@ -129,7 +129,7 @@ function MenuPage() {
             <DishDetails dish={dish} />
 
             {
-                !isEmpty(dish.choices) && <DishChoice dish={dish} handleChoice={handleChoice} />
+                !isEmpty(dish.choices) && <DishChoice dish={dish} selectedChoices={choices} handleChoice={handleChoice} />
             }
             <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
 

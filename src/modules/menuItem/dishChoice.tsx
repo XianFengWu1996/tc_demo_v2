@@ -74,7 +74,7 @@ interface ICheckboxItem {
 
 export const CheckboxItem = (props: ICheckboxItem) => {
     const {option, counter, onChange} = props;
-    const [checked, setChecked] = useState<boolean>(false);
+    const [checked, setChecked] = useState<boolean>(false); // control the local state to toggle check status
 
     return <>
         <FormControlLabel 

@@ -79,8 +79,14 @@ function MenuPage() {
     
         if(choice_index !== -1){
             let choices_copy = cloneDeep(choices);
-            choices_copy[choice_index].selectedOption = option;
-            setChoices(choices_copy);
+
+            if(isEmpty(option)){
+                choices_copy.splice(choice_index, 1);
+                setChoices(choices_copy)
+            } else {
+                choices_copy[choice_index].selectedOption = option;
+                setChoices(choices_copy);
+            }
         } else {
             // if the choice does not exist in the selected choice array
             // add a new choices into the array
@@ -91,6 +97,8 @@ function MenuPage() {
                 selectedOption: option,
             }])
         }
+
+      
        
     }
 
@@ -126,11 +134,27 @@ function MenuPage() {
                 />}
             </div>        
 
+            {
+                choices.map((choice) => {
+                    return <div key={choice.id}>
+                        <Typography>{choice.ch_choice}</Typography>
+                        {
+                            choice.selectedOption.map((option) => {
+                                return <div key={option.id}>
+                                    <Typography>{option.en_option}</Typography>
+                                </div>
+                            })
+                        }
+                    </div>
+                })
+            }
+
             <DishDetails dish={dish} />
 
             {
                 !isEmpty(dish.choices) && <DishChoice dish={dish} selectedChoices={choices} handleChoice={handleChoice} />
             }
+
             <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
 
         </div>

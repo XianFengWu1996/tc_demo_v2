@@ -1,26 +1,27 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, IconButton, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, IconButton } from "@mui/material";
 import { cloneDeep, isEmpty } from "lodash";
-import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import { handleMenuItemChange, toggleMenuItemDialog } from "../../../store/slicer/menuSlicer";
 import { DishChoice } from "../choices/dishChoice";
+import { DialogImage } from "./dialogImage";
 import { DishComment } from "./dishComment";
 import { DishDetails } from "./dishDetails";
+import { Quantity } from "./quantity";
 
 export const MenuItemDialog = () => {
     const { menuItemDialog, selectedMenuItem: dish } = useAppSelector(state => state.menu);
     const dispatch = useAppDispatch();
 
     const [comment, setComment] = useState<string>('');
+    const [choices, setChoices] = useState<ISelectedChoice[]>([]); // this will be the choices that was selected
+    const [quantity, setQuantity] = useState<number>(1);
+
 
     const handleCommentChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setComment(e.target.value);
     }
-
-    const [choices, setChoices] = useState<ISelectedChoice[]>([]); // this will be the choices that was selected
 
     const handleChoice = (choice: IChoice, option: IOption[]) => {
         // check if the choice already exist
@@ -51,6 +52,12 @@ export const MenuItemDialog = () => {
 
       
        
+
+    }
+
+    const handleOnDialogClose = () => {
+        dispatch(toggleMenuItemDialog(false))
+        dispatch(handleMenuItemChange(null))
     }
 
     return dish && <Dialog 
@@ -64,10 +71,7 @@ export const MenuItemDialog = () => {
         }}
         open={menuItemDialog}
         fullWidth
-        onClose={() => {
-            dispatch(toggleMenuItemDialog(false))
-            dispatch(handleMenuItemChange(null))
-        }}
+        onClose={handleOnDialogClose}
     >
         <DialogContent sx={{ position: 'relative'}}>
 
@@ -76,14 +80,7 @@ export const MenuItemDialog = () => {
             </IconButton> 
 
             <div style={{ marginTop: 50}}>
-                <div style={{ display: 'flex', justifyContent: 'center'}}>
-                    {!isEmpty(dish.pic_url) && <Image
-                        src={dish.pic_url}
-                        alt={`Picture of ${dish.en_name}`}
-                        height={300}
-                        width={350}
-                    />}
-                </div>        
+                <DialogImage dish={dish} />      
 
                 <DishDetails dish={dish} />
 
@@ -97,18 +94,8 @@ export const MenuItemDialog = () => {
         </DialogContent>
         <DialogActions sx={{ backgroundColor: 'background.default', padding: '10px 30px', position: 'sticky'}}>
     
-            <IconButton>
-                <IoRemoveCircleOutline />
-            </IconButton>
-
-            <Box sx={{ padding: '5px 30px', backgroundColor: '#D1CFCF'}}>
-                <Typography>5</Typography>
-            </Box>
-            
-            <IconButton sx={{ marginLeft: '0 !important'}}>
-                <IoAddCircleOutline />
-            </IconButton>
-            <Button variant="contained">Add To Cart | $32.50</Button>
+            <Quantity quantity={quantity} setQuantity={setQuantity} />
+            <Button variant="contained">Add To Cart | ${(dish.price * quantity).toFixed(2)}</Button>
         </DialogActions>
     </Dialog>
   }

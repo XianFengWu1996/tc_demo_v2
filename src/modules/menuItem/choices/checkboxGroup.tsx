@@ -50,8 +50,8 @@ export const CheckboxGroup = (props: ICheckboxGroup) => {
     
 
     return <FormGroup>
-         <FormLabel id="checkbox-group-label" sx={{ fontSize: 13}}>
-            <Typography>{choice.en_choice} {choice.ch_choice}</Typography>
+         <FormLabel id="checkbox-group-label">
+            <Typography sx={{ fontSize: 13}}>{choice.en_choice} {choice.ch_choice}</Typography>
             <Typography sx={{ fontSize: 10}}>(Choose up to {choice.max})</Typography>
         </FormLabel>
 

@@ -8,7 +8,7 @@ import { Box } from "@mui/material"
 import { AppBarNav } from "../../modules/appbar/appbar";
 import { MenuNavigation } from "../../modules/menu/menuNav/menuNavigation";
 import { MenuContents } from "../../modules/menu/content/mainContent";
-import { MenuItemDialog } from "../../modules/menuItem/MenuItemDialog";
+import { MenuItemDialog } from "../../modules/menu/menuItem/MenuItemDialog";
 
 
 

@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
+import cartSlicer from './slicer/cartSlicer'
 import menuSlicer  from './slicer/menuSlicer'
 // ...
 
 export const store = configureStore({
   reducer: {
-    menu: menuSlicer
+    menu: menuSlicer,
+    cart: cartSlicer
   },
 })
 

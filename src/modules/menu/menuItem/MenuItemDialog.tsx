@@ -2,8 +2,8 @@ import { Button, Dialog, DialogActions, DialogContent, IconButton } from "@mui/m
 import { cloneDeep, isEmpty } from "lodash";
 import { ChangeEvent, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useAppDispatch, useAppSelector } from "../../store/hook";
-import { handleMenuItemChange, toggleMenuItemDialog } from "../../store/slicer/menuSlicer";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
+import { handleMenuItemChange, toggleMenuItemDialog } from "../../../store/slicer/menuSlicer";
 import { DishChoice } from "./choices/dishChoice";
 import { DialogImage } from "./dialogImage";
 import { DishComment } from "./dishComment";
@@ -60,6 +60,16 @@ export const MenuItemDialog = () => {
         dispatch(handleMenuItemChange(null))
     }
 
+    const handleAddToCart = () => {
+        // check if the required choice is selected
+
+        // create a cart item object
+        
+
+        // close the dialog
+        dispatch(toggleMenuItemDialog(false));
+    }
+
     return dish && <Dialog 
         keepMounted={false}
         PaperProps={{
@@ -95,7 +105,7 @@ export const MenuItemDialog = () => {
         <DialogActions sx={{ backgroundColor: 'background.default', padding: '10px 30px', position: 'sticky'}}>
     
             <Quantity quantity={quantity} setQuantity={setQuantity} />
-            <Button variant="contained">Add To Cart | ${(dish.price * quantity).toFixed(2)}</Button>
+            <Button variant="contained" onClick={handleAddToCart}>Add To Cart | ${(dish.price * quantity).toFixed(2)}</Button>
         </DialogActions>
     </Dialog>
   }

@@ -58,5 +58,6 @@ interface ISelectedChoice {
     id: string,
     en_choice: string,
     ch_choice: string,
+    required: boolean,
     selectedOption: IOption[]
 }

@@ -1,8 +1,9 @@
-import { Button, Dialog, DialogActions, DialogContent, IconButton } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, IconButton, Typography } from "@mui/material";
 import { cloneDeep, isEmpty } from "lodash";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
+import { addToCart } from "../../../store/slicer/cartSlicer";
 import { handleMenuItemChange, toggleMenuItemDialog } from "../../../store/slicer/menuSlicer";
 import { DishChoice } from "./choices/dishChoice";
 import { DialogImage } from "./dialogImage";
@@ -11,12 +12,15 @@ import { DishDetails } from "./dishDetails";
 import { Quantity } from "./quantity";
 
 export const MenuItemDialog = () => {
+
     const { menuItemDialog, selectedMenuItem: dish } = useAppSelector(state => state.menu);
     const dispatch = useAppDispatch();
 
     const [comment, setComment] = useState<string>('');
     const [choices, setChoices] = useState<ISelectedChoice[]>([]); // this will be the choices that was selected
     const [quantity, setQuantity] = useState<number>(1);
+
+    const [reqError, setReqError] = useState<boolean>(false);
 
 
     const handleCommentChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -47,6 +51,7 @@ export const MenuItemDialog = () => {
                 en_choice: choice.en_choice, 
                 ch_choice: choice.ch_choice,
                 selectedOption: option,
+                required: choice.required
             }])
         }
 
@@ -56,18 +61,61 @@ export const MenuItemDialog = () => {
     }
 
     const handleOnDialogClose = () => {
-        dispatch(toggleMenuItemDialog(false))
-        dispatch(handleMenuItemChange(null))
+        setComment('');
+        setQuantity(1);
+        setReqError(false);
+        setChoices([]);
+        dispatch(toggleMenuItemDialog(false));
+        dispatch(handleMenuItemChange(null));
+
+    
     }
 
     const handleAddToCart = () => {
-        // check if the required choice is selected
+        try {
+            setReqError(false);
 
-        // create a cart item object
+            if(dish){
+
+                // check if the required choice is selected
+                // grab all the choices that are required
+                let all_required_radio: string[] = [];
+                let selected_required_radio: string[] = []
+                if(dish.choices){
+                    dish.choices.forEach((choice) => {
+                        if(choice.required){
+                            all_required_radio.push(choice.id);
+                        }
+                    })
+                    choices.forEach((selected) => {
+                        if(selected.required){
+                            selected_required_radio.push(selected.id)
+                        }
+                    })
+    
+                    if(all_required_radio.length !== selected_required_radio.length){
+                        return setReqError(true);
+                    }
+                }
+            
+    
+                // create a cart item object
+                dispatch(addToCart({item: {
+                    itemDetails: dish,
+                    comments: comment,
+                    quantity: quantity,
+                    total: Number((quantity * dish.price).toFixed(2)),
+                    selectedChoices: choices ?? null
+                }}))
+
+                // close the dialog
+                handleOnDialogClose();
+                
+            }
+        } catch (error) {
+            console.log(error);
+        }
         
-
-        // close the dialog
-        dispatch(toggleMenuItemDialog(false));
     }
 
     return dish && <Dialog 
@@ -85,7 +133,7 @@ export const MenuItemDialog = () => {
     >
         <DialogContent sx={{ position: 'relative'}}>
 
-            <IconButton sx={{ color: '#000', backgroundColor: 'background.default', position: 'absolute', top: 25, left: 25}}>
+            <IconButton onClick={handleOnDialogClose} sx={{ color: '#000', backgroundColor: 'background.default', position: 'absolute', top: 25, left: 25}}>
                 <AiOutlineClose size={30}/>
             </IconButton> 
 
@@ -93,6 +141,10 @@ export const MenuItemDialog = () => {
                 <DialogImage dish={dish} />      
 
                 <DishDetails dish={dish} />
+
+                {
+                    reqError && <Typography sx={{ color: 'red', fontSize: 13}}>Please select all required choices</Typography>
+                }
 
                 {
                     !isEmpty(dish.choices) && <DishChoice dish={dish} selectedChoices={choices} handleChoice={handleChoice} />

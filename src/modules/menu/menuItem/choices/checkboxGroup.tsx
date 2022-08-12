@@ -1,5 +1,6 @@
-import { Checkbox, FormControlLabel, FormGroup, FormLabel, Typography } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, FormGroup, FormLabel, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { ChoiceTitle } from "./radioGroup";
 
 interface ICheckboxGroup {
     choice: IChoice, 
@@ -51,7 +52,11 @@ export const CheckboxGroup = (props: ICheckboxGroup) => {
 
     return <FormGroup>
          <FormLabel id="checkbox-group-label">
-            <Typography sx={{ fontSize: 13}}>{choice.en_choice} {choice.ch_choice}</Typography>
+            <div style={{ display: 'flex'}}>
+                <ChoiceTitle>{choice.en_choice} {choice.ch_choice}</ChoiceTitle>
+                <Box sx={{ marginLeft: 3, color: '#fff', px: 1, borderRadius: '5px', height: '25px', backgroundColor: 'primary.light', fontSize: 10 }}>Optional</Box>
+            </div>
+
             <Typography sx={{ fontSize: 10}}>(Choose up to {choice.max})</Typography>
         </FormLabel>
 

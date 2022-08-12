@@ -9,6 +9,7 @@ interface IDishChoice {
 
 export const DishChoice = (props: IDishChoice) => {
     const { dish, selectedChoices, handleChoice } = props
+
     return <>
          {
             dish.choices.map((choice) => {

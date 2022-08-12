@@ -6,8 +6,8 @@ import { isEmpty } from 'lodash'
 
 import { Box } from "@mui/material"
 import { AppBarNav } from "../../modules/appbar/appbar";
-import { MenuNavigation } from "../../modules/menu/menuNav/menuNavigation";
-import { MenuContents } from "../../modules/menu/content/mainContent";
+import { MenuNavigation } from "../../modules/menu/menuTabs/menuNavigation";
+import { MenuContents } from "../../modules/menu/menuContents/mainContent";
 import { MenuItemDialog } from "../../modules/menu/menuItem/MenuItemDialog";
 
 

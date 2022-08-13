@@ -7,6 +7,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MenuDrawer } from "./menuDrawer/menuDrawer";
 import { useState } from "react";
 import { CartDrawer } from "./checkoutDrawer";
+import { useAppSelector } from "../../store/hook";
 
 
 
@@ -64,6 +65,8 @@ export const AppBarNav = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [cartOpen, setCartOpen] = useState(false);
 
+    const { cartSummary } = useAppSelector(state => state.cart)
+
 
     const handleMenuOpen = () => {
         setMenuOpen(true)
@@ -101,7 +104,7 @@ export const AppBarNav = () => {
                 
                     <CartButton onClick={handleCartOpen}> 
                         <AiOutlineShoppingCart color={'#fff'}/>
-                        <CartCount>5</CartCount>
+                        <CartCount>{cartSummary.quantity}</CartCount>
                     </CartButton>
                         
                 </Toolbar>

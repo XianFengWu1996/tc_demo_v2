@@ -23,6 +23,13 @@ export const CartDrawer = (props: ICartDrawerProps) => {
         }
     }))
 
+    const CartDrawerTitle = styled(Typography)(({ theme }) => ({
+        textAlign: 'center',
+        margin: '10px 0',
+        fontSize: '25px',
+        fontWeight: 600
+    }))
+
     return <SwipeableDrawer
               anchor='right'
               open={props.open}
@@ -30,23 +37,24 @@ export const CartDrawer = (props: ICartDrawerProps) => {
               onOpen={props.handleOpen}
         >
             <CartDrawerContainer>
-                <IconButton sx={{ position: 'absolute', top: 30, left: 10, color: '#000' }} onClick={props.handleClose}>
-                    <AiOutlineClose  />
-                </IconButton>
-                  
-                <Typography 
-                    sx={{
-                        textAlign: 'center',
-                        margin: '30px 0',
-                        fontSize: '25px',
-                        fontWeight: 600
-                    }}
-                >Cart</Typography>
 
-                {/* <CartDrawerList />
+                <CloseButton handleClose={props.handleClose}/>
+             
+                <CartDrawerTitle>Cart</CartDrawerTitle>
 
-                <CartDrawerActions /> */}
+                 <CartDrawerList />
+{/* 
+                <CartDrawerActions />  */}
             </CartDrawerContainer>
         </SwipeableDrawer>
 }
 
+interface ICloseButton {
+    handleClose: () => void 
+}
+
+const CloseButton = (props: ICloseButton) => {
+    return <IconButton sx={{ position: 'absolute', top: 30, left: 10, color: '#000' }} onClick={props.handleClose}>
+        <AiOutlineClose  />
+    </IconButton>
+}

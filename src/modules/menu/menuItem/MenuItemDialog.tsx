@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Typography } from "@mui/material";
 import { cloneDeep, isEmpty } from "lodash";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import { addToCart } from "../../../store/slicer/cartSlicer";

@@ -33,3 +33,24 @@ export const Quantity = (props: IQuantity) => {
         </IconButton>
     </>
 }
+
+interface IDrawQuantity {
+    quantity: number,
+}
+
+export const DrawerQuantity = (props: IDrawQuantity) => {
+    const { quantity } = props;
+    return <div style={{ display: 'flex', alignItems: 'center'}}>
+         <IconButton disabled={quantity <= 1} onClick={() => {}}>
+            <IoRemoveCircleOutline />
+        </IconButton>
+
+        <Box sx={{ padding: '2px 10px', backgroundColor: '#D1CFCF'}}>
+            <Typography sx={{ fontSize: 13}}>{quantity}</Typography>
+        </Box>
+        
+        <IconButton sx={{ marginLeft: '0 !important'}} onClick={() => {}}>
+            <IoAddCircleOutline />
+        </IconButton>
+    </div>
+}

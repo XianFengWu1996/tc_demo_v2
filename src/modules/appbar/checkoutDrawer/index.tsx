@@ -25,7 +25,7 @@ export const CartDrawer = (props: ICartDrawerProps) => {
 
     const CartDrawerTitle = styled(Typography)(({ theme }) => ({
         textAlign: 'center',
-        margin: '10px 0',
+        margin: '30px 0',
         fontSize: '25px',
         fontWeight: 600
     }))
@@ -42,9 +42,9 @@ export const CartDrawer = (props: ICartDrawerProps) => {
              
                 <CartDrawerTitle>Cart</CartDrawerTitle>
 
-                 <CartDrawerList />
-{/* 
-                <CartDrawerActions />  */}
+                <CartDrawerList />
+
+                <CartDrawerActions /> 
             </CartDrawerContainer>
         </SwipeableDrawer>
 }

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { SideNavigation } from "../sideNav/sideNavigation";
+import { SideNavigation } from "../sideNavigation";
 import { DishList } from "./dishList";
 
 interface IMenuContents {

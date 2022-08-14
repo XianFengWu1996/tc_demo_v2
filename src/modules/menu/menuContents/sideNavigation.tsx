@@ -3,8 +3,8 @@ import { Box } from "@mui/system"
 import { isEmpty } from "lodash"
 import Link from "next/link"
 import { useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "../../../../store/hook"
-import { handleCategoryIdChange } from "../../../../store/slicer/menuSlicer"
+import { useAppDispatch, useAppSelector } from "../../../store/hook"
+import { handleCategoryIdChange } from "../../../store/slicer/menuSlicer"
 
 const SideNavContainer = styled(Box)(() => ({
     position: 'sticky', 
@@ -24,7 +24,8 @@ const StyledMuiLink = styled(MuiLink)(({theme}) => ({
     margin: '5px 0',
     textDecorationThickness: 2,
     textDecorationColor: theme.palette.primary.main,
-    textUnderlineOffset: 5
+    textUnderlineOffset: 5,
+    cursor: 'pointer'
 }))
 
 interface ISideNavigation {

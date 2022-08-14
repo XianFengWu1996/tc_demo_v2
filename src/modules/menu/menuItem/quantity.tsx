@@ -2,6 +2,8 @@ import { IconButton, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { Dispatch, SetStateAction } from "react"
 import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5"
+import { useAppDispatch } from "../../../store/hook"
+import { decreaseQtyById, increaseQtyById } from "../../../store/slicer/cartSlicer"
 
 interface IQuantity {
     quantity: number,
@@ -35,22 +37,35 @@ export const Quantity = (props: IQuantity) => {
 }
 
 interface IDrawQuantity {
-    quantity: number,
+    item: ICartItem,
 }
 
 export const DrawerQuantity = (props: IDrawQuantity) => {
-    const { quantity } = props;
-    return <div style={{ display: 'flex', alignItems: 'center'}}>
-         <IconButton disabled={quantity <= 1} onClick={() => {}}>
-            <IoRemoveCircleOutline />
-        </IconButton>
+    const { item } = props;
+    const dispatch = useAppDispatch();
+    return <>
+        <div style={{ display: 'flex', alignItems: 'center'}}>
+            <IconButton 
+                sx={{ color: 'text.primary', ":disabled": '#000'}}
+                disabled={item.quantity <= 1} 
+                onClick={() => { dispatch(decreaseQtyById({item}))}}>
+                <IoRemoveCircleOutline />
+            </IconButton>
 
-        <Box sx={{ padding: '2px 10px', backgroundColor: '#D1CFCF'}}>
-            <Typography sx={{ fontSize: 13}}>{quantity}</Typography>
-        </Box>
-        
-        <IconButton sx={{ marginLeft: '0 !important'}} onClick={() => {}}>
-            <IoAddCircleOutline />
-        </IconButton>
-    </div>
+            <Box sx={{ padding: '2px 10px', backgroundColor: '#D1CFCF'}}>
+                <Typography sx={{ fontSize: 13}}>{item.quantity}</Typography>
+            </Box>
+            
+            <IconButton sx={{ marginLeft: '0 !important', color: 'text.primary'}} 
+                onClick={() => { dispatch(increaseQtyById({item}))}}
+            >
+                <IoAddCircleOutline />
+            </IconButton>
+
+            <Typography sx={{ fontSize: 13, ml: 2, fontWeight:600}}>Total: ${item.total.toFixed(2)}</Typography>
+
+        </div>
+
+
+    </>
 }

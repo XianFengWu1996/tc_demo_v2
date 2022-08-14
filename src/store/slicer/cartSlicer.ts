@@ -90,10 +90,47 @@ export const cartSlicer = createSlice({
         ], 
         calculateTotal(state);
     },
+    increaseQtyById: (state, { payload } : PayloadAction<{ item: ICartItem }>) => {
+        const index = state.cart.findIndex((cartItem) => {
+            return cartItem.itemDetails.id === payload.item.itemDetails.id
+        })
+
+        if(index !== -1){
+            let temp = state.cart[index] 
+            temp.quantity += 1
+            temp.total += temp.itemDetails.price
+
+            state.cart.splice(index, 1, temp);
+        }
+
+        calculateTotal(state);
+    },
+    decreaseQtyById: (state, { payload } : PayloadAction<{ item: ICartItem }>) => {
+        const index = state.cart.findIndex((cartItem) => {
+            return cartItem.itemDetails.id === payload.item.itemDetails.id
+        })
+
+        if(index !== -1){
+            let temp = state.cart[index] 
+            temp.quantity -= 1
+            temp.total -= temp.itemDetails.price
+
+            state.cart.splice(index, 1, temp);
+        }
+
+        calculateTotal(state);
+    },
+    removeById: (state, { payload } : PayloadAction<{ item: ICartItem }>) => {
+        const index = state.cart.findIndex((cartItem) => {
+            return cartItem.itemDetails.id === payload.item.itemDetails.id
+        })
+        state.cart.splice(index, 1);
+        calculateTotal(state);
+    },
   },
 })
 
-export const { addToCart } = cartSlicer.actions
+export const { addToCart, increaseQtyById, decreaseQtyById, removeById } = cartSlicer.actions
 
 
 export default cartSlicer.reducer

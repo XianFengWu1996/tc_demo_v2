@@ -43,14 +43,25 @@ export const darkTheme:ThemeOptions = createTheme({
             primary: '#000',
         },
         primary: {
-            main: '#e3d8cd', 
-            contrastText: '#000'
+            main: '#e3d8cd',
+            contrastText: '#000' 
         },
         secondary: {
             main: '#262626',
-            contrastText: '#fff'
         },
     },
+    components: {
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              "&.Mui-disabled": {
+                color: "#00000036"
+              }
+            },
+          
+          }
+        }
+      },
     typography: {
         fontFamily: [
             'Montserrat',
@@ -65,5 +76,6 @@ export const darkTheme:ThemeOptions = createTheme({
             '"Segoe UI Emoji"',
             '"Segoe UI Symbol"',
           ].join(','),
-    }
+    },
+    
 });

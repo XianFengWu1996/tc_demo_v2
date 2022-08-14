@@ -10,6 +10,8 @@ import { blue, red } from "@mui/material/colors";
 import Image from "next/image";
 import { DrawerQuantity, Quantity } from "../../menu/menuItem/quantity";
 import { FaTrash } from "react-icons/fa";
+import { removeById } from "../../../store/slicer/cartSlicer";
+import { useAppDispatch } from "../../../store/hook";
 
 interface ICartDrawerItemProps {
     item: ICartItem
@@ -23,8 +25,8 @@ const PriceText = styled(Typography)(() => ({
 
 export const CartDrawerItem = (props: ICartDrawerItemProps) => {
     const { item } = props;
-    let { itemDetails, comments, quantity  } = item;
-    // const dispatch = useAppDispatch();
+    let { itemDetails, comments } = item;
+    const dispatch = useAppDispatch();
     // const opt = item.lunchOption
 
     return <Card sx={{ margin: '15px'}}>
@@ -46,6 +48,14 @@ export const CartDrawerItem = (props: ICartDrawerItemProps) => {
                         {
                             comments &&  <Typography sx={{ color: red[400],fontSize: '11px'}}>Comments: {comments}</Typography> 
                         }
+
+                        {/* {
+                            item.selectedChoices.map((choice) => {
+                                return <>
+                                    <Typography>{choice.en_choice} {choice.ch_choice}</Typography>
+                                </>
+                            })
+                        } */}
                         <PriceText>${itemDetails.price.toFixed(2)}</PriceText>
                     </div>
 
@@ -54,8 +64,8 @@ export const CartDrawerItem = (props: ICartDrawerItemProps) => {
                 <Divider />
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     
-                    <DrawerQuantity quantity={quantity} />
-                    <IconButton>
+                    <DrawerQuantity item={item} />
+                    <IconButton onClick={() => dispatch(removeById({ item }))}>
                         <FaTrash size={18} color={'red'}/>
                     </IconButton>
                 </div>

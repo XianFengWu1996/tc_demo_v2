@@ -6,8 +6,8 @@ import { isEmpty } from 'lodash'
 
 import { Box } from "@mui/material"
 import { AppBarNav } from "../../modules/appbar/appbar";
-import { MenuNavigation } from "../../modules/menu/menuTabs/menuNavigation";
-import { MenuContents } from "../../modules/menu/menuContents/mainContent";
+import { MainMenuSelect } from "../../modules/menu/mainMenu";
+import { MenuContents } from "../../modules/menu";
 import { MenuItemDialog } from "../../modules/menu/menuItem/MenuItemDialog";
 
 
@@ -41,7 +41,7 @@ function MenuPage() {
 
     return <Box sx={{ width: '100%', height: '100%', bgcolor: 'background.paper'}}>
        <AppBarNav />
-       <MenuNavigation value={value} handleChange={handleChange}/>
+       <MainMenuSelect value={value} handleChange={handleChange}/>
 
         { !isEmpty(fullday) &&  <MenuContents value={value} index={0} menu={fullday} />}
 

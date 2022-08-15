@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
-import Router from "next/router";
-import { useEffect, useState } from "react";
+
 import { useAppSelector } from "../../../store/hook";
 // import { PulseLoader } from "react-spinners";
 // import { clearCart } from "../../../store/slice/cartSlice";

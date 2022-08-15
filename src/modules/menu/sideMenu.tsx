@@ -3,8 +3,8 @@ import { Box } from "@mui/system"
 import { isEmpty } from "lodash"
 import Link from "next/link"
 import { useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "../../../store/hook"
-import { handleCategoryIdChange } from "../../../store/slicer/menuSlicer"
+import { useAppDispatch, useAppSelector } from "../../store/hook"
+import { handleCategoryIdChange } from "../../store/slicer/menuSlicer"
 
 const SideNavContainer = styled(Box)(() => ({
     position: 'sticky', 
@@ -32,7 +32,7 @@ interface ISideNavigation {
     menu: IMenu,
 }
 
-export const SideNavigation = ({ menu }:ISideNavigation) => {
+export const SideMenu = ({ menu }:ISideNavigation) => {
     const dispatch = useAppDispatch();
     const { selectedCategory } = useAppSelector(state => state.menu);
 

@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Typography } from "@mui/material";
 import { cloneDeep, isEmpty } from "lodash";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import { addToCart } from "../../../store/slicer/cartSlicer";
@@ -19,7 +19,24 @@ export const MenuItemDialog = () => {
     const [comment, setComment] = useState<string>('');
     const [choices, setChoices] = useState<ISelectedChoice[]>([]); // this will be the choices that was selected
     const [quantity, setQuantity] = useState<number>(1);
+    const [total, setTotal] = useState<number>(0)
 
+    useEffect(() => {
+        let option_total = 0;
+        if(dish){
+            choices.forEach((selected) => {
+                selected.selectedOption.forEach((opt) => {
+                 
+                    option_total += opt.price
+                })
+            })
+
+            let temp_total = Number((((dish.price + option_total) * quantity)).toFixed(2))
+            console.log(temp_total)
+            setTotal(temp_total);
+        }
+    }, [dish, choices, quantity])
+ 
     const [reqError, setReqError] = useState<boolean>(false);
 
 
@@ -72,15 +89,13 @@ export const MenuItemDialog = () => {
     }
 
     const handleAddToCart = () => {
-        try {
             setReqError(false);
-
             if(dish){
-
+                // check for missing radio choices
                 // check if the required choice is selected
-                // grab all the choices that are required
                 let all_required_radio: string[] = [];
                 let selected_required_radio: string[] = []
+
                 if(dish.choices){
                     dish.choices.forEach((choice) => {
                         if(choice.required){
@@ -104,7 +119,7 @@ export const MenuItemDialog = () => {
                     itemDetails: dish,
                     comments: comment,
                     quantity: quantity,
-                    total: Number((quantity * dish.price).toFixed(2)),
+                    total: total,
                     selectedChoices: choices ?? null
                 }}))
 
@@ -112,10 +127,6 @@ export const MenuItemDialog = () => {
                 handleOnDialogClose();
                 
             }
-        } catch (error) {
-            console.log(error);
-        }
-        
     }
 
     return dish && <Dialog 
@@ -146,9 +157,9 @@ export const MenuItemDialog = () => {
                     reqError && <Typography sx={{ color: 'red', fontSize: 13}}>Please select all required choices</Typography>
                 }
 
-                {
-                    !isEmpty(dish.choices) && <DishChoice dish={dish} selectedChoices={choices} handleChoice={handleChoice} />
-                }
+                
+                <DishChoice dish={dish} selectedChoices={choices} handleChoice={handleChoice} />
+                
 
                 <DishComment comment={comment} handleCommentChange={handleCommentChange}/>
 
@@ -157,7 +168,7 @@ export const MenuItemDialog = () => {
         <DialogActions sx={{ backgroundColor: 'background.default', padding: '10px 30px', position: 'sticky'}}>
     
             <Quantity quantity={quantity} setQuantity={setQuantity} />
-            <Button variant="contained" onClick={handleAddToCart}>Add To Cart | ${(dish.price * quantity).toFixed(2)}</Button>
+            <Button variant="contained" onClick={handleAddToCart}>Add To Cart | ${total.toFixed(2)}</Button>
         </DialogActions>
     </Dialog>
   }

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { DishItem } from "../../modules/menu/dishList";
 
 // Define a type for the slice state
 interface ICartSlicer {
@@ -98,7 +99,7 @@ export const cartSlicer = createSlice({
         if(index !== -1){
             let temp = state.cart[index] 
             temp.quantity += 1
-            temp.total += temp.itemDetails.price
+            temp.total += payload.item.total
 
             state.cart.splice(index, 1, temp);
         }
@@ -113,7 +114,7 @@ export const cartSlicer = createSlice({
         if(index !== -1){
             let temp = state.cart[index] 
             temp.quantity -= 1
-            temp.total -= temp.itemDetails.price
+            temp.total -= payload.item.total
 
             state.cart.splice(index, 1, temp);
         }

@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash"
 import { CheckboxGroup } from "./checkboxGroup"
 import { RadioChoiceGroup } from "./radioGroup"
 
@@ -12,12 +13,12 @@ export const DishChoice = (props: IDishChoice) => {
 
     return <>
          {
-            dish.choices.map((choice) => {
+            !isEmpty(dish.choices) && dish.choices.map((choice) => {
                 return choice.required 
                     ? <RadioChoiceGroup key={choice.id} choice={choice} handleChoice={handleChoice}/> 
                     : <CheckboxGroup key={choice.id} choice={choice} selectedChoices={selectedChoices} handleChoice={handleChoice}/>
             })
-        }
+        }        
     </>
 }
 

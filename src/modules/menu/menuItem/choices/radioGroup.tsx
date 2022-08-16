@@ -16,7 +16,7 @@ export const RadioChoiceGroup = ({ choice, handleChoice } : IRadioChoiceGroup) =
 
 
     const [selected, setSelected] = useState<boolean>(false)
-    return <FormControl sx={{ my: 1}} key={choice.id}>
+    return <FormControl sx={{ my: 1}}>
         <FormLabel id="demo-radio-buttons-group-label" sx={{ display: 'flex'}}>
             <ChoiceTitle>{choice.en_choice} {choice.ch_choice}</ChoiceTitle>
             {

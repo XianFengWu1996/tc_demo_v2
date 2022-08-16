@@ -30,7 +30,7 @@ const PriceText = styled(Typography)(() => ({
 
 export const CartDrawerItem = (props: ICartDrawerItemProps) => {
     const { item } = props;
-    let { itemDetails, comments } = item;
+    let { itemDetails, comments, total } = item;
     const dispatch = useAppDispatch();
 
     return <Card sx={{ margin: '15px'}}>
@@ -43,7 +43,7 @@ export const CartDrawerItem = (props: ICartDrawerItemProps) => {
                         <Typography sx={{ fontSize: '13px'}}>{itemDetails.label_id}. {itemDetails.en_name} {itemDetails.ch_name}</Typography>               
                         {   comments &&  <Typography sx={{ color: red[400],fontSize: '11px'}}>Comments: {comments}</Typography> }
                         <ChoiceDisplay item={item}/>
-                        <PriceText>${itemDetails.price.toFixed(2)}</PriceText>
+                        <PriceText>${total.toFixed(2)}</PriceText>
                     </div>
 
                   

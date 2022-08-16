@@ -13,7 +13,7 @@ export const CheckboxGroup = (props: ICheckboxGroup) => {
 
     const [counter, setCounter] = useState<number>(0); // state for how much checkbox is checked
 
-    const [selectedOption, setSelectedOption] = useState<IOption[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<IOption[]>([]);
 
     useEffect(() => {
         // find the selected choice and assign to the state
@@ -22,7 +22,7 @@ export const CheckboxGroup = (props: ICheckboxGroup) => {
         })
 
         if(found_selected_choice){
-            setSelectedOption(found_selected_choice.selectedOption)
+            setSelectedOptions(found_selected_choice.selectedOption)
         }
     }, [])
 
@@ -31,22 +31,22 @@ export const CheckboxGroup = (props: ICheckboxGroup) => {
         // remove or add to the select option
         if(checked){
             // adding 
-            let temp = selectedOption;
+            let temp = selectedOptions;
 
             temp.push(option)
         } else {
             // removing
-            let found_index = selectedOption.findIndex((opt) => {
+            let found_index = selectedOptions.findIndex((opt) => {
                 return opt.id === option.id
             })
 
             if(found_index !== -1){
-                selectedOption.splice(found_index, 1);
+                selectedOptions.splice(found_index, 1);
             }
         }
 
         // set the choice state in the dialog page
-        handleChoice(choice, selectedOption);
+        handleChoice(choice, selectedOptions);
     }
     
 
@@ -66,6 +66,7 @@ export const CheckboxGroup = (props: ICheckboxGroup) => {
                     key={option.id} 
                     option={option}
                     counter={counter}
+                    max={choice.max}
                     onChange={(checked) => handleCheckboxOnChange(checked, option)}
                 />
             })
@@ -76,18 +77,19 @@ export const CheckboxGroup = (props: ICheckboxGroup) => {
 interface ICheckboxItem {
     option: IOption,
     counter: number,
+    max: number,
     onChange: (checked: boolean) => void
 }
 
 export const CheckboxItem = (props: ICheckboxItem) => {
-    const {option, counter, onChange} = props;
+    const {option, counter, max, onChange} = props;
     const [checked, setChecked] = useState<boolean>(false); // control the local state to toggle check status
 
-    return <>
-        <FormControlLabel
+    return <FormControlLabel
+            key={option.id}
             control={
             <Checkbox
-                disabled={!checked && counter >= 2}
+                disabled={!checked && counter >= max}
                 checked={checked}
                 onChange={(e, checked) => {
                     onChange(checked);
@@ -95,7 +97,6 @@ export const CheckboxItem = (props: ICheckboxItem) => {
                 }} 
             />
         }
-        label={`${option.en_option} ${option.ch_option} +$${option.price.toFixed(2)}`} 
-        />
-    </> 
+        label={`${option.en_option} ${option.ch_option} ${option.price > 0 ? `+$${option.price.toFixed(2)}` : '' }`} 
+    />
 }

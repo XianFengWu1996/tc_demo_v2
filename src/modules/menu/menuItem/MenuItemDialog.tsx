@@ -32,7 +32,6 @@ export const MenuItemDialog = () => {
             })
 
             let temp_total = Number((((dish.price + option_total) * quantity)).toFixed(2))
-            console.log(temp_total)
             setTotal(temp_total);
         }
     }, [dish, choices, quantity])
@@ -119,6 +118,7 @@ export const MenuItemDialog = () => {
                     itemDetails: dish,
                     comments: comment,
                     quantity: quantity,
+                    price: total,
                     total: total,
                     selectedChoices: choices ?? null
                 }}))

@@ -99,7 +99,7 @@ export const cartSlicer = createSlice({
         if(index !== -1){
             let temp = state.cart[index] 
             temp.quantity += 1
-            temp.total += payload.item.price
+            temp.total =  Number((temp.total + payload.item.price).toFixed(2))
 
             state.cart.splice(index, 1, temp);
         }
@@ -115,7 +115,7 @@ export const cartSlicer = createSlice({
         if(index !== -1){
             let temp = state.cart[index] 
             temp.quantity -= 1
-            temp.total -= payload.item.price
+            temp.total = Number((temp.total - payload.item.price).toFixed(2))
 
             state.cart.splice(index, 1, temp);
         }

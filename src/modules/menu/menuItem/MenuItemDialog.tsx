@@ -118,7 +118,7 @@ export const MenuItemDialog = () => {
                     itemDetails: dish,
                     comments: comment,
                     quantity: quantity,
-                    price: total,
+                    price: Number((total / quantity).toFixed(0)),
                     total: total,
                     selectedChoices: choices ?? null
                 }}))

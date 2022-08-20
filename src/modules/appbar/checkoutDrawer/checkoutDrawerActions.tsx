@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import Router from "next/router";
 
 import { useAppSelector } from "../../../store/hook";
 // import { PulseLoader } from "react-spinners";
@@ -29,9 +30,9 @@ export const CartDrawerActions = () => {
         alignItems: 'center',                    
     }}> 
         <Button variant="contained" sx={{ minWidth: '170px'}} onClick={() => {
-     
+            Router.push('/checkout');
         }}>
-           View Cart | ${cartState.cartSummary.subtotal.toFixed(2)}
+           Checkout | ${cartState.cartSummary.subtotal.toFixed(2)}
         </Button>
     </div>
 }

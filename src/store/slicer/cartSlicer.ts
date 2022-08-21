@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { DishItem } from "../../modules/menu/dishList";
 
+
+type IDeliveryOption = 'pickup' | 'delivery'
 // Define a type for the slice state
 interface ICartSlicer {
     cart: ICartItem[],
@@ -17,6 +19,7 @@ interface ICartSlicer {
             lunch: number,
         }
     },
+    delivery_option: IDeliveryOption
 }
 
 const calculateTotal = (state: ICartSlicer) => {
@@ -76,7 +79,8 @@ const initialState: ICartSlicer = {
             redemption: 0,
             lunch: 0,
         }
-    }
+    },
+    delivery_option: 'pickup',
 }
 
 export const cartSlicer = createSlice({
@@ -129,10 +133,15 @@ export const cartSlicer = createSlice({
         state.cart.splice(index, 1);
         calculateTotal(state);
     },
+
+    // change delivery option
+    changeDeliveryOption: (state, { payload } : PayloadAction<IDeliveryOption>) => {
+        state.delivery_option = payload
+    },
   },
 })
 
-export const { addToCart, increaseQtyById, decreaseQtyById, removeById } = cartSlicer.actions
+export const { addToCart, increaseQtyById, decreaseQtyById, removeById, changeDeliveryOption } = cartSlicer.actions
 
 
 export default cartSlicer.reducer

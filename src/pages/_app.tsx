@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [isDark, setIsDark] = useState(false);
   return <Provider store={store}>
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-      <Button onClick={() => setIsDark(!isDark)}>Toggle</Button>
+      {/* <Button onClick={() => setIsDark(!isDark)}>Toggle</Button> */}
       <Component {...pageProps} />
     </ThemeProvider>
   </Provider>

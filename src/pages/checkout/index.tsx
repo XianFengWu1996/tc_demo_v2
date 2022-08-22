@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Divider, Grid, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Divider, Grid, TextField, Typography } from "@mui/material";
 import { AiOutlineShopping } from "react-icons/ai";
 import { IoCar } from "react-icons/io5";
 import { MdOutlineDeliveryDining } from "react-icons/md";
@@ -35,7 +35,7 @@ export default function CheckoutPage () {
 
                 <Grid container spacing={2} direction='row' alignItems={'stretch'}>
                     <Grid item xs={12} sm={12} md={6}>
-                        <Box sx={{ mt: 2, p: 3, border: '1.5px solid #000', borderRadius: 3, minWidth: '300px', maxWidth: '500px', minHeight: '150px'}}>
+                        <Box sx={{ mt: 2, p: 2, border: '1.5px solid #000', borderRadius: 3, minWidth: '300px', maxWidth: '500px', minHeight: '100px'}}>
                             <Typography>Contact</Typography>
                             <Typography>Name: Xian Feng Wu</Typography>
                             <Typography>Phone: 917-578-1234</Typography>
@@ -43,18 +43,49 @@ export default function CheckoutPage () {
                     </Grid>
                    
                     <Grid item xs={12} sm={12} md={6}>
-                        <Box sx={{ mt: 2, p: 3, border: '1.5px solid #000', borderRadius: 3, minWidth: '300px', maxWidth: '500px', minHeight: '150px'}}>
+                        <Box sx={{ mt: 2, p: 2, border: '1.5px solid #000', borderRadius: 3, minWidth: '300px', maxWidth: '500px', minHeight: '100px'}}>
                             <Typography>Address</Typography>
-                            <Typography>69 Harvard St</Typography>
-                            <Typography>Quincy, MA 02171</Typography>
+                            <Typography>69 Harvard St Quincy, MA 02171</Typography>
                             <Typography>Business: Taipei Cuisine</Typography>
                         </Box>
                     </Grid>
-                 
                 </Grid>
 
                 <Divider sx={{ my: 2}} />
-               
+
+                <Grid container spacing={2} direction='row' alignItems={'stretch'}>
+                    <Grid item xs={12} sm={12} md={6}>
+                    <Typography>Redemption</Typography>
+                        <TextField id="redemption-input" variant="outlined" size="small" label={'Points Available: 3500'} sx={{ my: 0.5, width: '300px'}}/>
+
+
+                        <Typography sx={{ mt: 1}}>Coupon</Typography>
+                        <TextField id="redemption-input" variant="outlined" size="small" label={'Enter promo code'} sx={{ my: 0.5, width: '300px'}}/>
+                    </Grid>
+                   
+                    <Grid item xs={12} sm={12} md={6}>
+                        <Typography>Redemption</Typography>
+                        <TextField id="redemption-input" variant="outlined" size="small" label={'Points Available: 3500'} sx={{ my: 0.5, width: '300px'}}/>
+
+
+                        <Typography sx={{ mt: 1}}>Coupon</Typography>
+                        <TextField id="redemption-input" variant="outlined" size="small" label={'Enter promo code'} sx={{ my: 0.5, width: '300px'}}/>
+                    </Grid>
+                </Grid>
+
+             
+                <TextField 
+                    id="r" 
+                    variant="outlined" 
+                    multiline
+                    minRows={4}
+                    fullWidth
+                    label={'Delivery notes, ex. leave at porch, call upon delivery, etc..'} 
+                    sx={{ display: 'block', my: 2}}
+                />
+
+                <Button variant="contained">Continue to payment</Button>
+
             </Box>
 
             <Box sx={{width: '25%', height: 'calc(100vh - 64px)', backgroundColor: 'orange', overflow: 'scroll'}}>

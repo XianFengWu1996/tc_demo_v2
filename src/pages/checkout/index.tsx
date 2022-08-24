@@ -1,6 +1,7 @@
 import { Box, Button, ButtonGroup, Card, CardContent, Checkbox, Divider, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { AiOutlineShopping } from "react-icons/ai";
-import { MdOutlineDeliveryDining } from "react-icons/md";
+import { AiOutlineCreditCard, AiOutlineShopping } from "react-icons/ai";
+import { GoFlame } from "react-icons/go";
+import { MdOutlineDeliveryDining, MdOutlineStoreMallDirectory } from "react-icons/md";
 import { AppBarNav } from "../../modules/appbar/appbar";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { changeDeliveryOption } from "../../store/slicer/cartSlicer";
@@ -13,7 +14,7 @@ export default function CheckoutPage () {
         <AppBarNav />
 
         <Box sx={{ display: 'flex'}}>
-            <Box sx={{ flex: 2.5, mx: 5, my: 2}}>
+            <Box sx={{ flex: 2.5, mx: 5, my: 3}}>
                 <ButtonGroup fullWidth size="large">
                     <Button 
                         onClick={() =>  dispatch(changeDeliveryOption('pickup'))}
@@ -99,7 +100,7 @@ export default function CheckoutPage () {
 
                 <Divider sx={{ my: 2}} />
 
-             
+                <Typography sx={{ my: 1.5}}>Delivery Notes</Typography>
                 <TextField 
                     id="r" 
                     variant="outlined" 
@@ -107,8 +108,19 @@ export default function CheckoutPage () {
                     minRows={4}
                     fullWidth
                     label={'Delivery notes, ex. leave at porch, call upon delivery, etc..'} 
-                    sx={{ display: 'block', my: 2}}
+                    sx={{ display: 'block'}}
                 />
+
+                <ButtonGroup fullWidth size="large" sx={{ my: 2}}>
+                        <Button >
+                            <AiOutlineCreditCard size={22} />
+                            <Typography sx={{ ml: 0.7}}>Pay Online</Typography>
+                        </Button>    
+                        <Button>
+                            <MdOutlineStoreMallDirectory size={22} />
+                            <Typography sx={{ ml: 0.7}}>Pay In Store</Typography>
+                        </Button>
+                </ButtonGroup>
 
                 <Button variant="contained" fullWidth>Continue to payment</Button>
 
@@ -129,6 +141,21 @@ export default function CheckoutPage () {
                                         <div>
                                             <Typography sx={{ fontSize: '13px'}}>{item.itemDetails.label_id}.{item.itemDetails.en_name} {item.itemDetails.ch_name}</Typography>
                                             <Typography sx={{ fontSize: '13px'}}>Total: ${item.total}</Typography>
+
+                                            {
+                                                item.selectedChoices.map((choice) => {
+                                                    return <>
+                                                        <Typography sx={{ fontSize: 11}}>{choice.en_choice} {choice.ch_choice}</Typography>
+                                                        {
+                                                            choice.selectedOption.map((option) => {
+                                                                return <Typography key={option.id} sx={{ fontSize: 10, pl: 2}}>
+                                                                    - {option.en_option} {option.ch_option} +${option.price.toFixed(2)} {option.spicy && <GoFlame color="red" />}
+                                                                    </Typography>
+                                                            })
+                                                        }
+                                                    </>
+                                                })
+                                            }
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -137,7 +164,7 @@ export default function CheckoutPage () {
                     }
                 </div>
 
-                <div style={{ backgroundColor: '#fff', minWidth: '300px',height:'200px', borderTop: '1px solid #000', padding: 10}}>
+                <div style={{ backgroundColor: '#fff', minWidth: '300px',height:'200px', borderBlock: '1px solid #000', padding: 10}}>
                     <div style={{ display: 'flex', justifyContent: 'space-between'}}>
                         <Typography sx={{ fontSize:14, fontWeight: 600}}>Lunch:</Typography>
                         <Typography sx={{ color: 'green', fontSize: 14, fontWeight: 600}}>-(${cartSummary.discount.lunch.toFixed(2)})</Typography>

@@ -3,7 +3,12 @@ import { AiOutlineCreditCard } from "react-icons/ai";
 import { GoFlame } from "react-icons/go";
 import {  MdOutlineStoreMallDirectory } from "react-icons/md";
 import { AppBarNav } from "../../modules/appbar/appbar";
+import { AddressContact, CustomerContact } from "../../modules/checkout/contact";
+import { DeliveryNotes } from "../../modules/checkout/deliveryNote";
 import { DeliveryOption } from "../../modules/checkout/deliveryOption";
+import { PaymentOptions } from "../../modules/checkout/paymentOptions";
+import { Redemption } from "../../modules/checkout/redemption";
+import { Schedule } from "../../modules/checkout/schedule";
 import {  useAppSelector } from "../../store/hook";
 
 export default function CheckoutPage () {
@@ -17,94 +22,22 @@ export default function CheckoutPage () {
                 <DeliveryOption />
 
                 <Grid container spacing={2} direction='row' alignItems={'stretch'}>
-                    <Grid item xs={12} sm={12} md={6}>
-                        <Box sx={{ mt: 2, p: 2, border: '1.5px solid #000', borderRadius: 3, minWidth: '300px', maxWidth: '500px', minHeight: '100px'}}>
-                            <Typography>Contact</Typography>
-                            <Typography>Name: Xian Feng Wu</Typography>
-                            <Typography>Phone: 917-578-1234</Typography>
-                        </Box>
-                    </Grid>
-                   
-                    <Grid item xs={12} sm={12} md={6}>
-                        <Box sx={{ mt: 2, p: 2, border: '1.5px solid #000', borderRadius: 3, minWidth: '300px', maxWidth: '500px', minHeight: '100px'}}>
-                            <Typography>Address</Typography>
-                            <Typography>69 Harvard St Quincy, MA 02171</Typography>
-                            <Typography>Business: Taipei Cuisine</Typography>
-                        </Box>
-                    </Grid>
+                    <CustomerContact />
+                    <AddressContact />
                 </Grid>
 
                 <Divider sx={{ my: 2}} />
 
                 <Grid container spacing={2} direction='row' alignItems={'stretch'}>
-                    <Grid item xs={12} sm={12} md={6}>
-                        <Typography>Schedule Time</Typography>
-                        <FormControl sx={{ width: '100px', mt: 1, mr:0.5}}>
-                            <InputLabel id="demo-simple-select-label">Hour</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                size="small"
-                                value={0}
-                                label="Hour"
-                                onChange={() => {}}
-                            >
-                                <MenuItem value={10}>11</MenuItem>
-                                <MenuItem value={20}>12</MenuItem>
-                                <MenuItem value={30}>13</MenuItem>
-                            </Select>
-                        </FormControl>
-
-                        <FormControl sx={{ width: '130px', mt: 1}}>
-                            <InputLabel id="demo-simple-select-label">Minute</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                size="small"
-                                value={0}
-                                label="Minute"
-                                onChange={() => {}}
-                            >
-                                <MenuItem value={10}>00</MenuItem>
-                                <MenuItem value={20}>05</MenuItem>
-                                <MenuItem value={30}>10</MenuItem>
-                                <MenuItem value={30}>15</MenuItem>
-                                <MenuItem value={30}>20</MenuItem>
-                            </Select>
-                        </FormControl>
-
-
-                    </Grid>
-                   
-                    <Grid item xs={12} sm={12} md={6}>
-                        <Typography>Redemption</Typography>
-                        <TextField id="redemption-input" variant="outlined" size="small" label={'Points Available: 3500'} sx={{ my: 0.5, width: '300px'}}/>
-                    </Grid>
+                    <Schedule />
+                    <Redemption />
                 </Grid>
 
                 <Divider sx={{ my: 2}} />
 
-                <Typography sx={{ my: 1.5}}>Delivery Notes</Typography>
-                <TextField 
-                    id="r" 
-                    variant="outlined" 
-                    multiline
-                    minRows={4}
-                    fullWidth
-                    label={'Delivery notes, ex. leave at porch, call upon delivery, etc..'} 
-                    sx={{ display: 'block'}}
-                />
+                <DeliveryNotes />
 
-                <ButtonGroup fullWidth size="large" sx={{ my: 2}}>
-                        <Button >
-                            <AiOutlineCreditCard size={22} />
-                            <Typography sx={{ ml: 0.7}}>Pay Online</Typography>
-                        </Button>    
-                        <Button>
-                            <MdOutlineStoreMallDirectory size={22} />
-                            <Typography sx={{ ml: 0.7}}>Pay In Store</Typography>
-                        </Button>
-                </ButtonGroup>
+                <PaymentOptions />
 
                 <Button variant="contained" fullWidth>Continue to payment</Button>
 

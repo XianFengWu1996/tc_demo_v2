@@ -1,36 +1,20 @@
-import { Box, Button, ButtonGroup, Card, CardContent, Checkbox, Divider, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { AiOutlineCreditCard, AiOutlineShopping } from "react-icons/ai";
+import { Box, Button, ButtonGroup, Card, CardContent, Divider, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { AiOutlineCreditCard } from "react-icons/ai";
 import { GoFlame } from "react-icons/go";
-import { MdOutlineDeliveryDining, MdOutlineStoreMallDirectory } from "react-icons/md";
+import {  MdOutlineStoreMallDirectory } from "react-icons/md";
 import { AppBarNav } from "../../modules/appbar/appbar";
-import { useAppDispatch, useAppSelector } from "../../store/hook";
-import { changeDeliveryOption } from "../../store/slicer/cartSlicer";
+import { DeliveryOption } from "../../modules/checkout/deliveryOption";
+import {  useAppSelector } from "../../store/hook";
 
 export default function CheckoutPage () {
-    const dispatch = useAppDispatch();
-    const { delivery_option, cart, cartSummary } = useAppSelector(state => state.cart)
+    const { cart, cartSummary } = useAppSelector(state => state.cart)
 
     return <>
         <AppBarNav />
 
         <Box sx={{ display: 'flex'}}>
             <Box sx={{ flex: 2.5, mx: 5, my: 3}}>
-                <ButtonGroup fullWidth size="large">
-                    <Button 
-                        onClick={() =>  dispatch(changeDeliveryOption('pickup'))}
-                        variant={delivery_option === 'pickup' ? 'contained' : 'outlined'}
-                    >
-                        <AiOutlineShopping size={22} />
-                        <Typography sx={{ ml: 0.7}}>Pick up</Typography>
-                    </Button>    
-                    <Button 
-                        onClick={() =>  dispatch(changeDeliveryOption('delivery'))}
-                        variant={delivery_option === 'delivery' ? 'contained' : 'outlined'}
-                    >
-                        <MdOutlineDeliveryDining size={22} />
-                        <Typography sx={{ ml: 0.7}}>Delivery</Typography>
-                    </Button>
-                </ButtonGroup>
+                <DeliveryOption />
 
                 <Grid container spacing={2} direction='row' alignItems={'stretch'}>
                     <Grid item xs={12} sm={12} md={6}>

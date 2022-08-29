@@ -1,4 +1,5 @@
 import { Box, Button, Divider, Grid } from "@mui/material"
+import Router from "next/router"
 import { AddressContact, CustomerContact } from "./contact"
 import { DeliveryNotes } from "./deliveryNote"
 import { DeliveryOption } from "./deliveryOption"
@@ -28,7 +29,7 @@ export const CheckoutContent = () => {
 
         <PaymentOptions />
 
-        <Button variant="contained" fullWidth>Continue to payment</Button>
+        <Button variant="contained" fullWidth onClick={() => Router.push('/payment')}>Continue to payment</Button>
 
     </Box>
 }

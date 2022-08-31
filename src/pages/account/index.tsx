@@ -49,6 +49,7 @@ export default function AccountPage () {
                         </Box>
                     </Link>
 
+
                     <Link href={'#'}>
                     <Box sx={{ display: 'flex', alignItems: 'center', my:1}}>
                             <IoReceiptOutline size={20} />
@@ -61,7 +62,10 @@ export default function AccountPage () {
                             <AiOutlineDollar size={20} />
                             <Typography sx={{ ml: 2}}>Rewards</Typography>
                         </Box>
+                        
                     </Link>
+
+
                     <Link href={'#'}>
                         <Box sx={{ display: 'flex', alignItems: 'center', my:1}}>
                             <AiOutlineExclamationCircle size={20} />

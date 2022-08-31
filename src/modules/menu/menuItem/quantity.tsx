@@ -52,9 +52,9 @@ export const DrawerQuantity = (props: IDrawQuantity) => {
                 <IoRemoveCircleOutline />
             </IconButton>
 
-            <Box sx={{ padding: '2px 10px', backgroundColor: '#D1CFCF'}}>
+            <Box sx={{ padding: '2px 15px', backgroundColor: '#D1CFCF'}}>
                 <Typography sx={{ fontSize: 13}}>{item.quantity}</Typography>
-            </Box>
+            </Box> 
             
             <IconButton sx={{ marginLeft: '0 !important', color: 'text.primary'}} 
                 onClick={() => { dispatch(increaseQtyById({item}))}}

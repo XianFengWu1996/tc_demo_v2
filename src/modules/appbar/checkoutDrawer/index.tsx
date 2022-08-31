@@ -13,7 +13,7 @@ export const CartDrawer = (props: ICartDrawerProps) => {
     // const cartState = useAppSelector(state => state.cart)
 
     const CartDrawerContainer = styled(Box)(({ theme }) => ({
-        width: '450px', 
+        width: '500px', 
         // height: cartState.cart.length < 4 ? '100%':'auto',
         height: '100%',
         backgroundColor: theme.palette.background.default,

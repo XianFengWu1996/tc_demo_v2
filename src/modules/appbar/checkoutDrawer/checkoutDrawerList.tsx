@@ -49,8 +49,7 @@ export const CartDrawerItem = (props: ICartDrawerItemProps) => {
                   
                 </div>
                 <Divider />
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                    
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '5px'}}>
                     <DrawerQuantity item={item} />
                     <IconButton onClick={() => dispatch(removeById({ item }))}>
                         <FaTrash size={18} color={'red'}/>

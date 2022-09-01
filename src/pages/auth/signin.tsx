@@ -10,11 +10,7 @@ export default function SignIn () {
         <AppBarNav />
 
         <Grid container>
-            <Grid item lg={6} height={'calc(100vh - 63px)'} sx={{ bgcolor:'red'}}>
-                <div style={{width: '100%', height: '100%', position: 'relative'}}>
-                    <Image src={BgGrdImg.src} alt={'picture'} layout='fill' objectFit="cover" />
-                </div>
-            </Grid>
+         
             <Grid item lg={6} >
                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10}}>
                     <Typography sx={{ fontSize: 25}}>Sign in to Taipei Cuisine</Typography>
@@ -72,15 +68,29 @@ export default function SignIn () {
                             </Link>
                         </Box>
                         <Button variant="contained" sx={{ my: 2}}>Login</Button>
-
-                        <Link target="_blank" href="https://icons8.com/icon/17949/google">
-                            <Typography sx={{ fontSize: 9, cursor: 'pointer'}}>Credit: Google icon by Icons8</Typography>
+                        <Link href={'/auth/signup'}>
+                            <Typography sx={{ mb: 3, fontSize: 14, cursor: 'pointer'}}>Don{"\'"}t have an account yet?</Typography>
                         </Link>
+
+                       <Box sx={{ display: 'flex'}}>
+                            <Link target="_blank" href="https://icons8.com/icon/17949/google">
+                                <Typography sx={{ fontSize: 9, cursor: 'pointer'}}>Credit: Google icon by Icons8,</Typography>
+                            </Link>
+                            <Typography sx={{ fontSize: 9, ml: 0.5   }}>
+                                Photo by 
+                                <a href="https://unsplash.com/@debbietakesphoto?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" style={{ textDecoration: 'underline', padding: '0 2px'}}>Debbie Tea</a>
+                                 on <a href="https://unsplash.com/s/photos/chinese-food?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" style={{ textDecoration: 'underline'}}>Unsplash</a></Typography>
+                       </Box>
                     </Box>
 
                    
                </Box>
 
+            </Grid>
+            <Grid item lg={6} height={'calc(100vh - 63px)'} sx={{ bgcolor:'red'}}>
+                <div style={{width: '100%', height: '100%', position: 'relative'}}>
+                    <Image src={BgGrdImg.src} alt={'picture'} layout='fill' objectFit="cover" />
+                </div>
             </Grid>
         </Grid> 
     </>

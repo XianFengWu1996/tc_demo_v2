@@ -133,6 +133,10 @@ export const cartSlicer = createSlice({
         state.cart.splice(index, 1);
         calculateTotal(state);
     },
+    clearCart: (state) => {
+        state.cart = [];
+        calculateTotal(state);
+    },
 
     // change delivery option
     changeDeliveryOption: (state, { payload } : PayloadAction<IDeliveryOption>) => {
@@ -141,7 +145,8 @@ export const cartSlicer = createSlice({
   },
 })
 
-export const { addToCart, increaseQtyById, decreaseQtyById, removeById, changeDeliveryOption } = cartSlicer.actions
+export const { addToCart, increaseQtyById, decreaseQtyById, removeById, changeDeliveryOption,
+clearCart } = cartSlicer.actions
 
 
 export default cartSlicer.reducer

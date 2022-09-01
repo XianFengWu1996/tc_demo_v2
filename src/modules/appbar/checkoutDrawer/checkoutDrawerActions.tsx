@@ -1,7 +1,8 @@
 import { Button } from "@mui/material";
 import Router from "next/router";
 
-import { useAppSelector } from "../../../store/hook";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
+import { clearCart } from "../../../store/slicer/cartSlicer";
 // import { PulseLoader } from "react-spinners";
 // import { clearCart } from "../../../store/slice/cartSlice";
 // import { useAppDispatch, useAppSelector } from "../../../store/store";
@@ -10,7 +11,7 @@ export const CartDrawerActions = () => {
     // const [loading, setLoading] = useState<boolean>(false);
 
     const cartState = useAppSelector(state => state.cart);
-    // const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch()
 
     // useEffect(() => {
     //     return () => {
@@ -33,6 +34,12 @@ export const CartDrawerActions = () => {
             Router.push('/checkout');
         }}>
            Checkout | ${cartState.cartSummary.subtotal.toFixed(2)}
+        </Button>
+
+        <Button variant="outlined" sx={{ minWidth: '170px', mx: 1}} onClick={() => {
+            dispatch(clearCart());
+        }}> 
+            Clear Cart
         </Button>
     </div>
 }

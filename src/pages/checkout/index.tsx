@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
-import { AppBarNav } from '../../modules/appbar/appbar';
-import { CheckoutContent } from '../../modules/checkout';
-import { CartDisplay } from '../../modules/checkout/cart';
+import { AppBarNav } from '../../component/appbar/appbar';
+import { CheckoutContent } from '../../component/checkout';
+import { CartDisplay } from '../../component/checkout/cart';
 
 export default function CheckoutPage() {
   return (

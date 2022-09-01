@@ -8,7 +8,7 @@ import {
 import { BsTelephone } from 'react-icons/bs';
 import { IoReceiptOutline, IoWalletOutline } from 'react-icons/io5';
 import { MdOutlineDeliveryDining } from 'react-icons/md';
-import { AppBarNav } from '../../modules/appbar/appbar';
+import { AppBarNav } from '../../component/appbar/appbar';
 
 export default function AccountPage() {
   return (

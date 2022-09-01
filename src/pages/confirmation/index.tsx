@@ -1,15 +1,9 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Typography,
-} from '@mui/material';
-import { AppBarNav } from '../../modules/appbar/appbar';
-import FallBackImage from '../../../public/assets/images/fallback.jpeg';
+import { Box, Button, Card, CardContent, Typography } from '@mui/material';
 import Image from 'next/image';
 import { BsHouse } from 'react-icons/bs';
 import { GiPresent } from 'react-icons/gi';
+import FallBackImage from '../../../public/assets/images/fallback.jpeg';
+import { AppBarNav } from '../../component/appbar/appbar';
 
 export default function ConfirmationPage() {
   return (

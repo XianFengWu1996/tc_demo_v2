@@ -8,11 +8,11 @@ import {
   InputBase,
   Typography,
 } from '@mui/material';
-import { AppBarNav } from '../../modules/appbar/appbar';
-import BgGrdImg from '../../../public/assets/images/dumplings.jpg';
 import Image from 'next/image';
-import { FaApple, FaFacebook } from 'react-icons/fa';
 import Link from 'next/link';
+import { FaApple, FaFacebook } from 'react-icons/fa';
+import BgGrdImg from '../../../public/assets/images/dumplings.jpg';
+import { AppBarNav } from '../../component/appbar/appbar';
 
 export default function SignIn() {
   return (

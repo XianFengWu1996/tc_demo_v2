@@ -10,16 +10,13 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { AppBarNav } from '../../modules/appbar/appbar';
+import { AppBarNav } from '../../component/appbar/appbar';
 
-import {
-  PaymentElement,
-  Elements,
-} from '@stripe/react-stripe-js';
+import { Elements, PaymentElement } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookie from 'js-cookie';
+import { useEffect, useState } from 'react';
 import { FaCcAmex } from 'react-icons/fa';
 
 const stripePromise = loadStripe(

@@ -9,8 +9,8 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaApple, FaFacebook } from 'react-icons/fa';
-import { AppBarNav } from '../../modules/appbar/appbar';
 import BgGrdImg from '../../../public/assets/images/noodle.jpg';
+import { AppBarNav } from '../../component/appbar/appbar';
 
 export default function SignUp() {
   return (

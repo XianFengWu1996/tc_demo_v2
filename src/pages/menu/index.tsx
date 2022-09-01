@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
 import axios from 'axios';
+import { isEmpty } from 'lodash';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import {
   getMenuData,
   handleCategoryIdChange,
 } from '../../store/slicer/menuSlicer';
-import { isEmpty } from 'lodash';
 
 import { Box } from '@mui/material';
-import { AppBarNav } from '../../modules/appbar/appbar';
-import { MainMenuSelect } from '../../modules/menu/mainMenu';
-import { MenuContents } from '../../modules/menu';
-import { MenuItemDialog } from '../../modules/menu/menuItem/MenuItemDialog';
+import { AppBarNav } from '../../component/appbar/appbar';
+import { MenuContents } from '../../component/menu';
+import { MainMenuSelect } from '../../component/menu/mainMenu';
+import { MenuItemDialog } from '../../component/menu/menuItem/MenuItemDialog';
 
 function MenuPage() {
   const dispatch = useAppDispatch();
@@ -24,7 +24,6 @@ function MenuPage() {
     dispatch(handleCategoryIdChange({ id: '' })); // reset the category id when the menu changes
   };
 
-  
   useEffect(() => {
     const retrieveMenu = async () => {
       try {
@@ -40,8 +39,6 @@ function MenuPage() {
 
     retrieveMenu();
   }, [dispatch]);
-
-
 
   return (
     <Box sx={{ width: '100%', height: '100%', bgcolor: 'background.paper' }}>

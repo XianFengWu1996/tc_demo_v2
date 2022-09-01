@@ -1,9 +1,9 @@
 import type { NextPage } from 'next';
-import { AdditionalInfo } from '../modules/home/additionalInfo';
-import { CustomerTestimony } from '../modules/home/customerTestimony';
-import { Footer } from '../modules/home/Footer';
-import { HomePage } from '../modules/home/Home';
-import { StoreDetails } from '../modules/home/storeDetails';
+import { AdditionalInfo } from '../component/home/additionalInfo';
+import { CustomerTestimony } from '../component/home/customerTestimony';
+import { Footer } from '../component/home/Footer';
+import { HomePage } from '../component/home/Home';
+import { StoreDetails } from '../component/home/storeDetails';
 
 const Home: NextPage = () => {
   return (

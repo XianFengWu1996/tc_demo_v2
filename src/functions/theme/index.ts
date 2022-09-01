@@ -1,81 +1,79 @@
-import { createTheme, ThemeOptions } from "@mui/material/styles";
+import { createTheme, ThemeOptions } from '@mui/material/styles';
 
-export const lightTheme:ThemeOptions = createTheme({
-    palette: {
-        mode: 'light',
-        background: {
-            paper: '#ecf2ff',
-            default: '#fcfcfc'
-        },
-        primary: {
-            main: '#262626',
-        },
-        secondary: {
-            main: '#f38486',
-            contrastText: '#fff'
-        }, 
+export const lightTheme: ThemeOptions = createTheme({
+  palette: {
+    mode: 'light',
+    background: {
+      paper: '#ecf2ff',
+      default: '#fcfcfc',
     },
-    typography: {
-        fontFamily: [
-            'Montserrat',
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-          ].join(','),
-    }
+    primary: {
+      main: '#262626',
+    },
+    secondary: {
+      main: '#f38486',
+      contrastText: '#fff',
+    },
+  },
+  typography: {
+    fontFamily: [
+      'Montserrat',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
 });
 
-export const darkTheme:ThemeOptions = createTheme({
-    palette: {
-        mode: 'dark',
-        background: {
-            paper: '#262626',
-            default: '#e3d8cd'
-        },
-        text: {
-            primary: '#000',
-        },
-        primary: {
-            main: '#e3d8cd',
-            contrastText: '#000' 
-        },
-        secondary: {
-            main: '#262626',
-        },
+export const darkTheme: ThemeOptions = createTheme({
+  palette: {
+    mode: 'dark',
+    background: {
+      paper: '#262626',
+      default: '#e3d8cd',
     },
-    components: {
-        MuiIconButton: {
-          styleOverrides: {
-            root: {
-              "&.Mui-disabled": {
-                color: "#00000036"
-              }
-            },
-          
-          }
-        }
+    text: {
+      primary: '#000',
+    },
+    primary: {
+      main: '#e3d8cd',
+      contrastText: '#000',
+    },
+    secondary: {
+      main: '#262626',
+    },
+  },
+  components: {
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            color: '#00000036',
+          },
+        },
       },
-    typography: {
-        fontFamily: [
-            'Montserrat',
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-          ].join(','),
     },
-    
+  },
+  typography: {
+    fontFamily: [
+      'Montserrat',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
 });

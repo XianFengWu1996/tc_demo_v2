@@ -1,21 +1,25 @@
-import { TextField } from "@mui/material"
-import { ChangeEvent } from "react"
+import { TextField } from '@mui/material';
+import { ChangeEvent } from 'react';
 
 interface IDishComment {
-    comment: string,
-    handleCommentChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  comment: string;
+  handleCommentChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 }
 
-export const DishComment = ({comment, handleCommentChange}:IDishComment) => {
-    return <div>
-        <TextField
-              sx={{ mt: 1, mb:3, minWidth: '300px'}}
-              multiline
-              minRows={3}
-              fullWidth
-              placeholder='Leave comment specific to the dish, such as spicy level, allergies, etc'
-              value={comment}
-              onChange={handleCommentChange}
-        />
+export const DishComment = ({ comment, handleCommentChange }: IDishComment) => {
+  return (
+    <div>
+      <TextField
+        sx={{ mt: 1, mb: 3, minWidth: '300px' }}
+        multiline
+        minRows={3}
+        fullWidth
+        placeholder="Leave comment specific to the dish, such as spicy level, allergies, etc"
+        value={comment}
+        onChange={handleCommentChange}
+      />
     </div>
-}
+  );
+};

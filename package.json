@@ -2,11 +2,17 @@
   "name": "tc_demo_v2",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">= 16.17.0",
+    "npm": ">=8.15.0",
+    "yarn": "please-use-npm"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -16,11 +22,14 @@
     "@reduxjs/toolkit": "^1.8.3",
     "@stripe/react-stripe-js": "^1.10.0",
     "@stripe/stripe-js": "^1.35.0",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
     "axios": "^0.27.2",
     "framer-motion": "^6.4.3",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "next": "^12.2.5",
+    "prettier": "^2.7.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",

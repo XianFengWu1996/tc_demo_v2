@@ -1,16 +1,24 @@
-import { StoreDetailCardContainer, StoreDetailCardContents, StoreDetailCardTitle } from "../styles/styles"
+import {
+  StoreDetailCardContainer,
+  StoreDetailCardContents,
+  StoreDetailCardTitle,
+} from '../styles/styles';
 
-export const StoreDetailCard = ({title, contents, Icon}: IStoreDetailCard) => {
-    return <StoreDetailCardContainer>
-        <StoreDetailCardContents>
-            <div style={{ display: 'flex', alignItems: 'center'}}>
-                {Icon}
-                <StoreDetailCardTitle>{title}</StoreDetailCardTitle>
-            </div>
+export const StoreDetailCard = ({
+  title,
+  contents,
+  Icon,
+}: IStoreDetailCard) => {
+  return (
+    <StoreDetailCardContainer>
+      <StoreDetailCardContents>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {Icon}
+          <StoreDetailCardTitle>{title}</StoreDetailCardTitle>
+        </div>
 
-            <StoreDetailCardContents>
-                {contents}
-            </StoreDetailCardContents>
-        </StoreDetailCardContents>
+        <StoreDetailCardContents>{contents}</StoreDetailCardContents>
+      </StoreDetailCardContents>
     </StoreDetailCardContainer>
-}
+  );
+};

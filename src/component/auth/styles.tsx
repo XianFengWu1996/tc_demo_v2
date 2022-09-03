@@ -25,3 +25,10 @@ export const SocialLoginIconContainer = styled(Box)(() => ({
   alignItems: 'center',
   justifyContent: 'center',
 }));
+
+export const AuthContentContainer = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  marginTop: 75,
+}));

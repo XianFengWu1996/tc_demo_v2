@@ -2,9 +2,11 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import BgGrdImg from '../../../public/assets/images/dumplings.jpg';
 import { AppBarNav } from '../../component/appbar/appbar';
+import { AuthForm } from '../../component/auth/authForm';
 import { AuthPageImage } from '../../component/auth/authImage';
 import { MoreOptions } from '../../component/auth/moreOptions';
 import { SocialLogin } from '../../component/auth/socialLogin';
+import { AuthContentContainer } from '../../component/auth/styles';
 import { ViaEmailDivider } from '../../component/auth/viaEmailDivider';
 import { EmailInput, PasswordInput } from '../../component/input/authInput';
 import { AuthLink } from '../../component/link/authLink';
@@ -16,23 +18,12 @@ export default function SignIn() {
 
       <Grid container>
         <Grid item xs={12} sm={12} md={7} lg={6}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              mt: 10,
-            }}
-          >
+          <AuthContentContainer>
             <SocialLogin />
 
             <ViaEmailDivider>or login with email</ViaEmailDivider>
 
-            <Box
-              component={'form'}
-              noValidate
-              sx={{ display: 'flex', flexDirection: 'column', width: '425px' }}
-            >
+            <AuthForm>
               <EmailInput autoComplete="new-password" />
 
               <PasswordInput
@@ -46,14 +37,11 @@ export default function SignIn() {
                 Login
               </Button>
 
-              <AuthLink
-                linkTo="auth/signup"
-                text={"Don't have an account yet?"}
-              />
+              <AuthLink linkTo="signup" text={"Don't have an account yet?"} />
 
               <Credit />
-            </Box>
-          </Box>
+            </AuthForm>
+          </AuthContentContainer>
         </Grid>
         <AuthPageImage src={BgGrdImg.src} />
       </Grid>

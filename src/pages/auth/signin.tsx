@@ -12,6 +12,7 @@ import { EmailInput, PasswordInput } from '../../component/input/authInput';
 import { AuthLink } from '../../component/link/authLink';
 
 import { useState } from 'react';
+import { emailLoginWithFirebase } from '../../functions/auth';
 
 export default function SignIn() {
   const [email, setEmail] = useState<string>('');
@@ -51,15 +52,8 @@ export default function SignIn() {
               <Button
                 variant="contained"
                 sx={{ my: 2 }}
-                onClick={async () => {
-                  console.log(email);
-                  console.log(password);
-                  // const result = await signInWithEmailAndPassword(
-                  //   auth,
-                  //   email,
-                  //   password
-                  // );
-                  // console.log(result);
+                onClick={() => {
+                  emailLoginWithFirebase(email, password);
                 }}
               >
                 Login

@@ -7,7 +7,6 @@ import { AuthPageImage } from '../../component/auth/authImage';
 import { SocialLogin } from '../../component/auth/socialLogin';
 import { AuthContentContainer } from '../../component/auth/styles';
 import { ViaEmailDivider } from '../../component/auth/viaEmailDivider';
-import { EmailInput, PasswordInput } from '../../component/input/authInput';
 import { AuthLink } from '../../component/link/authLink';
 
 export default function SignUp() {
@@ -24,7 +23,7 @@ export default function SignUp() {
             <ViaEmailDivider>or signup with email</ViaEmailDivider>
 
             <AuthForm>
-              <EmailInput autoComplete="new-password" />
+              {/* <EmailInput autoComplete="new-password" />
 
               <PasswordInput
                 placeholder="Password"
@@ -34,7 +33,7 @@ export default function SignUp() {
               <PasswordInput
                 placeholder="Confirm Password"
                 autoComplete="new-password"
-              />
+              /> */}
 
               <Button variant="contained" sx={{ my: 2 }}>
                 Sign Up

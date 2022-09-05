@@ -1,3 +1,4 @@
+import { onAuthStateChanged, signOut, User } from '@firebase/auth';
 import {
   Button,
   IconButton,
@@ -9,16 +10,18 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/system';
 import Router from 'next/router';
+import { useEffect, useState } from 'react';
 import {
+  AiOutlineClose,
+  AiOutlineHome,
+  AiOutlineSetting,
   AiOutlineShoppingCart,
   AiOutlineUser,
-  AiOutlineSetting,
-  AiOutlineHome,
-  AiOutlineClose,
 } from 'react-icons/ai';
 import { HiOutlineReceiptTax } from 'react-icons/hi';
 import { MdOutlineRestaurantMenu } from 'react-icons/md';
-// import { setShowLoginDialog } from "../../../store/slice/settingSlice";
+import { auth } from '../../../config/firebaseConfig';
+import snackbar from '../../../functions/utilities/snackbar';
 // import { useAppDispatch } from "../../../store/store";
 
 // import { onAuthStateChanged, User } from 'firebase/auth'
@@ -45,22 +48,17 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
   const isMobile = useMediaQuery('(max-width: 480px)');
   // const dispatch = useAppDispatch();
 
-  //   const [user, setUser] = useState<User | null>();
+  const [user, setUser] = useState<User | null>();
 
-  // useEffect(() => {
-  //     const subscribe = onAuthStateChanged(fbAuth, async fbUser => {
-  //         setUser(fbUser);
-  //         if(!fbUser){
-  //             setUser(null);
-  //        } else {
-  //            setUser(fbUser)
-  //        }
-  //     });
+  useEffect(() => {
+    const subscribe = onAuthStateChanged(auth, async (fbUser) => {
+      setUser(fbUser);
+    });
 
-  //     return () => {
-  //         subscribe();
-  //     }
-  // }, [])
+    return () => {
+      subscribe();
+    };
+  }, []);
 
   const navigation_list = [
     {
@@ -81,43 +79,34 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
       icon: <AiOutlineShoppingCart />,
       path: '/order/checkout',
     },
-    {
-      id: 'beb85444-bccf-4f34-90ca-ac274b086950',
-      text: 'Order',
-      icon: <HiOutlineReceiptTax />,
-      path: `/account?redirect=order`,
-    },
-    {
-      id: '38d4df12-3c06-4c9b-90de-c1d79152fe3d',
-      text: 'Setting',
-      icon: <AiOutlineSetting />,
-      path: `/account?redirect=setting`,
-    },
 
-    // user ? {
-    //     id: 'beb85444-bccf-4f34-90ca-ac274b086950',
-    //     text: 'Order',
-    //     icon: <HiOutlineReceiptTax />,
-    //     path: `/account?redirect=order`
-    // } : null,
-    // user ? {
-    //     id: '38d4df12-3c06-4c9b-90de-c1d79152fe3d',
-    //     text: 'Setting',
-    //     icon: <AiOutlineSetting />,
-    //     path: `/account?redirect=setting`
-    // } : null,
+    user
+      ? {
+          id: 'beb85444-bccf-4f34-90ca-ac274b086950',
+          text: 'Order',
+          icon: <HiOutlineReceiptTax />,
+          path: `/account?redirect=order`,
+        }
+      : null,
+    user
+      ? {
+          id: '38d4df12-3c06-4c9b-90de-c1d79152fe3d',
+          text: 'Setting',
+          icon: <AiOutlineSetting />,
+          path: `/account?redirect=setting`,
+        }
+      : null,
   ];
 
-  // const handleSigninLogout = () => {
-  //     if(user){
-  //         handleLogout();
-  //         props.handleClose()
-  //         snackbar.warning("You've logged out")
-  //     } else {
-  //         dispatch(setShowLoginDialog(true))
-  //         props.handleClose()
-  //     }
-  // }
+  const handleSigninLogout = () => {
+    if (user) {
+      props.handleClose(); // to close the drawer
+      signOut(auth); // sign out of the firebase
+      snackbar.warning("You've successfully logged out");
+    } else {
+      Router.push('/auth/signin');
+    }
+  };
 
   return (
     <SwipeableDrawer
@@ -181,13 +170,12 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
           })}
         </div>
 
-        {/* <SignInLogoutButton variant="contained" onClick={handleSigninLogout}> */}
         <SignInLogoutButton
           variant="contained"
           color="secondary"
+          onClick={handleSigninLogout}
         >
-          Login
-          {/* { user ? 'Logout' : 'Login'}  */}
+          {user ? 'Logout' : 'Login'}
         </SignInLogoutButton>
       </div>
     </SwipeableDrawer>

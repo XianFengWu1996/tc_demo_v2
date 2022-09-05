@@ -11,7 +11,12 @@ import { ViaEmailDivider } from '../../component/auth/viaEmailDivider';
 import { EmailInput, PasswordInput } from '../../component/input/authInput';
 import { AuthLink } from '../../component/link/authLink';
 
+import { useState } from 'react';
+
 export default function SignIn() {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
   return (
     <>
       <AppBarNav />
@@ -24,16 +29,39 @@ export default function SignIn() {
             <ViaEmailDivider>or login with email</ViaEmailDivider>
 
             <AuthForm>
-              <EmailInput autoComplete="new-password" />
+              <EmailInput
+                autoComplete="new-password"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
 
               <PasswordInput
-                placeholder="password"
+                placeholder="Password"
                 autoComplete="new-password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
 
               <MoreOptions />
 
-              <Button variant="contained" sx={{ my: 2 }}>
+              <Button
+                variant="contained"
+                sx={{ my: 2 }}
+                onClick={async () => {
+                  console.log(email);
+                  console.log(password);
+                  // const result = await signInWithEmailAndPassword(
+                  //   auth,
+                  //   email,
+                  //   password
+                  // );
+                  // console.log(result);
+                }}
+              >
                 Login
               </Button>
 

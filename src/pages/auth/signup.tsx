@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useState } from 'react';
 import BgGrdImg from '../../../public/assets/images/noodle.jpg';
 import { AppBarNav } from '../../component/appbar/appbar';
 import { AuthForm } from '../../component/auth/authForm';
@@ -7,35 +8,61 @@ import { AuthPageImage } from '../../component/auth/authImage';
 import { SocialLogin } from '../../component/auth/socialLogin';
 import { AuthContentContainer } from '../../component/auth/styles';
 import { ViaEmailDivider } from '../../component/auth/viaEmailDivider';
+import { EmailInput, PasswordInput } from '../../component/input/authInput';
 import { AuthLink } from '../../component/link/authLink';
+import { emailSignupWithFirebase } from '../../functions/auth';
 
 export default function SignUp() {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+
   return (
     <>
       <AppBarNav />
 
       <Grid container>
         <AuthPageImage src={BgGrdImg.src} />
-        <Grid item lg={6}>
+        <Grid item xs={12} sm={12} md={7} lg={6}>
           <AuthContentContainer>
             <SocialLogin />
 
             <ViaEmailDivider>or signup with email</ViaEmailDivider>
 
             <AuthForm>
-              {/* <EmailInput autoComplete="new-password" />
+              <EmailInput
+                autoComplete="new-password"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
 
               <PasswordInput
                 placeholder="Password"
                 autoComplete="new-password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
 
               <PasswordInput
                 placeholder="Confirm Password"
                 autoComplete="new-password"
-              /> */}
+                value={confirmPassword}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                }}
+              />
 
-              <Button variant="contained" sx={{ my: 2 }}>
+              <Button
+                variant="contained"
+                sx={{ my: 2 }}
+                onClick={() => {
+                  emailSignupWithFirebase(email, password, confirmPassword);
+                }}
+              >
                 Sign Up
               </Button>
 

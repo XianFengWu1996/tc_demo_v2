@@ -1,13 +1,20 @@
+import 'nprogress/nprogress.css';
+import '../styles/globals.css';
+import '../styles/nprogress.css';
+
 import type { AppProps } from 'next/app';
 import { lightTheme } from '../functions/theme';
-import '../styles/globals.css';
+
 // import { darkTheme, lightTheme } from '../functions/theme';
 import { ThemeProvider } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import { Provider } from 'react-redux';
 import { SnackbarUtilsConfigurator } from '../functions/utilities/snackbar';
 import { store } from '../store/store';
-// import { useState } from 'react';
+
+import NProgressSetUp from '../functions/utilities/nprogress';
+
+NProgressSetUp();
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const [isDark, setIsDark] = useState(false);

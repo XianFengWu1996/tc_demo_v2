@@ -1,5 +1,14 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Grid,
+  Typography,
+} from '@mui/material';
 import Link from 'next/link';
+import { TbMailbox } from 'react-icons/tb';
 import BgGrdImg from '../../../public/assets/images/dumplings.jpg';
 import { AppBarNav } from '../../component/appbar/appbar';
 import { AuthForm } from '../../component/auth/authForm';
@@ -11,12 +20,28 @@ import { ViaEmailDivider } from '../../component/auth/viaEmailDivider';
 import { EmailInput, PasswordInput } from '../../component/input/authInput';
 import { AuthLink } from '../../component/link/authLink';
 
-import { useState } from 'react';
+import Router, { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { emailLoginWithFirebase } from '../../functions/auth';
 
 export default function SignIn() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  const router = useRouter();
+  const { from, status } = router.query;
+
+  const [showSuccess, setShowSucess] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (from === 'signup' && status === 'success') {
+      setShowSucess(true);
+    }
+
+    return () => {
+      setShowSucess(false);
+    };
+  }, [from, status]);
 
   return (
     <>
@@ -25,6 +50,47 @@ export default function SignIn() {
       <Grid container>
         <Grid item xs={12} sm={12} md={7} lg={6}>
           <AuthContentContainer>
+            {showSuccess && (
+              <Card
+                sx={{
+                  mb: 2,
+                  py: 1.5,
+                  px: 2.5,
+                  bgcolor: '#67c287',
+                  mt: -7,
+                  maxWidth: '80%',
+                }}
+                elevation={0}
+              >
+                <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+                  <TbMailbox size={25} color={'#fff'} />
+                  <Typography sx={{ color: '#fff', ml: 3 }}>
+                    Success, please check verification link in your inbox.
+                  </Typography>
+                </CardContent>
+
+                <CardActions
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'end',
+                    p: 0,
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => {
+                      setShowSucess(false); // dismiss the notification
+                      Router.replace('/auth/signin'); // replace the url query
+                    }}
+                    sx={{ borderColor: '#fff', color: '#fff' }}
+                  >
+                    Dismiss
+                  </Button>
+                </CardActions>
+              </Card>
+            )}
+
             <SocialLogin />
 
             <ViaEmailDivider>or login with email</ViaEmailDivider>

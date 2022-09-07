@@ -1,11 +1,8 @@
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from '@firebase/auth';
+import { signInWithEmailAndPassword } from '@firebase/auth';
 import { isEmpty } from 'lodash';
 import Router from 'next/router';
-import equals from 'validator/es/lib/equals';
-import isEmail from 'validator/es/lib/isEmail';
+import equals from 'validator/lib/equals';
+import isEmail from 'validator/lib/isEmail';
 import { auth } from '../config/firebaseConfig';
 import snackbar from './utilities/snackbar';
 
@@ -45,7 +42,7 @@ export const emailSignupWithFirebase = async (
       throw new Error('The password does not match');
     }
 
-    await createUserWithEmailAndPassword(auth, email, password);
+    // await createUserWithEmailAndPassword(auth, email, password);
 
     Router.push('/auth/signin?from=signup&status=success');
   } catch (error) {

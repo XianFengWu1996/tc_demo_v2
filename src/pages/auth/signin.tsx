@@ -1,14 +1,5 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
-import { TbMailbox } from 'react-icons/tb';
 import BgGrdImg from '../../../public/assets/images/dumplings.jpg';
 import { AppBarNav } from '../../component/appbar/appbar';
 import { AuthForm } from '../../component/auth/authForm';
@@ -22,24 +13,30 @@ import { AuthLink } from '../../component/link/authLink';
 
 import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { BeatLoader } from 'react-spinners';
+import { EmailVerificationNotification } from '../../component/auth/notification';
 import { emailLoginWithFirebase } from '../../functions/auth';
 
 export default function SignIn() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [emailVerify, setEmailVerify] = useState<boolean>(false);
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
   const { from, status } = router.query;
 
-  const [showSuccess, setShowSucess] = useState<boolean>(false);
-
   useEffect(() => {
     if (from === 'signup' && status === 'success') {
-      setShowSucess(true);
+      setEmailVerify(true);
     }
 
     return () => {
-      setShowSucess(false);
+      setEmailVerify(false);
+      setEmail('');
+      setPassword('');
+      setLoading(false);
     };
   }, [from, status]);
 
@@ -50,45 +47,13 @@ export default function SignIn() {
       <Grid container>
         <Grid item xs={12} sm={12} md={7} lg={6}>
           <AuthContentContainer>
-            {showSuccess && (
-              <Card
-                sx={{
-                  mb: 2,
-                  py: 1.5,
-                  px: 2.5,
-                  bgcolor: '#67c287',
-                  mt: -7,
-                  maxWidth: '80%',
+            {emailVerify && (
+              <EmailVerificationNotification
+                onDismiss={() => {
+                  setEmailVerify(false); // dismiss the notification
+                  Router.replace('/auth/signin'); // replace the url query
                 }}
-                elevation={0}
-              >
-                <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
-                  <TbMailbox size={25} color={'#fff'} />
-                  <Typography sx={{ color: '#fff', ml: 3 }}>
-                    Success, please check verification link in your inbox.
-                  </Typography>
-                </CardContent>
-
-                <CardActions
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'end',
-                    p: 0,
-                  }}
-                >
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={() => {
-                      setShowSucess(false); // dismiss the notification
-                      Router.replace('/auth/signin'); // replace the url query
-                    }}
-                    sx={{ borderColor: '#fff', color: '#fff' }}
-                  >
-                    Dismiss
-                  </Button>
-                </CardActions>
-              </Card>
+              />
             )}
 
             <SocialLogin />
@@ -117,12 +82,21 @@ export default function SignIn() {
 
               <Button
                 variant="contained"
-                sx={{ my: 2 }}
+                sx={{ my: 2, height: '40px' }}
                 onClick={() => {
-                  emailLoginWithFirebase(email, password);
+                  emailLoginWithFirebase(email, password, setLoading);
                 }}
               >
-                Login
+                {loading ? (
+                  <BeatLoader
+                    loading={loading}
+                    size={8}
+                    color="#fff"
+                    speedMultiplier={0.8}
+                  />
+                ) : (
+                  <Typography>Login</Typography>
+                )}
               </Button>
 
               <AuthLink linkTo="signup" text={"Don't have an account yet?"} />

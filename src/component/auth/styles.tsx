@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
 // ========================================
@@ -31,4 +31,15 @@ export const AuthContentContainer = styled(Box)(() => ({
   flexDirection: 'column',
   alignItems: 'center',
   marginTop: 75,
+}));
+
+// ========================================
+//        NOTIFICATION CARD
+// ========================================
+
+export const EmailVerifyCard = styled(Card)(() => ({
+  marginBottom: 20,
+  marginTop: -50,
+  padding: '10px',
+  backgroundColor: '#50d07d',
 }));

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import BgGrdImg from '../../../public/assets/images/dumplings.jpg';
 import { AppBarNav } from '../../component/appbar/appbar';
@@ -13,8 +13,8 @@ import { AuthLink } from '../../component/link/authLink';
 
 import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { BeatLoader } from 'react-spinners';
 import { EmailVerificationNotification } from '../../component/auth/notification';
+import { LoadingButton } from '../../component/button/loadingButton';
 import { emailLoginWithFirebase } from '../../functions/auth';
 
 export default function SignIn() {
@@ -80,24 +80,13 @@ export default function SignIn() {
 
               <MoreOptions />
 
-              <Button
-                variant="contained"
-                sx={{ my: 2, height: '40px' }}
+              <LoadingButton
+                loading={loading}
+                text="login"
                 onClick={() => {
                   emailLoginWithFirebase(email, password, setLoading);
                 }}
-              >
-                {loading ? (
-                  <BeatLoader
-                    loading={loading}
-                    size={8}
-                    color="#fff"
-                    speedMultiplier={0.8}
-                  />
-                ) : (
-                  <Typography>Login</Typography>
-                )}
-              </Button>
+              />
 
               <AuthLink linkTo="signup" text={"Don't have an account yet?"} />
 

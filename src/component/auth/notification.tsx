@@ -14,7 +14,7 @@ export const EmailVerificationNotification = (props: INotificationProps) => {
         <CardContent sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
           <TbMailbox size={25} color={'#fff'} />
           <Typography sx={{ color: '#fff', ml: 3 }}>
-            Success, please check verification link in your inbox.
+            Success, please check verification link in your inbox (or spam).
           </Typography>
         </CardContent>
 

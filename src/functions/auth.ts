@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  sendEmailVerification,
   signInWithEmailAndPassword,
 } from '@firebase/auth';
 import { isEmpty } from 'lodash';
@@ -64,7 +65,11 @@ export const emailSignupWithFirebase = async (
       throw new Error('The password does not match');
     }
 
-    await createUserWithEmailAndPassword(auth, email, password);
+    // creates user with firebase
+    const user = await createUserWithEmailAndPassword(auth, email, password);
+
+    // send verification email
+    await sendEmailVerification(user.user);
 
     Router.push('/auth/signin?from=signup&status=success');
   } catch (error) {

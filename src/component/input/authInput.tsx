@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import { ChangeEventHandler } from 'react';
 import { AuthInputContainer, AuthInputLabel } from './styles';
 
@@ -13,13 +14,15 @@ interface IEmailInput {
   autoComplete?: 'on' | 'off' | 'new-password';
   value: string;
   onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  error: string;
 }
 
 export const EmailInput = (props: IEmailInput) => {
   return (
-    <>
+    <div style={{ marginBottom: '10px' }}>
       <AuthInputLabel>Email</AuthInputLabel>
       <AuthInputContainer
+        fullWidth
         placeholder="example@email.com"
         inputProps={inputProps}
         type="email"
@@ -27,8 +30,15 @@ export const EmailInput = (props: IEmailInput) => {
         required
         value={props.value}
         onChange={props.onChange}
+        errormsg={props.error}
       />
-    </>
+
+      {props.error && (
+        <Typography sx={{ fontSize: 11, color: 'red' }}>
+          {props.error}
+        </Typography>
+      )}
+    </div>
   );
 };
 
@@ -37,13 +47,15 @@ interface IPasswordInput {
   autoComplete?: 'on' | 'off' | 'new-password';
   value: string;
   onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  error: string;
 }
 
 export const PasswordInput = (props: IPasswordInput) => {
   return (
-    <>
+    <div style={{ marginBottom: '10px' }}>
       <AuthInputLabel>{props.placeholder}</AuthInputLabel>
       <AuthInputContainer
+        fullWidth
         placeholder={props.placeholder}
         inputProps={inputProps}
         autoComplete={props.autoComplete ?? ''}
@@ -51,7 +63,13 @@ export const PasswordInput = (props: IPasswordInput) => {
         required
         value={props.value}
         onChange={props.onChange}
+        errormsg={props.error}
       />
-    </>
+      {props.error && (
+        <Typography sx={{ fontSize: 11, color: 'red' }}>
+          {props.error}
+        </Typography>
+      )}
+    </div>
   );
 };

@@ -1,6 +1,6 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BgGrdImg from '../../../public/assets/images/noodle.jpg';
 import { AppBarNav } from '../../component/appbar/appbar';
 import { AuthForm } from '../../component/auth/authForm';
@@ -8,6 +8,7 @@ import { AuthPageImage } from '../../component/auth/authImage';
 import { SocialLogin } from '../../component/auth/socialLogin';
 import { AuthContentContainer } from '../../component/auth/styles';
 import { ViaEmailDivider } from '../../component/auth/viaEmailDivider';
+import { LoadingButton } from '../../component/button/loadingButton';
 import { EmailInput, PasswordInput } from '../../component/input/authInput';
 import { AuthLink } from '../../component/link/authLink';
 import { emailSignupWithFirebase } from '../../functions/auth';
@@ -16,6 +17,24 @@ export default function SignUp() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [emailError, setEmailError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
+
+  useEffect(() => {
+    return () => {
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      setLoading(false);
+      setEmailError('');
+      setPasswordError('');
+      setConfirmPasswordError('');
+    };
+  }, []);
 
   return (
     <>
@@ -36,6 +55,7 @@ export default function SignUp() {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
+                error={emailError}
               />
 
               <PasswordInput
@@ -45,6 +65,7 @@ export default function SignUp() {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                error={passwordError}
               />
 
               <PasswordInput
@@ -54,17 +75,24 @@ export default function SignUp() {
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
                 }}
+                error={confirmPasswordError}
               />
 
-              <Button
-                variant="contained"
-                sx={{ my: 2 }}
+              <LoadingButton
+                loading={loading}
+                text="sign up"
                 onClick={() => {
-                  emailSignupWithFirebase(email, password, confirmPassword);
+                  emailSignupWithFirebase(
+                    email,
+                    password,
+                    confirmPassword,
+                    setLoading,
+                    setEmailError,
+                    setPasswordError,
+                    setConfirmPasswordError
+                  );
                 }}
-              >
-                Sign Up
-              </Button>
+              />
 
               <AuthLink linkTo="signin" text={'Already have an account?'} />
 

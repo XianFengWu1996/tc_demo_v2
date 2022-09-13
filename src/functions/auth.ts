@@ -45,26 +45,39 @@ export const emailLoginWithFirebase = async (
 export const emailSignupWithFirebase = async (
   email: string,
   password: string,
-  confirm: string
+  confirm: string,
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  setEmailError: Dispatch<SetStateAction<string>>,
+  setPasswordError: Dispatch<SetStateAction<string>>,
+  setConfirmPasswordError: Dispatch<SetStateAction<string>>
 ) => {
+  // reset the email and password error when the user submit again
+  setEmailError('');
+  setPasswordError('');
+  setConfirmPasswordError('');
+
   try {
     // check if the email format is correct
     if (isEmpty(email) || !isEmail(email)) {
-      throw new Error('Please enter a valid email to proceed');
+      return setEmailError('Please enter a valid email address');
     }
 
     // check if the password or the confirm is filled out
-    if (isEmpty(password) || isEmpty(confirm)) {
-      throw new Error(
-        'Please make sure both password and confirm password is filled out'
-      );
+    if (isEmpty(password)) {
+      return setPasswordError('Please enter a valid password');
+    }
+
+    if (isEmpty(confirm)) {
+      return setConfirmPasswordError('Please enter password again to confirm');
     }
 
     // check if the password and confirm password matches
     if (!equals(password, confirm)) {
-      throw new Error('The password does not match');
+      return setConfirmPasswordError('The password does not match');
     }
 
+    // start loading
+    setLoading(true);
     // creates user with firebase
     const user = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -73,6 +86,8 @@ export const emailSignupWithFirebase = async (
 
     Router.push('/auth/signin?from=signup&status=success');
   } catch (error) {
+    // end loading and display error message
+    setLoading(false);
     snackbar.error((error as Error).message ?? 'Failed to sign up');
   }
 };

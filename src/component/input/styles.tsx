@@ -1,4 +1,5 @@
 import { InputBase, styled, Typography } from '@mui/material';
+import { isEmpty } from 'lodash';
 
 export const AuthInputLabel = styled(Typography)(() => ({
   fontSize: 14,
@@ -6,9 +7,15 @@ export const AuthInputLabel = styled(Typography)(() => ({
   textTransform: 'capitalize',
 }));
 
-export const AuthInputContainer = styled(InputBase)(() => ({
-  backgroundColor: '#f59c9e47',
-  padding: '10px 15px',
-  marginBottom: '15px',
-  borderRadius: '5px',
-}));
+interface AdditionalProps {
+  errormsg: string;
+}
+
+export const AuthInputContainer = styled(InputBase)<AdditionalProps>(
+  ({ errormsg }) => ({
+    backgroundColor: '#f59c9e47',
+    padding: '10px 15px',
+    borderRadius: '5px',
+    border: !isEmpty(errormsg) ? '1px solid red' : 'none',
+  })
+);

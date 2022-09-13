@@ -29,7 +29,7 @@ function MenuPage() {
       try {
         const result = await axios({
           method: 'GET',
-          url: 'http://localhost:5001/foodorder-43af7/us-east4/v2/store/menus',
+          url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/menu`,
         });
         dispatch(getMenuData(result.data));
       } catch (error) {
@@ -41,7 +41,9 @@ function MenuPage() {
   }, [dispatch]);
 
   return (
-    <Box sx={{ width: '100%', height: '100%', bgcolor: 'background.paper' }}>
+    <Box
+      sx={{ width: '100%', minHeight: '100vh', bgcolor: 'background.paper' }}
+    >
       <AppBarNav />
       <MainMenuSelect value={value} handleChange={handleChange} />
 

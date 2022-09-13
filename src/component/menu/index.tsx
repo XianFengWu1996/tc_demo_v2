@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import { SideMenu } from './sideMenu';
 import { DishList } from './dishList';
+import { SideMenu } from './sideMenu';
 
 interface IMenuContents {
   menu: IMenu;
@@ -21,7 +21,12 @@ export const MenuContents = (props: IMenuContents) => {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3, display: 'flex' }}>
+        <Box
+          sx={{
+            p: 3,
+            display: 'flex',
+          }}
+        >
           <SideMenu menu={menu} />
 
           <DishList menu={menu} />

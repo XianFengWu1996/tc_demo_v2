@@ -6,13 +6,14 @@ interface ILoadingButtonProps {
   onClick: MouseEventHandler<HTMLButtonElement> | undefined;
   loading: boolean;
   text: string;
+  height?: string | number;
 }
 
 export const LoadingButton = (props: ILoadingButtonProps) => {
   return (
     <Button
       variant="contained"
-      sx={{ my: 2, height: '40px' }}
+      sx={{ my: 2, height: props.height ?? '40px' }}
       onClick={props.onClick}
     >
       {props.loading ? (

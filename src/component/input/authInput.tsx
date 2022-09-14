@@ -1,5 +1,7 @@
-import { Typography } from '@mui/material';
-import { ChangeEventHandler } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { IconButton, InputAdornment, Typography } from '@mui/material';
+import { ChangeEventHandler, useState } from 'react';
+import { PasswordStrength } from '../auth/passwordStrength';
 import { AuthInputContainer, AuthInputLabel } from './styles';
 
 const inputProps = {
@@ -48,9 +50,12 @@ interface IPasswordInput {
   value: string;
   onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   error: string;
+  strengthCheck?: boolean;
 }
 
 export const PasswordInput = (props: IPasswordInput) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   return (
     <div style={{ marginBottom: '10px' }}>
       <AuthInputLabel>{props.placeholder}</AuthInputLabel>
@@ -59,12 +64,28 @@ export const PasswordInput = (props: IPasswordInput) => {
         placeholder={props.placeholder}
         inputProps={inputProps}
         autoComplete={props.autoComplete ?? ''}
-        type="password"
+        type={showPassword ? 'text' : 'password'}
         required
         value={props.value}
         onChange={props.onChange}
         errormsg={props.error}
+        sx={{ position: 'relative ' }}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              size="small"
+              aria-label="toggle password visibility"
+              edge="end"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        }
       />
+
+      {props.strengthCheck && <PasswordStrength password={props.value} />}
+
       {props.error && (
         <Typography sx={{ fontSize: 11, color: 'red' }}>
           {props.error}

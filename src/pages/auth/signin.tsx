@@ -8,13 +8,13 @@ import { MoreOptions } from '../../component/auth/moreOptions';
 import { SocialLogin } from '../../component/auth/socialLogin';
 import { AuthContentContainer } from '../../component/auth/styles';
 import { ViaEmailDivider } from '../../component/auth/viaEmailDivider';
-import { EmailInput, PasswordInput } from '../../component/input/authInput';
 import { AuthLink } from '../../component/link/authLink';
 
 import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { EmailVerificationNotification } from '../../component/auth/notification';
 import { LoadingButton } from '../../component/button/loadingButton';
+import { EmailInput, PasswordInput } from '../../component/input/authInput';
 import { emailLoginWithFirebase } from '../../functions/auth';
 
 export default function SignIn() {
@@ -23,6 +23,9 @@ export default function SignIn() {
   const [emailVerify, setEmailVerify] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [emailError, setEmailError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
 
   const router = useRouter();
   const { from, status } = router.query;
@@ -37,6 +40,8 @@ export default function SignIn() {
       setEmail('');
       setPassword('');
       setLoading(false);
+      setEmailError('');
+      setPasswordError('');
     };
   }, [from, status]);
 
@@ -67,6 +72,7 @@ export default function SignIn() {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
+                error={emailError}
               />
 
               <PasswordInput
@@ -76,6 +82,7 @@ export default function SignIn() {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                error={passwordError}
               />
 
               <MoreOptions />
@@ -84,7 +91,13 @@ export default function SignIn() {
                 loading={loading}
                 text="login"
                 onClick={() => {
-                  emailLoginWithFirebase(email, password, setLoading);
+                  emailLoginWithFirebase(
+                    email,
+                    password,
+                    setLoading,
+                    setEmailError,
+                    setPasswordError
+                  );
                 }}
               />
 

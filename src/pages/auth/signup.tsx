@@ -66,6 +66,7 @@ export default function SignUp() {
                   setPassword(e.target.value);
                 }}
                 error={passwordError}
+                strengthCheck
               />
 
               <PasswordInput

@@ -15,6 +15,7 @@ export const LoadingButton = (props: ILoadingButtonProps) => {
       variant="contained"
       sx={{ my: 2, height: props.height ?? '40px' }}
       onClick={props.onClick}
+      disabled={props.loading}
     >
       {props.loading ? (
         <BeatLoader

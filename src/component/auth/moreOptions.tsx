@@ -10,8 +10,8 @@ export const MoreOptions = () => {
         justifyContent: 'end',
       }}
     >
-      <Link href={'#'}>
-        <Typography sx={{ fontSize: 13, color: 'blue' }}>
+      <Link href={'/auth/forgot_password'}>
+        <Typography sx={{ fontSize: 13, color: 'blue', cursor: 'pointer' }}>
           Forgot Password?
         </Typography>
       </Link>

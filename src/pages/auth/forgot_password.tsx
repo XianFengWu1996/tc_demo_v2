@@ -2,26 +2,39 @@ import { Box, Button, Typography } from '@mui/material';
 import { isEmpty } from 'lodash';
 import Router from 'next/router';
 import { useState } from 'react';
-import { BsArrowLeft } from 'react-icons/bs';
+import { BsArrowLeft, BsCheck2Circle } from 'react-icons/bs';
 import { TbKey } from 'react-icons/tb';
 import isEmail from 'validator/lib/isEmail';
 import { AppBarNav } from '../../component/appbar/appbar';
+import { LoadingButton } from '../../component/button/loadingButton';
 import { EmailInput } from '../../component/input/authInput';
+import { backToLogin, sendResetPasswordLink } from '../../functions/auth';
+import { handleCatchError } from '../../functions/error';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('');
 
-  const onSendResetLink = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const onSendResetLink = async () => {
     setEmailError('');
 
     if (isEmpty(email) || !isEmail(email)) {
-      setEmailError('Please enter a valid email');
+      return setEmailError('Please enter a valid email');
     }
-  };
 
-  const backToLogin = () => {
-    Router.push('/auth/signin');
+    try {
+      setLoading(true);
+      const result = await sendResetPasswordLink(email);
+
+      if (result.status === 200) {
+        Router.push(`/auth/check_email?email=${email}`);
+      }
+    } catch (error) {
+      setLoading(false);
+      handleCatchError(error);
+    }
   };
 
   return (
@@ -53,9 +66,12 @@ export default function ForgotPassword() {
           }}
           error={emailError}
         />
-        <Button variant="contained" sx={{ my: 1 }} onClick={onSendResetLink}>
-          Send Link
-        </Button>
+
+        <LoadingButton
+          onClick={onSendResetLink}
+          loading={loading}
+          text="Send Link"
+        />
 
         <Button onClick={backToLogin}>
           <BsArrowLeft size={16} style={{ marginRight: '7px' }} />
@@ -94,6 +110,40 @@ export const KeyIconWithRoundBorders = () => {
         }}
       >
         <TbKey size={25} />
+      </Box>
+    </Box>
+  );
+};
+
+export const CheckIconWithRoundBorders = () => {
+  return (
+    <Box
+      sx={{
+        height: '60px',
+        width: '60px',
+        bgcolor: 'rgba(76, 209, 71, 0.15)',
+        p: '5px',
+        borderRadius: '50px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '0 auto',
+        marginTop: '50px',
+        marginBottom: '20px',
+      }}
+    >
+      <Box
+        sx={{
+          height: '45px',
+          width: '45px',
+          bgcolor: 'rgba(76, 209, 71, 0.17)',
+          borderRadius: '50px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <BsCheck2Circle size={25} color={'rgba(76, 209, 71, 0.7)'} />
       </Box>
     </Box>
   );

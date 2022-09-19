@@ -2,7 +2,6 @@ import { FirebaseError } from 'firebase/app';
 import snackbar from '../utilities/snackbar';
 
 export const CheckFirebaseAuthError = (error: FirebaseError) => {
-  console.log('this is ran');
   switch (error.code) {
     case 'auth/admin-restricted-operation':
       snackbar.error('This operation is restricted to administrators only.');

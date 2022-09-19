@@ -3,6 +3,7 @@ import {
   sendEmailVerification,
   signInWithEmailAndPassword,
 } from '@firebase/auth';
+import axios from 'axios';
 import { FirebaseError } from 'firebase/app';
 import { isEmpty } from 'lodash';
 import Router from 'next/router';
@@ -118,4 +119,22 @@ export const emailSignupWithFirebase = async (
       snackbar.error((error as Error).message ?? 'Failed to sign up');
     }
   }
+};
+
+export const sendResetPasswordLink = async (email: string) => {
+  return await axios({
+    method: 'POST',
+    url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/auth/forgot_password`,
+    data: {
+      email,
+    },
+  });
+};
+
+export const backToLogin = () => {
+  Router.push('/auth/signin');
+};
+
+export const backToForgotPassword = () => {
+  Router.replace('/auth/forgot_password');
 };

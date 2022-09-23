@@ -9,24 +9,24 @@ import { useAppSelector } from '../../store/hook';
 import { CartDrawer } from './checkoutDrawer';
 import { MenuDrawer } from './menuDrawer/menuDrawer';
 
-export const AppBarNav = () => {
-  const StyleAppbar = styled(AppBar)(({ theme }) => ({
-    position: 'static',
-    backgroundColor:
-      theme.palette.mode === 'dark' ? theme.palette.primary.main : '#fff',
-    color: theme.palette.primary.main,
-    width: '100%',
-    boxShadow: '1px 1px 1px 0px rgba(0,0,0,0.35)',
-    backgroundImage: 'none',
-    padding: '0 40px',
-    [theme.breakpoints.down('md')]: {
-      padding: '0 20px',
-    },
-    [theme.breakpoints.down('md')]: {
-      padding: '0 10px',
-    },
-  }));
+const StyleAppbar = styled(AppBar)(({ theme }) => ({
+  position: 'static',
+  backgroundColor:
+    theme.palette.mode === 'dark' ? theme.palette.primary.main : '#fff',
+  color: theme.palette.primary.main,
+  width: '100%',
+  boxShadow: '1px 1px 1px 0px rgba(0,0,0,0.35)',
+  backgroundImage: 'none',
+  padding: '0 40px',
+  [theme.breakpoints.down('md')]: {
+    padding: '0 20px',
+  },
+  [theme.breakpoints.down('md')]: {
+    padding: '0 10px',
+  },
+}));
 
+export const AppBarNav = () => {
   const CartButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.mode === 'dark' ? '#000' : '#fff',

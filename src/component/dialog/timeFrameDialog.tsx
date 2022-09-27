@@ -16,7 +16,7 @@ interface ITimeFrameDialogProps {
   open: boolean;
   deliveryOption: DeliveryOptionType;
   increment: number;
-  handleClose: () => void;
+  handleClose: (arg1?: 'backdropClick' | 'escapeKeyDown') => void;
   updateTimeFrame: (arg: TimeFrameType, arg2?: ScheduleTime) => void;
 }
 
@@ -32,8 +32,8 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
   useEffect(() => {
     setScheduleTime(
       generateScheduleTime(
-        process.env.NEXT_PUBLIC_STORE_OPEN_HOUR + props.increment,
-        process.env.NEXT_PUBLIC_STORE_CLOSE_HOUR - props.increment,
+        Number(process.env.NEXT_PUBLIC_STORE_OPEN_HOUR),
+        Number(process.env.NEXT_PUBLIC_STORE_CLOSE_HOUR),
         props.increment
       )
     );
@@ -75,7 +75,9 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
     <Dialog
       open={props.open}
       keepMounted={false}
-      onClose={props.handleClose}
+      onClose={(event, reason) => {
+        props.handleClose(reason);
+      }}
       PaperProps={{
         sx: {
           borderRadius: '20px',
@@ -133,7 +135,9 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
           Confirm{' '}
           {!isEmpty(selectTime.displayTime) && `| ${selectTime.displayTime}`}
         </Button>
-        <Button>Cancel</Button>
+        <Button onClick={() => props.handleClose('escapeKeyDown')}>
+          Cancel
+        </Button>
       </DialogActions>
     </Dialog>
   );

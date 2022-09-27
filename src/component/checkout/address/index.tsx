@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dialog, DialogContent } from '@mui/material';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { AiOutlineUser } from 'react-icons/ai';
 import { GiForkKnifeSpoon } from 'react-icons/gi';
 import {
@@ -48,18 +49,14 @@ export const Address = (props: IAddressProps) => {
 
       {props.state.deliveryOption === 'pickup' && (
         <CheckoutNavigationButton
-          title="Name for pickup"
-          subtitle={'"Shawn"'}
-          icon={<AiOutlineUser size={22} />}
+          title="Name for Pickup"
+          subtitle={`"Shawn"`}
+          icon={<MdOutlineHouse size={22} />}
         />
       )}
 
       {props.state.deliveryOption === 'delivery' ? (
-        <CheckoutNavigationButton
-          title="69 Harvard St"
-          subtitle="Quincy,MA,USA 02171"
-          icon={<MdOutlineHouse size={22} />}
-        />
+        <ChangeAddress />
       ) : (
         <CheckoutNavigationButton
           disabled
@@ -87,5 +84,30 @@ export const Address = (props: IAddressProps) => {
         borderBottom="none"
       />
     </AddressContainer>
+  );
+};
+
+export const ChangeAddress = () => {
+  const [open, setOpen] = useState<boolean>(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  return (
+    <>
+      <CheckoutNavigationButton
+        title="69 Harvard St"
+        subtitle="Quincy,MA,02171,USA"
+        icon={<AiOutlineUser size={22} />}
+        onClick={handleOpen}
+      />
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogContent></DialogContent>
+      </Dialog>
+    </>
   );
 };

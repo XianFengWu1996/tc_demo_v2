@@ -1,7 +1,7 @@
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Box, Button, Typography } from '@mui/material';
 import { isEmpty } from 'lodash';
-import { ReactNode } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 
 interface ICheckoutNavigationButtonProps {
   icon: ReactNode;
@@ -9,12 +9,14 @@ interface ICheckoutNavigationButtonProps {
   subtitle?: string;
   borderBottom?: string;
   disabled?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
 }
 export const CheckoutNavigationButton = (
   props: ICheckoutNavigationButtonProps
 ) => {
   return (
     <Button
+      onClick={props.onClick}
       disabled={props.disabled}
       fullWidth
       sx={{

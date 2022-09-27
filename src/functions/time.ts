@@ -2,12 +2,11 @@ import { DateTime } from 'luxon';
 
 export const timeToStringFormat = (time: number) => {
   const hr = Math.floor(time / 60);
-
   const min = time % 60;
 
-  let format_hour = hr < 10 ? `0${hr}` : `${hr}`;
-  let format_minute = min < 10 ? `0${min}` : `${min}`;
-  let format_am_pm = hr >= 0 && hr <= 12 ? 'AM' : 'PM';
+  const format_hour = hr < 10 ? `0${hr}` : `${hr}`;
+  const format_minute = min < 10 ? `0${min}` : `${min}`;
+  const format_am_pm = hr >= 0 && hr <= 12 ? 'AM' : 'PM';
 
   return `${format_hour}:${format_minute}${format_am_pm}`;
 };
@@ -17,10 +16,13 @@ export const generateScheduleTime = (
   close: number,
   increment: number
 ) => {
-  console.log(open, close, increment);
   const scheduleTime: ScheduleTime[] = [];
 
-  for (let index = open; index <= close; index += increment) {
+  for (
+    let index = open + increment;
+    index <= close - increment;
+    index += increment
+  ) {
     const data: ScheduleTime = {
       displayTime: `${timeToStringFormat(index)}-${timeToStringFormat(
         index + increment

@@ -22,7 +22,10 @@ export const TimeFrame = (props: ITimeFrameProps) => {
     setOpen(true);
   };
 
-  const handleDialogClose = () => {
+  const handleDialogClose = (reason?: 'backdropClick' | 'escapeKeyDown') => {
+    if (reason) {
+      props.updateTimeFrame('asap');
+    }
     setOpen(false);
   };
 

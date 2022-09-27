@@ -14,6 +14,8 @@ declare global {
       NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: string;
       NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: string;
       NEXT_PUBLIC_FIREBASE_APP_ID: string;
+      NEXT_PUBLIC_STORE_OPEN_HOUR: number;
+      NEXT_PUBLIC_STORE_CLOSE_HOUR: number;
     }
   }
 }

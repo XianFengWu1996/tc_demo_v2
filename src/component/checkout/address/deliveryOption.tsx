@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { DeliveryButton, PickupButton } from '../../../pages/checkout';
+import { DeliveryButton, PickupButton } from '../../button/checkoutButton';
 
 export const DeliveryOption = (props: IDeliveryOptionProps) => {
   return (
@@ -13,12 +13,12 @@ export const DeliveryOption = (props: IDeliveryOptionProps) => {
         }}
       >
         <DeliveryButton
-          onClick={() => props.setDeliveryOption('delivery')}
+          onClick={() => props.updateDeliveryOption('delivery')}
           type={props.deliveryOption}
         />
 
         <PickupButton
-          onClick={() => props.setDeliveryOption('pickup')}
+          onClick={() => props.updateDeliveryOption('pickup')}
           type={props.deliveryOption}
         />
       </Box>

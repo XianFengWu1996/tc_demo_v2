@@ -1,8 +1,8 @@
+import { uuidv4 } from '@firebase/util';
 import { Grid } from '@mui/material';
-import { SectionTitle } from './components/sectionTitle';
 import { useEffect } from 'react';
+import { SectionTitle } from './components/sectionTitle';
 import { TestimonyDetails } from './components/testimonyDetails';
-import { v4 } from 'uuid';
 import { TestimonySection } from './styles/styles';
 
 // animation
@@ -72,7 +72,7 @@ export const CustomerTestimony = () => {
         >
           {testimonyData.map((testimony) => {
             return (
-              <Grid key={v4()} item xs={12} md={3}>
+              <Grid key={uuidv4()} item xs={12} md={3}>
                 <TestimonyDetails
                   contents={testimony.contents}
                   author={testimony.author}

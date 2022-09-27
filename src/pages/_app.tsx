@@ -14,7 +14,12 @@ import { store } from '../store/store';
 
 import NProgressSetUp from '../functions/utilities/nprogress';
 
+import { Settings } from 'luxon';
+
 NProgressSetUp();
+
+// set the default zone for luxon
+Settings.defaultZone = 'America/New_York';
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const [isDark, setIsDark] = useState(false);

@@ -13,20 +13,22 @@ export const AddressContainer = styled(Box)(() => ({
   padding: '32px',
 }));
 
-export const TimeFrameContainer = styled(Box)<TimeFrameContainerStyledProps>(
-  ({ isSelected }) => ({
-    border: `2.5px solid ${isSelected ? 'green' : '#000'}`,
-    color: isSelected ? 'green' : '#000',
-    display: 'inline-block',
-    borderRadius: '15px',
-    padding: '16px 20px',
-    height: '75px',
-    '&:first-child': {
-      marginRight: '16px',
-      marginLeft: '50px',
-    },
-  })
-);
+export const TimeFrameContainer = styled(Box)(() => ({
+  border: `2.5px solid #000`,
+  color: '#000',
+  display: 'inline-block',
+  borderRadius: '15px',
+  padding: '16px 20px',
+  height: '75px',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: 'rgba(200,200,200,0.3)',
+  },
+  ':first-of-type': {
+    marginRight: '16px',
+    marginLeft: '50px',
+  },
+}));
 
 export const TimeFrameCard = styled(Box)(() => ({
   display: 'flex',

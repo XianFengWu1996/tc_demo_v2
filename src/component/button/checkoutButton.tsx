@@ -8,18 +8,23 @@ interface ICheckoutNavigationButtonProps {
   title: string;
   subtitle?: string;
   borderBottom?: string;
+  disabled?: boolean;
 }
 export const CheckoutNavigationButton = (
   props: ICheckoutNavigationButtonProps
 ) => {
   return (
     <Button
+      disabled={props.disabled}
       fullWidth
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
         py: 2,
         borderBottom: props.borderBottom ?? '1px solid rgba(0,0,0,0.2)',
+        '&:disabled': {
+          color: '#000',
+        },
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -57,9 +62,53 @@ export const CheckoutNavigationButton = (
         </Box>
       </Box>
 
-      <Box>
-        <KeyboardArrowRightIcon />
-      </Box>
+      {!props.disabled && (
+        <Box>
+          <KeyboardArrowRightIcon />
+        </Box>
+      )}
+    </Button>
+  );
+};
+
+export const DeliveryButton = (props: IDeliveryOptionButtonProps) => {
+  return (
+    <Button
+      sx={{
+        flex: 1,
+        bgcolor: props.type === 'delivery' ? '#000' : '#fff',
+        color: props.type === 'delivery' ? '#fff' : '#000',
+        marginRight: props.type === 'delivery' ? '-30px' : 0,
+        zIndex: props.type === 'delivery' ? 999 : 0,
+        borderRadius: '30px',
+        '&:hover': {
+          bgcolor: props.type === 'delivery' ? 'rgba(0,0,0,0.7)' : '',
+        },
+      }}
+      onClick={props.onClick}
+    >
+      Delivery
+    </Button>
+  );
+};
+
+export const PickupButton = (props: IDeliveryOptionButtonProps) => {
+  return (
+    <Button
+      sx={{
+        flex: 1,
+        bgcolor: props.type === 'pickup' ? '#000' : '#fff',
+        color: props.type === 'pickup' ? '#fff' : '#000',
+        marginLeft: props.type === 'pickup' ? '-30px' : 0,
+        zIndex: props.type === 'pickup' ? 999 : 0,
+        borderRadius: '30px',
+        '&:hover': {
+          bgcolor: props.type === 'pickup' ? 'rgba(0,0,0,0.7)' : '',
+        },
+      }}
+      onClick={props.onClick}
+    >
+      Pickup
     </Button>
   );
 };

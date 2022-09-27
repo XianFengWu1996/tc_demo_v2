@@ -1,6 +1,6 @@
 import { Box, Button, Grid, InputBase, Typography } from '@mui/material';
 import Image from 'next/image';
-import { MouseEventHandler, useState } from 'react';
+import { useState } from 'react';
 import { BsCreditCard } from 'react-icons/bs';
 import { RiAlipayLine, RiWechatPayLine } from 'react-icons/ri';
 import { SiApplepay } from 'react-icons/si';
@@ -10,8 +10,24 @@ import { Address } from '../../component/checkout/address';
 import { ImageWithQuantity } from '../../component/image/imageWithQuantity';
 
 export default function CheckoutPage() {
-  const [deliveryOption, setDeliveryOption] =
-    useState<IDeliveryOption>('delivery');
+  const [state, setState] = useState<CheckoutState>({
+    deliveryOption: 'delivery',
+    timeFrame: {
+      type: 'asap',
+      selected: null,
+    },
+    address: {
+      street: '',
+      city: '',
+      state: '',
+      country: '',
+      zipcode: '',
+    },
+    deliveryNotes: null,
+    name: '',
+    phone: '',
+    kitchenNotes: null,
+  });
 
   return (
     <>
@@ -290,10 +306,7 @@ export default function CheckoutPage() {
               mt: 5,
             }}
           >
-            <Address
-              deliveryOption={deliveryOption}
-              setDeliveryOption={setDeliveryOption}
-            />
+            <Address state={state} setState={setState} />
 
             <Payment />
           </Box>
@@ -306,53 +319,6 @@ export default function CheckoutPage() {
     </>
   );
 }
-
-interface IDeliveryOptionButtonProps {
-  onClick: MouseEventHandler<HTMLButtonElement> | undefined;
-  type: IDeliveryOption;
-}
-
-export const DeliveryButton = (props: IDeliveryOptionButtonProps) => {
-  return (
-    <Button
-      sx={{
-        flex: 1,
-        bgcolor: props.type === 'delivery' ? '#000' : '#fff',
-        color: props.type === 'delivery' ? '#fff' : '#000',
-        marginRight: props.type === 'delivery' ? '-30px' : 0,
-        zIndex: props.type === 'delivery' ? 999 : 0,
-        borderRadius: '30px',
-        '&:hover': {
-          bgcolor: props.type === 'delivery' ? 'rgba(0,0,0,0.7)' : '',
-        },
-      }}
-      onClick={props.onClick}
-    >
-      Delivery
-    </Button>
-  );
-};
-
-export const PickupButton = (props: IDeliveryOptionButtonProps) => {
-  return (
-    <Button
-      sx={{
-        flex: 1,
-        bgcolor: props.type === 'pickup' ? '#000' : '#fff',
-        color: props.type === 'pickup' ? '#fff' : '#000',
-        marginLeft: props.type === 'pickup' ? '-30px' : 0,
-        zIndex: props.type === 'pickup' ? 999 : 0,
-        borderRadius: '30px',
-        '&:hover': {
-          bgcolor: props.type === 'pickup' ? 'rgba(0,0,0,0.7)' : '',
-        },
-      }}
-      onClick={props.onClick}
-    >
-      Pickup
-    </Button>
-  );
-};
 
 export const Payment = () => {
   return (

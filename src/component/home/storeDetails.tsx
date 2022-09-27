@@ -1,17 +1,16 @@
+import { uuidv4 } from '@firebase/util';
 import { Grid } from '@mui/material';
 import { useEffect } from 'react';
-import { RiParkingBoxLine } from 'react-icons/ri';
-import { BiShoppingBag, BiFoodMenu } from 'react-icons/bi';
+import { BiFoodMenu, BiShoppingBag } from 'react-icons/bi';
 import { MdDeliveryDining } from 'react-icons/md';
+import { RiParkingBoxLine } from 'react-icons/ri';
 import { SectionTitle } from './components/sectionTitle';
+import { StoreDetailCard } from './components/storeDetailCard';
 import {
   StoreDetailGrid,
   StoreDetailSection,
   StoreDetailSubtitle,
 } from './styles/styles';
-import { StoreDetailCard } from './components/storeDetailCard';
-import { v4 } from 'uuid';
-
 // animation
 import { motion, useAnimation, Variants } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -87,7 +86,7 @@ export const StoreDetails = () => {
         <StoreDetailGrid container spacing={5}>
           {storeCardData.map((data) => {
             return (
-              <Grid key={v4()} item xs={12} md={6} lg={3}>
+              <Grid key={uuidv4()} item xs={12} md={6} lg={3}>
                 <StoreDetailCard
                   title={data.title}
                   Icon={data.Icon}

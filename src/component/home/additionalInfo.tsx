@@ -1,17 +1,17 @@
+import { uuidv4 } from '@firebase/util';
 import { Grid, Typography } from '@mui/material';
-import { SectionTitle } from './components/sectionTitle';
+import Image from 'next/image';
+import { useEffect } from 'react';
+import { FaUtensils } from 'react-icons/fa';
 import OpenSign from '../../../public/assets/images/opensign.png';
 import Reservation from '../../../public/assets/images/reservations.png';
-import Image from 'next/image';
-import { v4 } from 'uuid';
-import { FaUtensils } from 'react-icons/fa';
-import { useEffect } from 'react';
+import { OpenHourDisplay } from './components/hourDisplay';
+import { SectionTitle } from './components/sectionTitle';
 import {
   AdditionInfoSection,
   HoursContainer,
   ReservationCateringContainer,
 } from './styles/styles';
-import { OpenHourDisplay } from './components/hourDisplay';
 
 // animation
 import { motion, useAnimation, Variants } from 'framer-motion';
@@ -105,7 +105,7 @@ export const AdditionalInfo = () => {
               {open_hours.map((hour) => {
                 return (
                   <OpenHourDisplay
-                    key={v4()}
+                    key={uuidv4()}
                     date={hour.day}
                     close={hour.close}
                   />

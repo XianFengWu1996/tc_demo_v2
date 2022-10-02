@@ -61,7 +61,7 @@ export const TimeFrame = (props: ITimeFrameProps) => {
         <TimeFrameDialog
           open={open}
           handleClose={handleDialogClose}
-          increment={props.deliveryOption === 'delivery' ? 1 : 1}
+          increment={props.deliveryOption === 'delivery' ? 30 : 20}
           deliveryOption={props.deliveryOption}
           updateTimeFrame={props.updateTimeFrame}
         />

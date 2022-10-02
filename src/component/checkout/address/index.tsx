@@ -1,16 +1,11 @@
-import { Dialog, DialogContent } from '@mui/material';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { AiOutlineUser } from 'react-icons/ai';
+import { Dispatch, SetStateAction } from 'react';
 import { GiForkKnifeSpoon } from 'react-icons/gi';
-import {
-  MdOutlineEventNote,
-  MdOutlineHouse,
-  MdOutlinePhone,
-  MdStorefront,
-} from 'react-icons/md';
+import { MdOutlineHouse, MdOutlinePhone, MdStorefront } from 'react-icons/md';
 
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
+import { ChangeAddress } from './changeAddress';
 import { DeliveryOption } from './deliveryOption';
+import { DisplayMap } from './displayMap';
 import { AddressContainer, Title } from './styles';
 import { TimeFrame } from './timeFrame';
 
@@ -22,6 +17,13 @@ export const Address = (props: IAddressProps) => {
   return (
     <AddressContainer>
       <Title>Address</Title>
+
+      {props.state.address?.details.lat && props.state.address?.details.lng && (
+        <DisplayMap
+          lat={props.state.address?.details.lat}
+          lng={props.state.address?.details.lng}
+        />
+      )}
 
       <DeliveryOption
         deliveryOption={props.state.deliveryOption}
@@ -47,16 +49,18 @@ export const Address = (props: IAddressProps) => {
         }}
       />
 
-      {props.state.deliveryOption === 'pickup' && (
-        <CheckoutNavigationButton
-          title="Name for Pickup"
-          subtitle={`"Shawn"`}
-          icon={<MdOutlineHouse size={22} />}
-        />
-      )}
+      <CheckoutNavigationButton
+        title={
+          props.state.deliveryOption === 'delivery'
+            ? 'Customer Name'
+            : 'Name for Pickup'
+        }
+        subtitle={`"Shawn"`}
+        icon={<MdOutlineHouse size={22} />}
+      />
 
       {props.state.deliveryOption === 'delivery' ? (
-        <ChangeAddress />
+        <ChangeAddress state={props.state} setState={props.setState} />
       ) : (
         <CheckoutNavigationButton
           disabled
@@ -66,13 +70,6 @@ export const Address = (props: IAddressProps) => {
         />
       )}
 
-      {props.state.deliveryOption === 'delivery' && (
-        <CheckoutNavigationButton
-          title="Leave at door"
-          subtitle="Add note for driver"
-          icon={<MdOutlineEventNote size={22} />}
-        />
-      )}
       <CheckoutNavigationButton
         title="(917)-578-7352"
         icon={<MdOutlinePhone size={22} />}
@@ -84,30 +81,5 @@ export const Address = (props: IAddressProps) => {
         borderBottom="none"
       />
     </AddressContainer>
-  );
-};
-
-export const ChangeAddress = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  return (
-    <>
-      <CheckoutNavigationButton
-        title="69 Harvard St"
-        subtitle="Quincy,MA,02171,USA"
-        icon={<AiOutlineUser size={22} />}
-        onClick={handleOpen}
-      />
-
-      <Dialog open={open} onClose={handleClose}>
-        <DialogContent></DialogContent>
-      </Dialog>
-    </>
   );
 };

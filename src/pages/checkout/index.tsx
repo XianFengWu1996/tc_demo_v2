@@ -16,17 +16,16 @@ export default function CheckoutPage() {
       type: 'asap',
       selected: null,
     },
-    address: {
-      street: '',
-      city: '',
-      state: '',
-      country: '',
-      zipcode: '',
+    additional: {
+      delivery_notes: '',
+      dropoff_option: 'leave_at_door',
+      utensilOption: 'do not include',
+      kitchenNotes: '',
     },
-    deliveryNotes: null,
-    name: '',
-    phone: '',
-    kitchenNotes: null,
+    contact: {
+      name: '',
+      phone: '',
+    },
   });
 
   return (

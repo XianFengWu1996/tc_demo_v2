@@ -1,68 +1,54 @@
-import { Box, Button, InputBase, Typography } from '@mui/material';
-import { ChangeEventHandler } from 'react';
+import { InputBase, InputBaseComponentProps } from '@mui/material';
+import { CSSProperties } from '@mui/styled-engine';
+import { merge } from 'lodash';
+import { ChangeEventHandler, ReactNode } from 'react';
 
-const inputProps = {
-  sx: {
-    '&::placeholder': {
-      fontSize: 12,
-    },
-  },
-};
-
-interface ICheckoutInput {
-  autoComplete?: 'on' | 'off' | 'new-password';
-  value: string;
-  onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-  error: string;
-  placeholder: string;
-  title: string;
-  buttonText: string;
+interface CustomInputProps {
+  multiline?: boolean;
+  fullWidth?: boolean;
+  minRows?: number;
+  placeholder?: string;
+  focusedStyle?: CSSProperties;
+  placeholderStyle?: CSSProperties;
+  styles?: CSSProperties;
+  value?: unknown;
+  onChange?:
+    | ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined;
+  startAdornment?: ReactNode;
+  endAdornment?: ReactNode;
+  inputProps?: InputBaseComponentProps | undefined;
 }
-
-export const CheckoutInput = (props: ICheckoutInput) => {
+export const CustomInput = (props: CustomInputProps) => {
   return (
-    <div style={{ marginBottom: '10px' }}>
-      <Typography
-        sx={{ textTransform: 'capitalize', fontSize: 13, fontWeight: 700 }}
-      >
-        {props.title}
-      </Typography>
-      <Box display={'flex'} alignItems={'center'}>
-        <InputBase
-          fullWidth
-          placeholder={props.placeholder}
-          inputProps={inputProps}
-          type="text"
-          autoComplete={props.autoComplete ?? 'off'}
-          required
-          value={props.value}
-          onChange={props.onChange}
-          sx={{
-            border: '1px solid rgba(0,0,0,0.2)',
-            padding: '5px 10px',
-            borderRadius: '10px',
-          }}
-        />
-
-        <Button
-          variant="contained"
-          sx={{
-            py: 1,
-            ml: 5,
-            width: '200px',
-            bgcolor: 'primary.main',
-            borderRadius: '50px',
-          }}
-        >
-          {props.buttonText}
-        </Button>
-      </Box>
-
-      {props.error && (
-        <Typography sx={{ fontSize: 11, color: 'red' }}>
-          {props.error}
-        </Typography>
+    <InputBase
+      value={props.value}
+      placeholder={props.placeholder ?? ''}
+      multiline={props.multiline ?? false}
+      fullWidth={props.fullWidth ?? false}
+      minRows={props.minRows ?? 1}
+      onChange={props.onChange}
+      sx={merge(
+        {
+          backgroundColor: 'rgba(0,0,0,0.1)',
+          border: '1.5px solid transparent',
+          borderRadius: '5px',
+          padding: '2px 10px',
+          fontSize: '15px',
+          '&.Mui-focused': props.focusedStyle ?? {
+            border: '1.5px solid #000',
+          },
+          '& input::placeholder': props.placeholderStyle ?? {
+            fontSize: '12px',
+          },
+        },
+        {
+          ...props.styles,
+        }
       )}
-    </div>
+      startAdornment={props.startAdornment}
+      endAdornment={props.endAdornment}
+      inputProps={props.inputProps}
+    />
   );
 };

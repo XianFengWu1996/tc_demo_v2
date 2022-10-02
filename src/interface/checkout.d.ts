@@ -6,12 +6,26 @@ type UtensilOptionType = 'include' | 'do not include';
 interface CheckoutState {
   deliveryOption: DeliveryOptionType;
   timeFrame: ITimeFrame;
-  address: ICheckoutAddress;
-  deliveryNotes: IDeliveryNotes | null;
-  name: string | null;
-  phone: string;
-  kitchenNotes: IKitchenNotes | null;
+  address?: ICheckoutAddress;
+  contact: IContact;
+  additional: IAdditionalOrderDetails;
 }
+
+interface IContact {
+  name: string;
+  phone: string;
+}
+
+interface IAdditionalOrderDetails {
+  dropoff_option: DropoffOptionType;
+  delivery_notes: string;
+  kitchenNotes: string;
+  utensilOption: UtensilOptionType;
+}
+
+// =========================
+// TIME FRAME
+// =========================
 
 interface ITimeFrame {
   type: TimeFrameType;
@@ -23,23 +37,38 @@ interface ScheduleTime {
   numeric: number;
 }
 
+// =========================
+// ADDRESS
+// =========================
 interface ICheckoutAddress {
-  street: string;
+  formatted_address: IFormattedAddress;
+  details: IAddressDetails;
+}
+
+interface IFormattedAddress {
+  complete: string;
+  street_name: string;
+  city_state_zip: string;
+}
+
+interface IAddressDetails {
+  street_number: string;
+  street_name: string;
   city: string;
   state: string;
   country: string;
-  zipcode: string;
+  postal_code: string;
+  lat: number;
+  lng: number;
+  place_id: string;
+  delivery_fee: number;
+  estimate_time: string;
+  apartment_number: string;
 }
 
-interface IDeliveryNotes {
-  apt: string;
-  dropOffOption: DropoffOptionType;
-  driveNotes: string;
-}
-
-interface IKitchenNotes {
-  utensilOption: UtensilOptionType;
-}
+// =========================
+// PROPS
+// =========================
 
 interface IDeliveryOptionProps {
   deliveryOption: IDeliveryOption;

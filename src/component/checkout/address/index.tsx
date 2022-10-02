@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
 import { GiForkKnifeSpoon } from 'react-icons/gi';
-import { MdOutlineHouse, MdOutlinePhone, MdStorefront } from 'react-icons/md';
+import { MdOutlinePhone, MdStorefront } from 'react-icons/md';
 
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
 import { ChangeAddress } from './changeAddress';
 import { DeliveryOption } from './deliveryOption';
 import { DisplayMap } from './displayMap';
+import { EditName } from './editName';
 import { AddressContainer, Title } from './styles';
 import { TimeFrame } from './timeFrame';
 
@@ -22,6 +23,13 @@ export const Address = (props: IAddressProps) => {
         <DisplayMap
           lat={props.state.address?.details.lat}
           lng={props.state.address?.details.lng}
+        />
+      )}
+
+      {props.state.deliveryOption === 'pickup' && (
+        <DisplayMap
+          lat={Number(process.env.NEXT_PUBLIC_STORE_LAT)}
+          lng={Number(process.env.NEXT_PUBLIC_STORE_LNG)}
         />
       )}
 
@@ -49,15 +57,7 @@ export const Address = (props: IAddressProps) => {
         }}
       />
 
-      <CheckoutNavigationButton
-        title={
-          props.state.deliveryOption === 'delivery'
-            ? 'Customer Name'
-            : 'Name for Pickup'
-        }
-        subtitle={`"Shawn"`}
-        icon={<MdOutlineHouse size={22} />}
-      />
+      <EditName state={props.state} setState={props.setState} />
 
       {props.state.deliveryOption === 'delivery' ? (
         <ChangeAddress state={props.state} setState={props.setState} />

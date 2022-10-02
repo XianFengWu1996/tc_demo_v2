@@ -1,18 +1,17 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  styled,
-  Typography,
-} from '@mui/material';
+import { Box, Button, styled, Typography } from '@mui/material';
 import { LoadScriptProps, useJsApiLoader } from '@react-google-maps/api';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 import snackbar from '../../../functions/utilities/snackbar';
 import { DisplayMap } from '../../checkout/address/displayMap';
 import { CustomInput } from '../../input/checkoutInput';
+import {
+  CustomDialog,
+  CustomDialogActions,
+  CustomDialogContent,
+  CustomeDialogSubTitle,
+  CustomeDialogTitle,
+} from '../styles';
 import { AddressDisplay } from './addressDisplay';
 import { AddressSearch } from './addressSearch';
 import { DeliveryAdditionalInfo } from './deliveryAddtionalInfo';
@@ -114,26 +113,9 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
   };
 
   return (
-    <Dialog
-      open={props.open}
-      onClose={props.handleClose}
-      PaperProps={{
-        sx: {
-          borderRadius: '20px',
-        },
-      }}
-    >
-      <DialogContent
-        sx={{
-          maxWidth: '700px',
-          minWidth: '400px',
-          width: '500px',
-          overflowY: 'auto',
-        }}
-      >
-        <Typography sx={{ fontWeight: 700, fontSize: 22 }}>
-          Change Address
-        </Typography>
+    <CustomDialog open={props.open} onClose={props.handleClose}>
+      <CustomDialogContent>
+        <CustomeDialogTitle>Change Address</CustomeDialogTitle>
 
         <Box>
           {edit && (
@@ -175,7 +157,9 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
                 />
                 <hr />
 
-                <DialogTitle>Apartment Number or Suite</DialogTitle>
+                <CustomeDialogSubTitle>
+                  Apartment Number or Suite
+                </CustomeDialogSubTitle>
                 <CustomInput
                   value={state.details.apartment_number}
                   fullWidth
@@ -206,7 +190,7 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
                   }}
                 />
 
-                <DialogTitle>Delivery Notes</DialogTitle>
+                <CustomeDialogSubTitle>Delivery Notes</CustomeDialogSubTitle>
                 <CustomInput
                   fullWidth
                   multiline
@@ -223,14 +207,14 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
             )
           )}
         </Box>
-      </DialogContent>
-      <DialogActions sx={{ borderTop: '1px solid rgba(0,0,0,0.1)' }}>
+      </CustomDialogContent>
+      <CustomDialogActions>
         <Button variant="contained" onClick={onConfirm}>
           Confirm
         </Button>
         <Button onClick={onCancel}>Cancel</Button>
-      </DialogActions>
-    </Dialog>
+      </CustomDialogActions>
+    </CustomDialog>
   );
 };
 

@@ -17,6 +17,8 @@ declare global {
       NEXT_PUBLIC_MAP_API: string;
       NEXT_PUBLIC_STORE_OPEN_HOUR: number;
       NEXT_PUBLIC_STORE_CLOSE_HOUR: number;
+      NEXT_PUBLIC_STORE_LAT: number;
+      NEXT_PUBLIC_STORE_LNG: number;
     }
   }
 }

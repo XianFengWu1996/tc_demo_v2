@@ -1,16 +1,13 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 import { generateScheduleTime, getCurrentTime } from '../../functions/time';
 import { ScheduleTimeButton } from '../button/scheduleTimeButton';
+import {
+  CustomDialog,
+  CustomDialogActions,
+  CustomDialogContent,
+} from './styles';
 
 interface ITimeFrameDialogProps {
   open: boolean;
@@ -72,19 +69,14 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
   };
 
   return (
-    <Dialog
+    <CustomDialog
       open={props.open}
       keepMounted={false}
       onClose={(event, reason) => {
         props.handleClose(reason);
       }}
-      PaperProps={{
-        sx: {
-          borderRadius: '20px',
-        },
-      }}
     >
-      <DialogContent
+      <CustomDialogContent
         sx={{
           maxWidth: '700px',
           minHeight: '500px',
@@ -125,8 +117,8 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
             );
           })}
         </Grid>
-      </DialogContent>
-      <DialogActions sx={{ borderTop: '1px solid rgba(0,0,0,0.1)' }}>
+      </CustomDialogContent>
+      <CustomDialogActions>
         <Button
           variant="contained"
           disabled={isEmpty(selectTime.displayTime)}
@@ -138,7 +130,7 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
         <Button onClick={() => props.handleClose('escapeKeyDown')}>
           Cancel
         </Button>
-      </DialogActions>
-    </Dialog>
+      </CustomDialogActions>
+    </CustomDialog>
   );
 };

@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@mui/material';
 import { ChangeEvent } from 'react';
-import { DialogTitle } from '.';
+import { CustomeDialogSubTitle } from '../styles';
 
 interface DropoffOptionProps {
   value: DropoffOptionType;
@@ -18,7 +18,7 @@ interface DropoffOptionProps {
 export const DropoffOption = (props: DropoffOptionProps) => {
   return (
     <>
-      <DialogTitle>Drop-off Option</DialogTitle>
+      <CustomeDialogSubTitle>Drop-off Option</CustomeDialogSubTitle>
       <Box>
         <RadioGroup
           aria-labelledby="drop_off_option_label"

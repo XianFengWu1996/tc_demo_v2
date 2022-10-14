@@ -88,6 +88,7 @@ export default function SignIn() {
               <MoreOptions />
 
               <LoadingButton
+                fullWidth
                 loading={loading}
                 text="login"
                 onClick={() => {

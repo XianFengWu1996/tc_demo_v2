@@ -5,6 +5,7 @@ import {
 } from '@firebase/auth';
 import axios from 'axios';
 import { FirebaseError } from 'firebase/app';
+import jwt from 'jsonwebtoken';
 import { isEmpty } from 'lodash';
 import Router from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
@@ -13,6 +14,13 @@ import isEmail from 'validator/lib/isEmail';
 import { auth } from '../config/firebaseConfig';
 import { CheckFirebaseAuthError } from './error/firebase';
 import snackbar from './utilities/snackbar';
+
+export const generatePublicToken = () => {
+  // generate a short live token
+  return jwt.sign({}, process.env.NEXT_PUBLIC_PUB_TOKEN, {
+    expiresIn: '1m', // 1 min
+  });
+};
 
 export const emailLoginWithFirebase = async (
   email: string,
@@ -108,6 +116,7 @@ export const emailSignupWithFirebase = async (
     // send verification email
     await sendEmailVerification(user.user);
 
+    await auth.signOut();
     Router.push('/auth/signin?from=signup&status=success');
   } catch (error) {
     // end loading and display error message
@@ -125,6 +134,9 @@ export const sendResetPasswordLink = async (email: string) => {
   return await axios({
     method: 'POST',
     url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/auth/forgot_password`,
+    headers: {
+      authorization: `Bearer ${generatePublicToken()}`,
+    },
     data: {
       email,
     },

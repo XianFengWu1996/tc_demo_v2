@@ -19,6 +19,7 @@ declare global {
       NEXT_PUBLIC_STORE_CLOSE_HOUR: number;
       NEXT_PUBLIC_STORE_LAT: number;
       NEXT_PUBLIC_STORE_LNG: number;
+      NEXT_PUBLIC_PUB_TOKEN: string;
     }
   }
 }

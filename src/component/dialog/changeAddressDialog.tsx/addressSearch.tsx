@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Dispatch, SetStateAction, useRef } from 'react';
 import { MdOutlineLocationOn } from 'react-icons/md';
 import { AddressState } from '.';
+import { auth } from '../../../config/firebaseConfig';
 import { handleCatchError } from '../../../functions/error';
 import { extractDataFromPlaceAutocomplete } from '../../../functions/map';
 import { CustomInput } from '../../input/checkoutInput';
@@ -68,6 +69,9 @@ export const AddressSearch = (props: AddressSearchProps) => {
           const result = await axios({
             method: 'POST',
             url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/checkout/delivery/calculate`,
+            headers: {
+              authorization: `Bearer ${await auth.currentUser?.getIdToken()}`,
+            },
             data: {
               lat: geometry.location.lat(),
               lng: geometry.location.lng(),

@@ -1,6 +1,7 @@
 import 'nprogress/nprogress.css';
 import '../styles/globals.css';
 import '../styles/nprogress.css';
+import '../styles/stripes.css';
 
 import type { AppProps } from 'next/app';
 import { lightTheme } from '../functions/theme';

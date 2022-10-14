@@ -12,6 +12,7 @@ import { AppBarNav } from '../../component/appbar/appbar';
 import { MenuContents } from '../../component/menu';
 import { MainMenuSelect } from '../../component/menu/mainMenu';
 import { MenuItemDialog } from '../../component/menu/menuItem/MenuItemDialog';
+import { auth } from '../../config/firebaseConfig';
 
 function MenuPage() {
   const dispatch = useAppDispatch();
@@ -39,6 +40,13 @@ function MenuPage() {
 
     retrieveMenu();
   }, [dispatch]);
+
+  useEffect(() => {
+    (async () => {
+      console.log(auth.currentUser);
+      console.log(await auth.currentUser?.getIdTokenResult());
+    })();
+  }, []);
 
   return (
     <Box

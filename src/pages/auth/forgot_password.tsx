@@ -68,6 +68,7 @@ export default function ForgotPassword() {
         />
 
         <LoadingButton
+          fullWidth
           onClick={onSendResetLink}
           loading={loading}
           text="Send Link"

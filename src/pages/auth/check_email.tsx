@@ -1,34 +1,19 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { AppBarNav } from '../../component/appbar/appbar';
 import { CountDownButton } from '../../component/button/countDownButton';
 import { backToLogin, sendResetPasswordLink } from '../../functions/auth';
-import { handleCatchError } from '../../functions/error';
 import snackbar from '../../functions/utilities/snackbar';
 import { KeyIconWithRoundBorders } from './forgot_password';
 
 export default function CheckEmail() {
   const router = useRouter();
   const { email } = router.query;
-  const [loading, setLoading] = useState<boolean>(false);
-  const [startTimer, setStartTimer] = useState<boolean>(false);
 
   const onResendResetLink = async () => {
-    try {
-      setLoading(true); // start loading
-
-      await sendResetPasswordLink(email as string);
-
-      snackbar.success('Email has been sent.');
-      setLoading(false);
-      // if successful, start the timer
-      setStartTimer(true);
-    } catch (error) {
-      setLoading(false);
-      handleCatchError(error);
-    }
+    await sendResetPasswordLink(email as string);
+    snackbar.success('Email has been sent.');
   };
 
   return (
@@ -75,12 +60,9 @@ export default function CheckEmail() {
             </Typography>
 
             <CountDownButton
-              startTimer={startTimer}
-              setStartTimer={setStartTimer}
               text="Resend"
               onClick={onResendResetLink}
               sx={{ color: 'secondary.main', fontSize: 10 }}
-              loading={loading}
             />
           </div>
         </div>

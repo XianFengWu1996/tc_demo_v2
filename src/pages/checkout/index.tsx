@@ -1,15 +1,37 @@
+import { onAuthStateChanged } from '@firebase/auth';
 import { Box, Button, Grid, InputBase, Typography } from '@mui/material';
+import {
+  Elements,
+  PaymentElement,
+  useElements,
+  useStripe,
+} from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import Cookies from 'js-cookie';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BsCreditCard } from 'react-icons/bs';
 import { RiAlipayLine, RiWechatPayLine } from 'react-icons/ri';
 import { SiApplepay } from 'react-icons/si';
 import whiteLogo from '../../../public/assets/images/whitelogo.png';
 import { CheckoutNavigationButton } from '../../component/button/checkoutButton';
 import { Address } from '../../component/checkout/address';
+import {
+  CustomDialog,
+  CustomDialogContent,
+  CustomeDialogTitle,
+} from '../../component/dialog/styles';
 import { ImageWithQuantity } from '../../component/image/imageWithQuantity';
+import { auth } from '../../config/firebaseConfig';
+import { getStripeClientSecret, getUserData } from '../../functions/checkout';
+import { handleCatchError } from '../../functions/error';
 
 export default function CheckoutPage() {
+  const stripePromise = useMemo(
+    () => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY),
+    []
+  );
+  const [clientSecret, setClientSecret] = useState('');
   const [state, setState] = useState<CheckoutState>({
     deliveryOption: 'delivery',
     timeFrame: {
@@ -26,7 +48,53 @@ export default function CheckoutPage() {
       name: '',
       phone: '',
     },
+    reward: {
+      points: 0,
+      transactions: [],
+    },
   });
+
+  // get client secret
+  useEffect(() => {
+    try {
+      const getClientSecret = async () => {
+        // get the client secret from cookie
+        const clientSecret = Cookies.get('stripe_client');
+        if (clientSecret) {
+          setClientSecret(clientSecret);
+        } else {
+          const secret_result = await (await getStripeClientSecret()).data;
+          Cookies.set('stripe_client', secret_result.clientSecret, {
+            domain: 'localhost',
+            expires: 7,
+          });
+          setClientSecret(secret_result.clientSecret);
+        }
+      };
+      getClientSecret();
+
+      onAuthStateChanged(auth, async (fbUser) => {
+        const token = await fbUser?.getIdToken();
+        // get the user information
+        const user = (await (
+          await getUserData(token)
+        ).data.user) as IUserResult;
+
+        setState({
+          ...state,
+          address: user.address,
+          contact: {
+            name: user.name,
+            phone: user.phone,
+          },
+          reward: user.reward,
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      handleCatchError(error);
+    }
+  }, []);
 
   return (
     <>
@@ -299,15 +367,17 @@ export default function CheckoutPage() {
             alignItems: 'center',
           }}
         >
-          <Box
-            sx={{
-              width: '70%',
-              mt: 5,
-            }}
-          >
+          <Box mt={5} width={'70%'}>
             <Address state={state} setState={setState} />
 
-            <Payment />
+            <Elements
+              stripe={stripePromise}
+              options={{
+                clientSecret,
+              }}
+            >
+              <Payment />
+            </Elements>
           </Box>
 
           <Button variant="contained" sx={{ my: 3 }}>
@@ -320,6 +390,55 @@ export default function CheckoutPage() {
 }
 
 export const Payment = () => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const [message, setMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!stripe) {
+      return;
+    }
+
+    const clientSecret = new URLSearchParams(window.location.search).get(
+      'payment_intent_client_secret'
+    );
+
+    if (!clientSecret) {
+      return;
+    }
+
+    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+      if (paymentIntent) {
+        switch (paymentIntent.status) {
+          case 'succeeded':
+            setMessage('Payment succeeded!');
+            break;
+          case 'processing':
+            setMessage('Your payment is processing.');
+            break;
+          case 'requires_payment_method':
+            setMessage('Your payment was not successful, please try again.');
+            break;
+          default:
+            setMessage('Something went wrong.');
+            break;
+        }
+      }
+    });
+  }, [stripe]);
+
   return (
     <Box
       sx={{
@@ -335,6 +454,7 @@ export const Payment = () => {
       </Typography>
 
       <CheckoutNavigationButton
+        onClick={handleOpen}
         title="Pay with credit card"
         icon={<BsCreditCard size={22} />}
       />
@@ -353,6 +473,29 @@ export const Payment = () => {
         title="Wechat Pay"
         icon={<RiWechatPayLine size={22} color="#7BB32E" />}
       />
+
+      <CustomDialog open={open} onClose={handleClose}>
+        <CustomDialogContent>
+          <CustomeDialogTitle sx={{ mb: 2 }}>
+            Pay with Credit Card
+          </CustomeDialogTitle>
+
+          <form>
+            <PaymentElement />
+
+            <Button
+              disabled={isLoading || !stripe || !elements}
+              variant="contained"
+              fullWidth
+              sx={{ mt: 2 }}
+            >
+              Pay $15.22
+            </Button>
+
+            {message && <div id="payment-message">{message}</div>}
+          </form>
+        </CustomDialogContent>
+      </CustomDialog>
     </Box>
   );
 };

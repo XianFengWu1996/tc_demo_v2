@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import { HiCheckCircle } from 'react-icons/hi';
 import { MdOutlineRadioButtonUnchecked, MdTimer } from 'react-icons/md';
 import { TimeFrameDialog } from '../../dialog/timeFrameDialog';
@@ -12,6 +12,7 @@ import {
 
 interface ITimeFrameProps {
   timeFrame: ITimeFrame;
+  estimateTime?: string;
   deliveryOption: DeliveryOptionType;
   updateTimeFrame: (arg: TimeFrameType, arg2?: ScheduleTime) => void;
 }
@@ -40,7 +41,9 @@ export const TimeFrame = (props: ITimeFrameProps) => {
           }}
           title="ASAP"
           subtitle={
-            props.deliveryOption === 'delivery' ? '30-50min' : '10-20min'
+            props.deliveryOption === 'delivery'
+              ? `${props.estimateTime ?? '30-50min'}`
+              : '10-20min'
           }
           isSelected={props.timeFrame.type === 'asap'}
         />
@@ -70,6 +73,10 @@ export const TimeFrame = (props: ITimeFrameProps) => {
   );
 };
 
+interface ITimeFrameTitleProps {
+  isDelivery: boolean;
+}
+
 const TimeFrameTitle = (props: ITimeFrameTitleProps) => {
   return (
     <Box display="flex" alignItems={'center'} mb={1}>
@@ -80,6 +87,13 @@ const TimeFrameTitle = (props: ITimeFrameTitleProps) => {
     </Box>
   );
 };
+
+interface ITimeFrameSelectionBoxProps {
+  title: string;
+  subtitle: string;
+  isSelected: boolean;
+  onClick: MouseEventHandler<HTMLDivElement> | undefined;
+}
 
 const TimeFrameSelectionBox = (props: ITimeFrameSelectionBoxProps) => {
   return (

@@ -1,30 +1,35 @@
 import { Dispatch, SetStateAction } from 'react';
-import { GiForkKnifeSpoon } from 'react-icons/gi';
-import { MdOutlinePhone, MdStorefront } from 'react-icons/md';
+import { MdStorefront } from 'react-icons/md';
 
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
 import { ChangeAddress } from './changeAddress';
 import { DeliveryOption } from './deliveryOption';
 import { DisplayMap } from './displayMap';
 import { EditName } from './editName';
+import { KitchenOption } from './kitchenOption';
 import { AddressContainer, Title } from './styles';
 import { TimeFrame } from './timeFrame';
 
-interface IAddressProps {
+import { EditPhone } from './editPhone';
+
+export interface DefaultCheckoutProps {
   state: CheckoutState;
   setState: Dispatch<SetStateAction<CheckoutState>>;
 }
-export const Address = (props: IAddressProps) => {
+
+export const Address = (props: DefaultCheckoutProps) => {
   return (
     <AddressContainer>
       <Title>Address</Title>
 
-      {props.state.address?.details.lat && props.state.address?.details.lng && (
-        <DisplayMap
-          lat={props.state.address?.details.lat}
-          lng={props.state.address?.details.lng}
-        />
-      )}
+      {props.state.deliveryOption === 'delivery' &&
+        props.state.address?.details.lat &&
+        props.state.address?.details.lng && (
+          <DisplayMap
+            lat={props.state.address?.details.lat}
+            lng={props.state.address?.details.lng}
+          />
+        )}
 
       {props.state.deliveryOption === 'pickup' && (
         <DisplayMap
@@ -44,6 +49,7 @@ export const Address = (props: IAddressProps) => {
       />
 
       <TimeFrame
+        estimateTime={props.state.address?.details.estimate_time}
         timeFrame={props.state.timeFrame}
         deliveryOption={props.state.deliveryOption}
         updateTimeFrame={(type, selected) => {
@@ -70,16 +76,9 @@ export const Address = (props: IAddressProps) => {
         />
       )}
 
-      <CheckoutNavigationButton
-        title="(917)-578-7352"
-        icon={<MdOutlinePhone size={22} />}
-      />
-      <CheckoutNavigationButton
-        title="Don't include utensils"
-        subtitle="Add notes for kitchen"
-        icon={<GiForkKnifeSpoon size={22} />}
-        borderBottom="none"
-      />
+      <EditPhone state={props.state} setState={props.setState} />
+
+      <KitchenOption state={props.state} setState={props.setState} />
     </AddressContainer>
   );
 };

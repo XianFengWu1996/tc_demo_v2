@@ -3,19 +3,22 @@ import { MouseEventHandler } from 'react';
 import { BeatLoader } from 'react-spinners';
 
 interface ILoadingButtonProps {
+  disabled?: boolean;
   onClick: MouseEventHandler<HTMLButtonElement> | undefined;
   loading: boolean;
   text: string;
   height?: string | number;
+  fullWidth?: boolean;
 }
 
 export const LoadingButton = (props: ILoadingButtonProps) => {
   return (
     <Button
       variant="contained"
-      sx={{ my: 2, height: props.height ?? '40px' }}
+      fullWidth={props.fullWidth ?? false}
+      sx={{ my: 1, height: props.height ?? '40px' }}
       onClick={props.onClick}
-      disabled={props.loading}
+      disabled={props.loading || props.disabled}
     >
       {props.loading ? (
         <BeatLoader

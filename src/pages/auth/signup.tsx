@@ -80,6 +80,7 @@ export default function SignUp() {
               />
 
               <LoadingButton
+                fullWidth
                 loading={loading}
                 text="sign up"
                 onClick={() => {

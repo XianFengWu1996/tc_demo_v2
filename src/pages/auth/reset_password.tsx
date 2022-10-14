@@ -6,7 +6,11 @@ import { useEffect, useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { AppBarNav } from '../../component/appbar/appbar';
 import { PasswordInput } from '../../component/input/authInput';
-import { backToForgotPassword, backToLogin } from '../../functions/auth';
+import {
+  backToForgotPassword,
+  backToLogin,
+  generatePublicToken,
+} from '../../functions/auth';
 import { handleCatchError } from '../../functions/error';
 import { KeyIconWithRoundBorders } from './forgot_password';
 
@@ -21,7 +25,10 @@ export default function ResetPassword() {
       try {
         const response = await axios({
           method: 'POST',
-          url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/auth/verify_reset_token`,
+          url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/auth/eset_token`,
+          headers: {
+            authorization: `Bearer ${generatePublicToken()}`,
+          },
           data: {
             token,
           },
@@ -65,6 +72,9 @@ export default function ResetPassword() {
       const result = await axios({
         method: 'POST',
         url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/auth/confirm_reset_password`,
+        headers: {
+          authorization: `Bearer ${generatePublicToken()}`,
+        },
         data: {
           token,
           password,

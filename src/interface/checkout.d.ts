@@ -2,6 +2,7 @@ type DeliveryOptionType = 'delivery' | 'pickup';
 type TimeFrameType = 'asap' | 'later';
 type DropoffOptionType = 'hand_off' | 'leave_at_door';
 type UtensilOptionType = 'include' | 'do not include';
+type RewardType = 'reward' | 'redemption' | 'refund' | 'cancel';
 
 interface CheckoutState {
   deliveryOption: DeliveryOptionType;
@@ -9,6 +10,27 @@ interface CheckoutState {
   address?: ICheckoutAddress;
   contact: IContact;
   additional: IAdditionalOrderDetails;
+  reward: IReward;
+}
+
+interface IUserResult {
+  address: ICheckoutAddress;
+  name: string;
+  phone: string;
+  reward: IReward;
+}
+
+interface IReward {
+  points: number;
+  transactions: IRewardTransaction[];
+}
+
+interface IRewardTransaction {
+  type: RewardType;
+  amount: number;
+  created_at: number;
+  updated_at: number;
+  order_id: string;
 }
 
 interface IContact {
@@ -64,29 +86,4 @@ interface IAddressDetails {
   delivery_fee: number;
   estimate_time: string;
   apartment_number: string;
-}
-
-// =========================
-// PROPS
-// =========================
-
-interface IDeliveryOptionProps {
-  deliveryOption: IDeliveryOption;
-  updateDeliveryOption: (arg: DeliveryOptionType) => void;
-}
-
-interface IDeliveryOptionButtonProps {
-  onClick: MouseEventHandler<HTMLButtonElement> | undefined;
-  type: IDeliveryOption;
-}
-
-interface ITimeFrameTitleProps {
-  isDelivery: boolean;
-}
-
-interface ITimeFrameSelectionBoxProps {
-  title: string;
-  subtitle: string;
-  isSelected: boolean;
-  onClick: MouseEventHandler<HTMLDivElement> | undefined;
 }

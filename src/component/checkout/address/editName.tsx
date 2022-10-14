@@ -1,15 +1,11 @@
 import { isEmpty } from 'lodash';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { MdOutlineHouse } from 'react-icons/md';
+import { DefaultCheckoutProps } from '.';
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
 import { EditNameDialog } from '../../dialog/editNameDialog';
 
-interface IEditNameProps {
-  state: CheckoutState;
-  setState: Dispatch<SetStateAction<CheckoutState>>;
-}
-
-export const EditName = (props: IEditNameProps) => {
+export const EditName = (props: DefaultCheckoutProps) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {

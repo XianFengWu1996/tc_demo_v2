@@ -1,16 +1,16 @@
 import { isEmpty } from 'lodash';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { AiOutlineUser } from 'react-icons/ai';
 import { MdOutlineEventNote } from 'react-icons/md';
+import { DefaultCheckoutProps } from '.';
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
 import { ChangeAddressDialog } from '../../dialog/changeAddressDialog.tsx';
 
-interface ChangeAddressProps {
-  state: CheckoutState;
-  setState: Dispatch<SetStateAction<CheckoutState>>;
-}
+export const ChangeAddress = (props: DefaultCheckoutProps) => {
+  const { address, additional } = props.state;
+  const details = address?.details;
+  const format = address?.formatted_address;
 
-export const ChangeAddress = (props: ChangeAddressProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => {
     setOpen(true);
@@ -21,7 +21,7 @@ export const ChangeAddress = (props: ChangeAddressProps) => {
   };
 
   const displayDropoffOption = () => {
-    if (props.state.additional.dropoff_option === 'hand_off') {
+    if (additional.dropoff_option === 'hand_off') {
       return 'Hand it to me';
     }
 
@@ -32,15 +32,13 @@ export const ChangeAddress = (props: ChangeAddressProps) => {
     <>
       <CheckoutNavigationButton
         title={
-          props.state.address &&
-          !isEmpty(props.state.address.formatted_address.street_name)
-            ? props.state.address.formatted_address.street_name
+          format && details && !isEmpty(format.street_name)
+            ? `${format.street_name} ${
+                details.apartment_number && `#${details.apartment_number}`
+              }`
             : 'Add your address'
         }
-        subtitle={
-          props.state.address &&
-          props.state.address.formatted_address.city_state_zip
-        }
+        subtitle={format && format.city_state_zip}
         icon={<AiOutlineUser size={22} />}
         onClick={handleOpen}
       />
@@ -48,8 +46,8 @@ export const ChangeAddress = (props: ChangeAddressProps) => {
       <CheckoutNavigationButton
         title={displayDropoffOption() as string}
         subtitle={
-          !isEmpty(props.state.additional.delivery_notes)
-            ? `Delivery Note: "${props.state.additional.delivery_notes}"`
+          !isEmpty(additional.delivery_notes)
+            ? `Delivery Note: "${additional.delivery_notes}"`
             : 'Add note for driver'
         }
         icon={<MdOutlineEventNote size={22} />}

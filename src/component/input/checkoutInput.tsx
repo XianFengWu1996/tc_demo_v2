@@ -1,7 +1,7 @@
 import { InputBase, InputBaseComponentProps } from '@mui/material';
 import { CSSProperties } from '@mui/styled-engine';
 import { merge } from 'lodash';
-import { ChangeEventHandler, ReactNode } from 'react';
+import { ChangeEventHandler, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 interface CustomInputProps {
   multiline?: boolean;
@@ -18,10 +18,12 @@ interface CustomInputProps {
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
   inputProps?: InputBaseComponentProps | undefined;
+  type?: HTMLInputTypeAttribute;
 }
 export const CustomInput = (props: CustomInputProps) => {
   return (
     <InputBase
+      type={props.type ?? ('text' as HTMLInputTypeAttribute)}
       value={props.value}
       placeholder={props.placeholder ?? ''}
       multiline={props.multiline ?? false}

@@ -2,7 +2,10 @@ import { Box, Button, styled, Typography } from '@mui/material';
 import { LoadScriptProps, useJsApiLoader } from '@react-google-maps/api';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { MoonLoader } from 'react-spinners';
+import { updateAddress } from '../../../functions/checkout';
+import { handleCatchError } from '../../../functions/error';
 import snackbar from '../../../functions/utilities/snackbar';
+import { LoadingButton } from '../../button/loadingButton';
 import { DisplayMap } from '../../checkout/address/displayMap';
 import { CustomInput } from '../../input/checkoutInput';
 import {
@@ -48,6 +51,8 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
   });
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [btnLoading, setBtnLoading] = useState<boolean>(false);
+
   const [edit, setEdit] = useState<boolean>(true);
 
   const [additional, setAdditional] = useState<Additional>(defaultAdditional);
@@ -85,31 +90,44 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
     props.handleClose();
   };
 
-  const onConfirm = () => {
-    if (!state || !state.details || !state.formatted_address) {
-      return snackbar.error('Missing address');
+  const onConfirm = async () => {
+    try {
+      setBtnLoading(true);
+      if (!state || !state.details || !state.formatted_address) {
+        return snackbar.error('Missing address');
+      }
+
+      if (state.details.delivery_fee < 1) {
+        return snackbar.error('Missing delivery fee');
+      }
+
+      if (state.details && state.formatted_address) {
+        await updateAddress(state);
+
+        props.setState({
+          ...props.state,
+          additional: {
+            ...props.state.additional,
+            delivery_notes: additional.delivery_notes,
+            dropoff_option: additional.dropoff_option,
+          },
+          address: {
+            formatted_address: state.formatted_address,
+            details: state.details,
+          },
+        });
+
+        snackbar.info('Address has been updated');
+
+        resetState();
+
+        props.handleClose();
+      }
+    } catch (error) {
+      handleCatchError(error);
+    } finally {
+      setBtnLoading(false);
     }
-
-    if (state.details.delivery_fee < 1) {
-      return snackbar.error('Missing delivery fee');
-    }
-
-    props.setState({
-      ...props.state,
-      additional: {
-        ...props.state.additional,
-        delivery_notes: additional.delivery_notes,
-        dropoff_option: additional.dropoff_option,
-      },
-      address: {
-        formatted_address: state.formatted_address,
-        details: state.details,
-      },
-    });
-
-    resetState();
-
-    props.handleClose();
   };
 
   return (
@@ -209,9 +227,11 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
         </Box>
       </CustomDialogContent>
       <CustomDialogActions>
-        <Button variant="contained" onClick={onConfirm}>
-          Confirm
-        </Button>
+        <LoadingButton
+          text={'Confirm'}
+          onClick={onConfirm}
+          loading={btnLoading}
+        />
         <Button onClick={onCancel}>Cancel</Button>
       </CustomDialogActions>
     </CustomDialog>

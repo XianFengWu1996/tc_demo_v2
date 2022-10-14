@@ -1,6 +1,10 @@
 import { Button } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { updateCustomerName } from '../../functions/checkout';
+import { handleCatchError } from '../../functions/error';
+import snackbar from '../../functions/utilities/snackbar';
+import { LoadingButton } from '../button/loadingButton';
 import { CustomInput } from '../input/checkoutInput';
 import {
   CustomDialog,
@@ -17,6 +21,7 @@ interface IEditNameDialogProps {
 }
 export const EditNameDialog = (props: IEditNameDialogProps) => {
   const [name, setName] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setName(isEmpty(props.name) ? '' : props.name);
@@ -26,15 +31,26 @@ export const EditNameDialog = (props: IEditNameDialogProps) => {
     props.onClose();
   };
 
-  const onConfirm = () => {
-    props.setState((prevState) => ({
-      ...prevState,
-      contact: {
-        ...prevState.contact,
-        name,
-      },
-    }));
-    props.onClose();
+  const onConfirm = async () => {
+    try {
+      setLoading(true);
+      await updateCustomerName(name);
+
+      props.setState((prevState) => ({
+        ...prevState,
+        contact: {
+          ...prevState.contact,
+          name,
+        },
+      }));
+      snackbar.success('Name has been updated');
+
+      props.onClose();
+    } catch (error) {
+      handleCatchError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -54,9 +70,7 @@ export const EditNameDialog = (props: IEditNameDialogProps) => {
       </CustomDialogContent>
 
       <CustomDialogActions>
-        <Button variant="contained" onClick={onConfirm}>
-          Confirm
-        </Button>
+        <LoadingButton onClick={onConfirm} text="Confirm" loading={loading} />
         <Button onClick={onCancel}>Cancel</Button>
       </CustomDialogActions>
     </CustomDialog>

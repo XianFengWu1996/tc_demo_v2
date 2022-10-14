@@ -44,6 +44,7 @@ export const CheckoutNavigationButton = (
               fontSize: 13,
               fontWeight: 600,
               textAlign: 'start',
+              letterSpacing: 0.5,
             }}
           >
             {props.title}
@@ -72,6 +73,11 @@ export const CheckoutNavigationButton = (
     </Button>
   );
 };
+
+interface IDeliveryOptionButtonProps {
+  onClick: MouseEventHandler<HTMLButtonElement> | undefined;
+  type: DeliveryOptionType;
+}
 
 export const DeliveryButton = (props: IDeliveryOptionButtonProps) => {
   return (

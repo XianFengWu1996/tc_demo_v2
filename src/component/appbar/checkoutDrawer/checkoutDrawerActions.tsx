@@ -3,21 +3,10 @@ import Router from 'next/router';
 
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import { clearCart } from '../../../store/slicer/cartSlicer';
-// import { PulseLoader } from "react-spinners";
-// import { clearCart } from "../../../store/slice/cartSlice";
-// import { useAppDispatch, useAppSelector } from "../../../store/store";
 
 export const CartDrawerActions = () => {
-  // const [loading, setLoading] = useState<boolean>(false);
-
-  const cartState = useAppSelector((state) => state.cart);
+  const { summary } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //     return () => {
-  //         setLoading(false);
-  //     }
-  // }, [])
 
   return (
     <div
@@ -40,7 +29,7 @@ export const CartDrawerActions = () => {
           Router.push('/checkout');
         }}
       >
-        Checkout | ${cartState.cartSummary.subtotal.toFixed(2)}
+        Checkout | ${summary.subtotal.toFixed(2)}
       </Button>
 
       <Button

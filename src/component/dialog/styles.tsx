@@ -33,4 +33,5 @@ export const CustomeDialogSubTitle = styled(Typography)(() => ({
   fontSize: 13,
   fontWeight: 600,
   marginTop: '8px',
+  textTransform: 'capitalize',
 }));

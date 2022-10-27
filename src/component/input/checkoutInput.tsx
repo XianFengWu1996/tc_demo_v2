@@ -9,7 +9,6 @@ interface CustomInputProps {
   minRows?: number;
   placeholder?: string;
   focusedStyle?: CSSProperties;
-  placeholderStyle?: CSSProperties;
   styles?: CSSProperties;
   value?: unknown;
   onChange?:
@@ -39,9 +38,6 @@ export const CustomInput = (props: CustomInputProps) => {
           fontSize: '15px',
           '&.Mui-focused': props.focusedStyle ?? {
             border: '1.5px solid #000',
-          },
-          '& input::placeholder': props.placeholderStyle ?? {
-            fontSize: '12px',
           },
         },
         {

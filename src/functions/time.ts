@@ -11,6 +11,10 @@ export const timeToStringFormat = (time: number) => {
   return `${format_hour}:${format_minute}${format_am_pm}`;
 };
 
+export const generateMenuTime = (time: MenuHour) => {
+  return `${timeToStringFormat(time.start)} - ${timeToStringFormat(time.end)}`;
+};
+
 export const generateScheduleTime = (
   open: number,
   close: number,
@@ -42,4 +46,9 @@ export const getCurrentTime = () => {
   const currentTime = hour * 60 + minute;
 
   return currentTime;
+};
+
+// generate a local date time object
+export const localTime = () => {
+  return DateTime.now().setZone('UTC-4');
 };

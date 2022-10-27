@@ -12,22 +12,23 @@ import Image from 'next/image';
 import { FaTrash } from 'react-icons/fa';
 import { GoFlame } from 'react-icons/go';
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
-import { removeById } from '../../../store/slicer/cartSlicer';
-import { DrawerQuantity } from '../../menu/menuItem/quantity';
+import { removeCartItemById } from '../../../store/slicer/cartSlicer';
+// import { removeById } from '../../../store/slicer/cartSlicer';
+import { DrawerQuantity } from '../../dialog/menuItemDialog/quantity';
 
 export const CartDrawerList = () => {
   const cartState = useAppSelector((state) => state.cart);
   return (
     <List sx={{ pb: 10, backgroundColor: 'background.default' }}>
       {cartState.cart.map((item) => {
-        return <CartDrawerItem key={item.itemDetails.id} item={item} />;
+        return <CartDrawerItem key={item.details.id} item={item} />;
       })}
     </List>
   );
 };
 
-interface ICartDrawerItemProps {
-  item: ICartItem;
+interface CartDrawerItemProps {
+  item: CartItem;
 }
 
 const PriceText = styled(Typography)(() => ({
@@ -36,9 +37,9 @@ const PriceText = styled(Typography)(() => ({
   fontWeight: 'bold',
 }));
 
-export const CartDrawerItem = (props: ICartDrawerItemProps) => {
+export const CartDrawerItem = (props: CartDrawerItemProps) => {
   const { item } = props;
-  const { itemDetails, comments, total } = item;
+  const { details, comments, price } = item;
   const dispatch = useAppDispatch();
 
   return (
@@ -57,15 +58,11 @@ export const CartDrawerItem = (props: ICartDrawerItemProps) => {
           style={{ display: 'flex', flexDirection: 'column', width: 'inherit' }}
         >
           <div style={{ display: 'flex' }}>
-            <MenuImage
-              pic_url={itemDetails.pic_url}
-              name={itemDetails.en_name}
-            />
+            <MenuImage pic_url={details.pic_url} name={details.en_name} />
 
             <div>
               <Typography sx={{ fontSize: '13px' }}>
-                {itemDetails.label_id}. {itemDetails.en_name}{' '}
-                {itemDetails.ch_name}
+                {details.label_id}. {details.en_name} {details.ch_name}
               </Typography>
               {comments && (
                 <Typography sx={{ color: red[400], fontSize: '11px' }}>
@@ -73,7 +70,7 @@ export const CartDrawerItem = (props: ICartDrawerItemProps) => {
                 </Typography>
               )}
               <ChoiceDisplay item={item} />
-              <PriceText>${total.toFixed(2)}</PriceText>
+              <PriceText>${price.toFixed(2)}</PriceText>
             </div>
           </div>
           <Divider />
@@ -86,7 +83,7 @@ export const CartDrawerItem = (props: ICartDrawerItemProps) => {
             }}
           >
             <DrawerQuantity item={item} />
-            <IconButton onClick={() => dispatch(removeById({ item }))}>
+            <IconButton onClick={() => dispatch(removeCartItemById(item.id))}>
               <FaTrash size={18} color={'red'} />
             </IconButton>
           </div>
@@ -116,25 +113,33 @@ const MenuImage = (props: IMenuImage) => {
   );
 };
 
-interface IChoiceDisplay {
-  item: ICartItem;
+interface ChoiceDisplay {
+  item: CartItem;
 }
-const ChoiceDisplay = (props: IChoiceDisplay) => {
+const ChoiceDisplay = (props: ChoiceDisplay) => {
   return (
     <div style={{ margin: '3px 15px' }}>
-      {props.item.selectedChoices.map((choice) => {
+      {props.item.choices.map((choice) => {
         return (
           <div key={choice.id}>
-            <Typography sx={{ fontSize: 10, fontStyle: 'italic' }}>
-              {choice.en_choice} {choice.ch_choice}
+            <Typography
+              sx={{
+                fontSize: 10,
+                fontStyle: 'italic',
+                textTransform: 'capitalize',
+              }}
+            >
+              {choice.en_name} {choice.ch_name}
             </Typography>
-            {choice.selectedOption.map((option) => {
+            {choice.selectOptions.map((option) => {
               return (
-                <Typography key={option.id} sx={{ ml: 2, fontSize: 8 }}>
-                  {' '}
-                  - {option.en_option} {option.ch_option} +$
-                  {option.price.toFixed(2)}{' '}
-                  {option.spicy && <GoFlame color="red" />}
+                <Typography
+                  key={option.id}
+                  sx={{ ml: 2, fontSize: 8, textTransform: 'capitalize' }}
+                >
+                  - {option.en_name} {option.ch_name}
+                  {option.price > 0 && `+$${option.price.toFixed(2)}`}
+                  {option.is_spicy && <GoFlame color="red" />}
                 </Typography>
               );
             })}

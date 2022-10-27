@@ -4,8 +4,8 @@ import { Dispatch, SetStateAction } from 'react';
 import { IoAddCircleOutline, IoRemoveCircleOutline } from 'react-icons/io5';
 import { useAppDispatch } from '../../../store/hook';
 import {
-  decreaseQtyById,
-  increaseQtyById,
+  decreaseQtyByOneById,
+  increaseQtyByOneById,
 } from '../../../store/slicer/cartSlicer';
 
 interface IQuantity {
@@ -45,7 +45,7 @@ export const Quantity = (props: IQuantity) => {
 };
 
 interface IDrawQuantity {
-  item: ICartItem;
+  item: CartItem;
 }
 
 export const DrawerQuantity = (props: IDrawQuantity) => {
@@ -58,7 +58,7 @@ export const DrawerQuantity = (props: IDrawQuantity) => {
           sx={{ color: 'text.primary', ':disabled': '#000' }}
           disabled={item.quantity <= 1}
           onClick={() => {
-            dispatch(decreaseQtyById({ item }));
+            dispatch(decreaseQtyByOneById(item.id));
           }}
         >
           <IoRemoveCircleOutline />
@@ -71,7 +71,7 @@ export const DrawerQuantity = (props: IDrawQuantity) => {
         <IconButton
           sx={{ marginLeft: '0 !important', color: 'text.primary' }}
           onClick={() => {
-            dispatch(increaseQtyById({ item }));
+            dispatch(increaseQtyByOneById(item.id));
           }}
         >
           <IoAddCircleOutline />

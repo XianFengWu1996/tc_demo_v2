@@ -2,6 +2,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 import { generateScheduleTime, getCurrentTime } from '../../functions/time';
+import { useAppSelector } from '../../store/hook';
 import { ScheduleTimeButton } from '../button/scheduleTimeButton';
 import {
   CustomDialog,
@@ -26,15 +27,19 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
 
   const [currentTime, setCurrentTime] = useState<number>(0);
 
+  const { today } = useAppSelector((state) => state.store);
+
   useEffect(() => {
-    setScheduleTime(
-      generateScheduleTime(
-        Number(process.env.NEXT_PUBLIC_STORE_OPEN_HOUR),
-        Number(process.env.NEXT_PUBLIC_STORE_CLOSE_HOUR),
-        props.increment
-      )
-    );
-  }, [props]);
+    if (today) {
+      setScheduleTime(
+        generateScheduleTime(
+          Number(today.hours.operating.open),
+          Number(today.hours.operating.close),
+          props.increment
+        )
+      );
+    }
+  }, [today, props.increment]);
 
   useEffect(() => {
     setCurrentTime(getCurrentTime() + props.increment);

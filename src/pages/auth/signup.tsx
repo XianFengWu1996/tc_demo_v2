@@ -1,5 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
-import Link from 'next/link';
+import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import BgGrdImg from '../../../public/assets/images/noodle.jpg';
 import { AppBarNav } from '../../component/appbar/appbar';
@@ -97,8 +96,6 @@ export default function SignUp() {
               />
 
               <AuthLink linkTo="signin" text={'Already have an account?'} />
-
-              <Credit />
             </AuthForm>
           </AuthContentContainer>
         </Grid>
@@ -106,31 +103,3 @@ export default function SignUp() {
     </>
   );
 }
-
-const Credit = () => {
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <Link target="_blank" href="https://icons8.com/icon/17949/google">
-        <Typography sx={{ fontSize: 9, cursor: 'pointer' }}>
-          Credit: Google icon by Icons8,
-        </Typography>
-      </Link>
-      <Typography sx={{ fontSize: 9, ml: 0.5 }}>
-        Photo by
-        <a
-          href="https://unsplash.com/@debbietakesphoto?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-          style={{ textDecoration: 'underline', padding: '0 2px' }}
-        >
-          Debbie Tea
-        </a>
-        on{' '}
-        <a
-          href="https://unsplash.com/s/photos/chinese-food?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-          style={{ textDecoration: 'underline' }}
-        >
-          Unsplash
-        </a>
-      </Typography>
-    </Box>
-  );
-};

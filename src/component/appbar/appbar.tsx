@@ -64,7 +64,7 @@ export const AppBarNav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
 
-  const { cartSummary } = useAppSelector((state) => state.cart);
+  const { summary } = useAppSelector((state) => state.cart);
 
   const handleMenuOpen = () => {
     setMenuOpen(true);
@@ -108,7 +108,7 @@ export const AppBarNav = () => {
 
             <CartButton onClick={handleCartOpen}>
               <AiOutlineShoppingCart color={'#fff'} />
-              <CartCount>{cartSummary.quantity}</CartCount>
+              <CartCount>{summary.cart_quantity}</CartCount>
             </CartButton>
           </Toolbar>
         </StyleAppbar>

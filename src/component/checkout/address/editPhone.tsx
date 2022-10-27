@@ -2,7 +2,6 @@ import { Box, InputAdornment, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
-import Link from 'next/link';
 import { ChangeEvent, ChangeEventHandler, ReactNode, useState } from 'react';
 import { MdOutlinePhone } from 'react-icons/md';
 import validator from 'validator';
@@ -226,11 +225,6 @@ const EditPhoneContent = (props: IEditPhoneContent) => {
         text={props.buttonText}
         loading={props.loading ?? false}
       />
-      <Typography sx={{ textAlign: 'center', fontSize: 8, mb: 2, mt: 1 }}>
-        <Link target="_blank" href="https://icons8.com/icon/FKrvLCpXSmeu/phone">
-          Phone icon by Icons8
-        </Link>
-      </Typography>{' '}
     </Box>
   );
 };

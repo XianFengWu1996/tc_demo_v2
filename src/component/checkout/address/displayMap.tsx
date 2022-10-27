@@ -19,26 +19,28 @@ export const DisplayMap = (props: DisplayMapProps) => {
   }, []);
 
   return (
-    <GoogleMap
-      mapContainerStyle={{
-        width: '100%',
-        height: '150px',
-        margin: '10px 0',
-      }}
-      center={{
-        lat: props.lat,
-        lng: props.lng,
-      }}
-      zoom={14.8}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-      <MarkerF
-        position={{
+    google && (
+      <GoogleMap
+        mapContainerStyle={{
+          width: '100%',
+          height: '150px',
+          margin: '10px 0',
+        }}
+        center={{
           lat: props.lat,
           lng: props.lng,
         }}
-      />
-    </GoogleMap>
+        zoom={14.8}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        <MarkerF
+          position={{
+            lat: props.lat,
+            lng: props.lng,
+          }}
+        />
+      </GoogleMap>
+    )
   );
 };

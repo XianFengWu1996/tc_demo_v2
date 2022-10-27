@@ -7,6 +7,8 @@ const nextConfig = {
       'www.pexels.com',
       'firebasestorage.googleapis.com',
       'img.icons8.com',
+      'unsplash.com',
+      'media.istockphoto.com',
     ],
   },
 };

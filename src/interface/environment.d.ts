@@ -15,8 +15,8 @@ declare global {
       NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: string;
       NEXT_PUBLIC_FIREBASE_APP_ID: string;
       NEXT_PUBLIC_MAP_API: string;
-      NEXT_PUBLIC_STORE_OPEN_HOUR: number;
-      NEXT_PUBLIC_STORE_CLOSE_HOUR: number;
+      NEXT_PUBLIC_FULLDAY_MENU: string;
+      NEXT_PUBLIC_LUNCH_MENU: string;
       NEXT_PUBLIC_STORE_LAT: number;
       NEXT_PUBLIC_STORE_LNG: number;
       NEXT_PUBLIC_PUB_TOKEN: string;

@@ -1,9 +1,11 @@
 import { Button } from '@mui/material';
 import { isEmpty } from 'lodash';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { updateCustomerName } from '../../functions/checkout';
 import { handleCatchError } from '../../functions/error';
 import snackbar from '../../functions/utilities/snackbar';
+import { useAppDispatch, useAppSelector } from '../../store/hook';
+import { setContactName } from '../../store/slicer/checkoutSlicer';
 import { LoadingButton } from '../button/loadingButton';
 import { CustomInput } from '../input/checkoutInput';
 import {
@@ -13,22 +15,19 @@ import {
   CustomeDialogTitle,
 } from './styles';
 
-interface IEditNameDialogProps {
-  open: boolean;
-  name: string;
-  onClose: () => void;
-  setState: Dispatch<SetStateAction<CheckoutState>>;
-}
-export const EditNameDialog = (props: IEditNameDialogProps) => {
+export const EditNameDialog = (props: Dialog) => {
+  const { contact } = useAppSelector((state) => state.checkout);
+  const dispatch = useAppDispatch();
+
   const [name, setName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setName(isEmpty(props.name) ? '' : props.name);
+    setName(!isEmpty(contact.name) ? contact.name : '');
   }, [props.open]);
 
   const onCancel = () => {
-    props.onClose();
+    props.handleClose();
   };
 
   const onConfirm = async () => {
@@ -36,16 +35,10 @@ export const EditNameDialog = (props: IEditNameDialogProps) => {
       setLoading(true);
       await updateCustomerName(name);
 
-      props.setState((prevState) => ({
-        ...prevState,
-        contact: {
-          ...prevState.contact,
-          name,
-        },
-      }));
+      dispatch(setContactName(name));
       snackbar.success('Name has been updated');
 
-      props.onClose();
+      props.handleClose();
     } catch (error) {
       handleCatchError(error);
     } finally {
@@ -54,7 +47,7 @@ export const EditNameDialog = (props: IEditNameDialogProps) => {
   };
 
   return (
-    <CustomDialog open={props.open} onClose={props.onClose}>
+    <CustomDialog open={props.open} onClose={props.handleClose}>
       <CustomDialogContent>
         <CustomeDialogTitle>Change Name</CustomeDialogTitle>
 

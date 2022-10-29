@@ -2,6 +2,8 @@ import { Box, Typography } from '@mui/material';
 import { MouseEventHandler, useState } from 'react';
 import { HiCheckCircle } from 'react-icons/hi';
 import { MdOutlineRadioButtonUnchecked, MdTimer } from 'react-icons/md';
+import { useAppDispatch, useAppSelector } from '../../../store/hook';
+import { setTimeFrameType } from '../../../store/slicer/checkoutSlicer';
 import { TimeFrameDialog } from '../../dialog/timeFrameDialog';
 import {
   TimeFrameCard,
@@ -10,14 +12,11 @@ import {
   TimeFrameContainer,
 } from './styles';
 
-interface ITimeFrameProps {
-  timeFrame: ITimeFrame;
-  estimateTime?: string;
-  deliveryOption: DeliveryOptionType;
-  updateTimeFrame: (arg: TimeFrameType, arg2?: ScheduleTime) => void;
-}
-export const TimeFrame = (props: ITimeFrameProps) => {
+export const TimeFrame = () => {
   const [open, setOpen] = useState<boolean>(false); // handle dialog state
+  const { delivery_option } = useAppSelector((state) => state.cart);
+  const { timeFrame, address } = useAppSelector((state) => state.checkout);
+  const dispatch = useAppDispatch();
 
   const handleDialogOpen = () => {
     setOpen(true);
@@ -25,49 +24,43 @@ export const TimeFrame = (props: ITimeFrameProps) => {
 
   const handleDialogClose = (reason?: 'backdropClick' | 'escapeKeyDown') => {
     if (reason) {
-      props.updateTimeFrame('asap');
+      dispatch(setTimeFrameType('asap'));
     }
     setOpen(false);
   };
 
   return (
     <Box mt={2.5} mb={1}>
-      <TimeFrameTitle isDelivery={props.deliveryOption === 'delivery'} />
+      <TimeFrameTitle isDelivery={delivery_option === 'delivery'} />
 
       <Box display={'flex'} alignItems={'center'}>
         <TimeFrameSelectionBox
           onClick={() => {
-            props.updateTimeFrame('asap');
+            dispatch(setTimeFrameType('asap'));
           }}
           title="ASAP"
           subtitle={
-            props.deliveryOption === 'delivery'
-              ? `${props.estimateTime ?? '30-50min'}`
+            delivery_option === 'delivery'
+              ? `${address.details?.estimate_time ?? '30-50min'}`
               : '10-20min'
           }
-          isSelected={props.timeFrame.type === 'asap'}
+          isSelected={timeFrame.type === 'asap'}
         />
         <TimeFrameSelectionBox
           onClick={() => {
-            props.updateTimeFrame('later');
+            dispatch(setTimeFrameType('later'));
             handleDialogOpen();
           }}
           title="Schedule for later"
           subtitle={
-            props.timeFrame.selected
-              ? props.timeFrame.selected.displayTime
+            timeFrame.selected
+              ? timeFrame.selected.displayTime
               : 'Choose a time'
           }
-          isSelected={props.timeFrame.type === 'later'}
+          isSelected={timeFrame.type === 'later'}
         />
 
-        <TimeFrameDialog
-          open={open}
-          handleClose={handleDialogClose}
-          increment={props.deliveryOption === 'delivery' ? 30 : 20}
-          deliveryOption={props.deliveryOption}
-          updateTimeFrame={props.updateTimeFrame}
-        />
+        <TimeFrameDialog open={open} handleClose={handleDialogClose} />
       </Box>
     </Box>
   );

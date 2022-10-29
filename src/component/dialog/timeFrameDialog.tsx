@@ -2,7 +2,11 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 import { generateScheduleTime, getCurrentTime } from '../../functions/time';
-import { useAppSelector } from '../../store/hook';
+import { useAppDispatch, useAppSelector } from '../../store/hook';
+import {
+  setTimeFrameSelect,
+  setTimeFrameType,
+} from '../../store/slicer/checkoutSlicer';
 import { ScheduleTimeButton } from '../button/scheduleTimeButton';
 import {
   CustomDialog,
@@ -10,15 +14,7 @@ import {
   CustomDialogContent,
 } from './styles';
 
-interface ITimeFrameDialogProps {
-  open: boolean;
-  deliveryOption: DeliveryOptionType;
-  increment: number;
-  handleClose: (arg1?: 'backdropClick' | 'escapeKeyDown') => void;
-  updateTimeFrame: (arg: TimeFrameType, arg2?: ScheduleTime) => void;
-}
-
-export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
+export const TimeFrameDialog = (props: Dialog) => {
   const [scheduleTime, setScheduleTime] = useState<ScheduleTime[]>([]);
   const [selectTime, setSelectTime] = useState<ScheduleTime>({
     displayTime: '',
@@ -28,6 +24,9 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
   const [currentTime, setCurrentTime] = useState<number>(0);
 
   const { today } = useAppSelector((state) => state.store);
+  const { delivery_option } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+  const increment = delivery_option === 'delivery' ? 30 : 20;
 
   useEffect(() => {
     if (today) {
@@ -35,15 +34,15 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
         generateScheduleTime(
           Number(today.hours.operating.open),
           Number(today.hours.operating.close),
-          props.increment
+          increment
         )
       );
     }
-  }, [today, props.increment]);
+  }, [today, increment]);
 
   useEffect(() => {
-    setCurrentTime(getCurrentTime() + props.increment);
-  }, [props]);
+    setCurrentTime(getCurrentTime() + increment);
+  }, [props, increment]);
 
   useEffect(() => {
     return () => {
@@ -57,12 +56,13 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
   }, []);
 
   const handleOnConfirm = () => {
-    const tempCurrentTime = getCurrentTime() + props.increment;
+    const tempCurrentTime = getCurrentTime() + increment;
     setCurrentTime(tempCurrentTime);
     if (selectTime.numeric <= tempCurrentTime) {
-      props.updateTimeFrame('asap');
+      dispatch(setTimeFrameType('asap'));
     } else {
-      props.updateTimeFrame('later', selectTime);
+      dispatch(setTimeFrameType('later'));
+      dispatch(setTimeFrameSelect(selectTime));
     }
 
     // reset the state after close
@@ -77,9 +77,7 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
     <CustomDialog
       open={props.open}
       keepMounted={false}
-      onClose={(event, reason) => {
-        props.handleClose(reason);
-      }}
+      onClose={props.handleClose}
     >
       <CustomDialogContent
         sx={{
@@ -99,8 +97,7 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
           }}
         >
           <Typography sx={{ fontWeight: 600, my: 1 }}>
-            Desire {props.deliveryOption === 'pickup' ? 'pickup' : 'delivery'}{' '}
-            time
+            Desire {delivery_option === 'pickup' ? 'pickup' : 'delivery'} time
           </Typography>
           <Typography sx={{ fontSize: 10, fontWeight: 600 }}>
             (All times in US/Eastern)
@@ -114,7 +111,7 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
                 key={time.displayTime}
                 time={time}
                 selected={selectTime}
-                increment={props.increment}
+                increment={increment}
                 setSelectTime={setSelectTime}
                 currentTime={currentTime}
                 setUpdateCurrentTime={setCurrentTime}
@@ -132,9 +129,7 @@ export const TimeFrameDialog = (props: ITimeFrameDialogProps) => {
           Confirm{' '}
           {!isEmpty(selectTime.displayTime) && `| ${selectTime.displayTime}`}
         </Button>
-        <Button onClick={() => props.handleClose('escapeKeyDown')}>
-          Cancel
-        </Button>
+        <Button onClick={props.handleClose}>Cancel</Button>
       </CustomDialogActions>
     </CustomDialog>
   );

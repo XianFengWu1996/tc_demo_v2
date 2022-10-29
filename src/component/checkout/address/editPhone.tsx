@@ -5,11 +5,12 @@ import Image from 'next/image';
 import { ChangeEvent, ChangeEventHandler, ReactNode, useState } from 'react';
 import { MdOutlinePhone } from 'react-icons/md';
 import validator from 'validator';
-import { DefaultCheckoutProps } from '.';
 import { requestOTPCode, verifyOTPCode } from '../../../functions/checkout';
 import { handleCatchError } from '../../../functions/error';
 import { formatPhoneNumber } from '../../../functions/phone';
 import snackbar from '../../../functions/utilities/snackbar';
+import { useAppDispatch, useAppSelector } from '../../../store/hook';
+import { setPhoneNumber } from '../../../store/slicer/checkoutSlicer';
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
 import { CountDownButton } from '../../button/countDownButton';
 import { LoadingButton } from '../../button/loadingButton';
@@ -49,7 +50,9 @@ interface IPostVerify {
   onClick: () => void;
 }
 
-export const EditPhone = (props: DefaultCheckoutProps) => {
+export const EditPhone = () => {
+  const dispatch = useAppDispatch();
+  const { contact } = useAppSelector((state) => state.checkout);
   const [status, setStatus] = useState<VerificationStatus>('pre');
 
   const [phone, setPhone] = useState<string>('');
@@ -116,13 +119,7 @@ export const EditPhone = (props: DefaultCheckoutProps) => {
       const result = await verifyOTPCode(phone, otp, token);
 
       // update the phone number in the state
-      props.setState((prevState) => ({
-        ...prevState,
-        contact: {
-          ...prevState.contact,
-          phone,
-        },
-      }));
+      dispatch(setPhoneNumber(phone));
 
       if (result.status === 200) {
         setStatus('complete');
@@ -150,8 +147,8 @@ export const EditPhone = (props: DefaultCheckoutProps) => {
       <CheckoutNavigationButton
         onClick={handleOpen}
         title={
-          !isEmpty(props.state.contact.phone)
-            ? formatPhoneNumber(props.state.contact.phone)
+          !isEmpty(contact.phone)
+            ? formatPhoneNumber(contact.phone)
             : 'Add a phone number'
         }
         icon={<MdOutlinePhone size={22} />}

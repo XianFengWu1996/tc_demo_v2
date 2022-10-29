@@ -3,16 +3,16 @@ import { Box, Button, Typography } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { MouseEventHandler, ReactNode } from 'react';
 
-interface ICheckoutNavigationButtonProps {
+interface CheckoutNavigationButtonProps {
   icon: ReactNode;
   title: string;
-  subtitle?: string;
+  subtitle?: string | null;
   borderBottom?: string;
   disabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
 }
 export const CheckoutNavigationButton = (
-  props: ICheckoutNavigationButtonProps
+  props: CheckoutNavigationButtonProps
 ) => {
   return (
     <Button
@@ -74,12 +74,12 @@ export const CheckoutNavigationButton = (
   );
 };
 
-interface IDeliveryOptionButtonProps {
+interface DeliveryOptionButtonProps {
   onClick: MouseEventHandler<HTMLButtonElement> | undefined;
   type: DeliveryOptionType;
 }
 
-export const DeliveryButton = (props: IDeliveryOptionButtonProps) => {
+export const DeliveryButton = (props: DeliveryOptionButtonProps) => {
   return (
     <Button
       sx={{
@@ -100,7 +100,7 @@ export const DeliveryButton = (props: IDeliveryOptionButtonProps) => {
   );
 };
 
-export const PickupButton = (props: IDeliveryOptionButtonProps) => {
+export const PickupButton = (props: DeliveryOptionButtonProps) => {
   return (
     <Button
       sx={{

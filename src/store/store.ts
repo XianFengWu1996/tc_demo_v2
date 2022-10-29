@@ -12,6 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
 import cartSlicer from './slicer/cartSlicer';
+import checkoutSlicer from './slicer/checkoutSlicer';
 import menuSlicer from './slicer/menuSlicer';
 import storeSlicer from './slicer/storeSlicer';
 
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   menu: menuSlicer,
   cart: cartSlicer,
   store: storeSlicer,
+  checkout: checkoutSlicer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

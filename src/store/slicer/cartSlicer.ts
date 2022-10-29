@@ -40,7 +40,7 @@ const calculateTotal = (state: Cart) => {
   state.summary.total = Number(
     (
       state.summary.subtotal +
-      state.summary.delivery_fee +
+      (state.delivery_option === 'delivery' ? state.summary.delivery_fee : 0) +
       state.summary.tax +
       state.summary.tip
     ).toFixed(2)
@@ -99,6 +99,28 @@ export const cartSlicer = createSlice({
         calculateTotal(state);
       }
     },
+    updateDeliveryFee: (
+      state,
+      { payload }: PayloadAction<number | undefined | null>
+    ) => {
+      if (payload) {
+        state.summary.delivery_fee = payload;
+        calculateTotal(state);
+      }
+    },
+
+    addDiscount: (state, { payload }: PayloadAction<number>) => {
+      state.summary.discount.redemption = payload / 100;
+      calculateTotal(state);
+    },
+
+    setDeliveryOption: (
+      state,
+      { payload }: PayloadAction<DeliveryOptionType>
+    ) => {
+      state.delivery_option = payload;
+      calculateTotal(state);
+    },
   },
 });
 
@@ -108,6 +130,9 @@ export const {
   increaseQtyByOneById,
   decreaseQtyByOneById,
   removeCartItemById,
+  updateDeliveryFee,
+  addDiscount,
+  setDeliveryOption,
 } = cartSlicer.actions;
 
 export default cartSlicer.reducer;

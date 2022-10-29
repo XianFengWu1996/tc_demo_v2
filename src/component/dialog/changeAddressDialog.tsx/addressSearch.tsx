@@ -3,7 +3,6 @@ import { Autocomplete } from '@react-google-maps/api';
 import axios from 'axios';
 import { Dispatch, SetStateAction, useRef } from 'react';
 import { MdOutlineLocationOn } from 'react-icons/md';
-import { AddressState } from '.';
 import { auth } from '../../../config/firebaseConfig';
 import { handleCatchError } from '../../../functions/error';
 import { extractDataFromPlaceAutocomplete } from '../../../functions/map';
@@ -35,8 +34,8 @@ const options = {
 };
 
 interface AddressSearchProps {
-  state?: AddressState;
-  setState: Dispatch<SetStateAction<AddressState | undefined>>;
+  state?: Address;
+  setState: Dispatch<SetStateAction<Address | undefined>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
 }
 export const AddressSearch = (props: AddressSearchProps) => {

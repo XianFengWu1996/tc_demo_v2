@@ -1,12 +1,14 @@
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { MdOutlineHouse } from 'react-icons/md';
-import { DefaultCheckoutProps } from '.';
+import { useAppSelector } from '../../../store/hook';
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
 import { EditNameDialog } from '../../dialog/editNameDialog';
 
-export const EditName = (props: DefaultCheckoutProps) => {
+export const EditName = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const { delivery_option } = useAppSelector((state) => state.cart);
+  const { contact } = useAppSelector((state) => state.checkout);
 
   const handleOpen = () => {
     setOpen(true);
@@ -20,24 +22,15 @@ export const EditName = (props: DefaultCheckoutProps) => {
       <CheckoutNavigationButton
         onClick={handleOpen}
         title={
-          props.state.deliveryOption === 'delivery'
-            ? 'Customer Name'
-            : 'Name for Pickup'
+          delivery_option === 'delivery' ? 'Customer Name' : 'Name for Pickup'
         }
         subtitle={
-          !isEmpty(props.state.contact.name)
-            ? props.state.contact.name
-            : 'Please provide your name'
+          !isEmpty(contact.name) ? contact.name : 'Please provide your name'
         }
         icon={<MdOutlineHouse size={22} />}
       />
 
-      <EditNameDialog
-        open={open}
-        onClose={handleClose}
-        name={props.state.contact.name}
-        setState={props.setState}
-      />
+      <EditNameDialog open={open} handleClose={handleClose} />
     </>
   );
 };

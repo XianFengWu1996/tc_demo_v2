@@ -8,7 +8,8 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { GiForkKnifeSpoon } from 'react-icons/gi';
-import { DefaultCheckoutProps } from '.';
+import { useAppDispatch, useAppSelector } from '../../../store/hook';
+import { setKitchenOption } from '../../../store/slicer/checkoutSlicer';
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
 import {
   CustomDialog,
@@ -19,7 +20,9 @@ import {
 } from '../../dialog/styles';
 import { CustomInput } from '../../input/checkoutInput';
 
-export const KitchenOption = (props: DefaultCheckoutProps) => {
+export const KitchenOption = () => {
+  const { additional } = useAppSelector((state) => state.checkout);
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState<boolean>(false);
 
   const [utensilOption, setUtensilOption] =
@@ -35,16 +38,12 @@ export const KitchenOption = (props: DefaultCheckoutProps) => {
   };
 
   const onConfirm = () => {
-    console.log('confirm');
-
-    props.setState({
-      ...props.state,
-      additional: {
-        ...props.state.additional,
-        kitchenNotes,
-        utensilOption,
-      },
-    });
+    dispatch(
+      setKitchenOption({
+        kitchen_notes: kitchenNotes,
+        utensil_option: utensilOption,
+      })
+    );
 
     handleClose();
   };
@@ -54,8 +53,8 @@ export const KitchenOption = (props: DefaultCheckoutProps) => {
   };
 
   useEffect(() => {
-    setKitchenNotes(props.state.additional.kitchenNotes);
-    setUtensilOption(props.state.additional.utensilOption);
+    setKitchenNotes(additional.kitchen_notes);
+    setUtensilOption(additional.utensil_option);
 
     return () => {
       setKitchenNotes('');
@@ -67,10 +66,10 @@ export const KitchenOption = (props: DefaultCheckoutProps) => {
     <>
       <CheckoutNavigationButton
         onClick={handleOpen}
-        title={`${props.state.additional.utensilOption} Utensil`}
+        title={`${additional.utensil_option} Utensil`}
         subtitle={
-          props.state.additional.kitchenNotes
-            ? `Kitchen Notes: ${props.state.additional.kitchenNotes}`
+          additional.kitchen_notes
+            ? `Kitchen Notes: ${additional.kitchen_notes}`
             : 'Add note for the kitchen'
         }
         icon={<GiForkKnifeSpoon size={22} />}

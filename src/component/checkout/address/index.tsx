@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { MdStorefront } from 'react-icons/md';
 
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
@@ -10,63 +9,37 @@ import { KitchenOption } from './kitchenOption';
 import { AddressContainer, Title } from './styles';
 import { TimeFrame } from './timeFrame';
 
+import { useAppSelector } from '../../../store/hook';
 import { EditPhone } from './editPhone';
 
-export interface DefaultCheckoutProps {
-  state: CheckoutState;
-  setState: Dispatch<SetStateAction<CheckoutState>>;
-}
-
-export const Address = (props: DefaultCheckoutProps) => {
+export const Address = () => {
+  const { delivery_option } = useAppSelector((state) => state.cart);
+  const { address } = useAppSelector((state) => state.checkout);
   return (
     <AddressContainer>
       <Title>Address</Title>
 
-      {props.state.deliveryOption === 'delivery' &&
-        props.state.address?.details.lat &&
-        props.state.address?.details.lng && (
-          <DisplayMap
-            lat={props.state.address?.details.lat}
-            lng={props.state.address?.details.lng}
-          />
+      {delivery_option === 'delivery' &&
+        address.details?.lat &&
+        address.details?.lng && (
+          <DisplayMap lat={address.details.lat} lng={address.details.lng} />
         )}
 
-      {props.state.deliveryOption === 'pickup' && (
+      {delivery_option === 'pickup' && (
         <DisplayMap
           lat={Number(process.env.NEXT_PUBLIC_STORE_LAT)}
           lng={Number(process.env.NEXT_PUBLIC_STORE_LNG)}
         />
       )}
 
-      <DeliveryOption
-        deliveryOption={props.state.deliveryOption}
-        updateDeliveryOption={(option) => {
-          props.setState({
-            ...props.state,
-            deliveryOption: option,
-          });
-        }}
-      />
+      <DeliveryOption />
 
-      <TimeFrame
-        estimateTime={props.state.address?.details.estimate_time}
-        timeFrame={props.state.timeFrame}
-        deliveryOption={props.state.deliveryOption}
-        updateTimeFrame={(type, selected) => {
-          props.setState({
-            ...props.state,
-            timeFrame: {
-              type,
-              selected: selected ?? null,
-            },
-          });
-        }}
-      />
+      <TimeFrame />
 
-      <EditName state={props.state} setState={props.setState} />
+      <EditName />
 
-      {props.state.deliveryOption === 'delivery' ? (
-        <ChangeAddress state={props.state} setState={props.setState} />
+      {delivery_option === 'delivery' ? (
+        <ChangeAddress />
       ) : (
         <CheckoutNavigationButton
           disabled
@@ -76,9 +49,9 @@ export const Address = (props: DefaultCheckoutProps) => {
         />
       )}
 
-      <EditPhone state={props.state} setState={props.setState} />
+      <EditPhone />
 
-      <KitchenOption state={props.state} setState={props.setState} />
+      <KitchenOption />
     </AddressContainer>
   );
 };

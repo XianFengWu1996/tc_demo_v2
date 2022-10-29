@@ -1,10 +1,16 @@
-import { Box, Button, styled, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { LoadScriptProps, useJsApiLoader } from '@react-google-maps/api';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 import { updateAddress } from '../../../functions/checkout';
 import { handleCatchError } from '../../../functions/error';
 import snackbar from '../../../functions/utilities/snackbar';
+import { useAppDispatch, useAppSelector } from '../../../store/hook';
+import { updateDeliveryFee } from '../../../store/slicer/cartSlicer';
+import {
+  setAdditionalDeliveryOption,
+  setAddress,
+} from '../../../store/slicer/checkoutSlicer';
 import { LoadingButton } from '../../button/loadingButton';
 import { DisplayMap } from '../../checkout/address/displayMap';
 import { CustomInput } from '../../input/checkoutInput';
@@ -20,29 +26,12 @@ import { AddressSearch } from './addressSearch';
 import { DeliveryAdditionalInfo } from './deliveryAddtionalInfo';
 import { DropoffOption } from './dropoffOption';
 
-export interface AddressState {
-  formatted_address?: IFormattedAddress;
-  details?: IAddressDetails;
-}
-
-interface Additional {
-  dropoff_option: DropoffOptionType;
-  delivery_notes: string;
-}
-
-interface IChangeAddressDialogProps {
-  open: boolean;
-  handleClose: () => void;
-  state: CheckoutState;
-  setState: Dispatch<SetStateAction<CheckoutState>>;
-}
-
 const defaultAdditional: Additional = {
   dropoff_option: 'leave_at_door',
   delivery_notes: '',
 };
 
-export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
+export const ChangeAddressDialog = (props: Dialog) => {
   const [libraries] = useState<LoadScriptProps['libraries']>(['places']);
 
   useJsApiLoader({
@@ -55,38 +44,29 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
 
   const [edit, setEdit] = useState<boolean>(true);
 
-  const [additional, setAdditional] = useState<Additional>(defaultAdditional);
-  const [state, setState] = useState<AddressState>();
+  const [localAdditional, setLocalAdditional] =
+    useState<Additional>(defaultAdditional);
+  const [state, setState] = useState<Address>();
+
+  const dispatch = useAppDispatch();
+  const { address, additional } = useAppSelector((state) => state.checkout);
 
   useEffect(() => {
-    if (props.state.address) {
-      setState({
-        ...state,
-        formatted_address: props.state.address.formatted_address ?? undefined,
-        details: props.state.address.details ?? undefined,
-      });
-
-      setAdditional({
-        ...props.state.additional,
-      });
-
-      setEdit(!props.state.address ? true : false);
-    }
-  }, [props.open]);
-
-  const resetState = () => {
     setState({
       ...state,
-      formatted_address: undefined,
-      details: undefined,
+      formatted_address: address.formatted_address,
+      details: address.details,
+    });
+    console.log(additional);
+    setLocalAdditional({
+      delivery_notes: additional.delivery_notes,
+      dropoff_option: additional.dropoff_option,
     });
 
-    setEdit(true);
-    setAdditional(defaultAdditional);
-  };
+    setEdit(!address.details || !address.formatted_address ? true : false);
+  }, [props.open]);
 
   const onCancel = () => {
-    resetState();
     props.handleClose();
   };
 
@@ -104,22 +84,23 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
       if (state.details && state.formatted_address) {
         await updateAddress(state);
 
-        props.setState({
-          ...props.state,
-          additional: {
-            ...props.state.additional,
-            delivery_notes: additional.delivery_notes,
-            dropoff_option: additional.dropoff_option,
-          },
-          address: {
-            formatted_address: state.formatted_address,
+        dispatch(
+          setAdditionalDeliveryOption({
+            delivery_notes: localAdditional.delivery_notes,
+            dropoff_option: localAdditional.dropoff_option,
+          })
+        );
+
+        dispatch(
+          setAddress({
             details: state.details,
-          },
-        });
+            formatted_address: state.formatted_address,
+          })
+        );
+
+        dispatch(updateDeliveryFee(state.details.delivery_fee));
 
         snackbar.info('Address has been updated');
-
-        resetState();
 
         props.handleClose();
       }
@@ -134,7 +115,6 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
     <CustomDialog open={props.open} onClose={props.handleClose}>
       <CustomDialogContent>
         <CustomeDialogTitle>Change Address</CustomeDialogTitle>
-
         <Box>
           {edit && (
             <AddressSearch
@@ -199,10 +179,10 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
                 />
 
                 <DropoffOption
-                  value={additional.dropoff_option}
+                  value={localAdditional.dropoff_option}
                   onChange={(e) => {
-                    setAdditional({
-                      ...additional,
+                    setLocalAdditional({
+                      ...localAdditional,
                       dropoff_option: e.target.value as DropoffOptionType,
                     });
                   }}
@@ -213,10 +193,10 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
                   fullWidth
                   multiline
                   minRows={3}
-                  value={additional.delivery_notes}
+                  value={localAdditional.delivery_notes}
                   onChange={(e) => {
-                    setAdditional({
-                      ...additional,
+                    setLocalAdditional({
+                      ...localAdditional,
                       delivery_notes: e.target.value,
                     });
                   }}
@@ -237,9 +217,3 @@ export const ChangeAddressDialog = (props: IChangeAddressDialogProps) => {
     </CustomDialog>
   );
 };
-
-export const DialogTitle = styled(Typography)(() => ({
-  fontSize: 13,
-  fontWeight: 600,
-  marginTop: '8px',
-}));

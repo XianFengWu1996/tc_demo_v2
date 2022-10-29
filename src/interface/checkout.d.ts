@@ -1,55 +1,17 @@
-type DeliveryOptionType = 'delivery' | 'pickup';
 type TimeFrameType = 'asap' | 'later';
 type DropoffOptionType = 'hand_off' | 'leave_at_door';
 type UtensilOptionType = 'include' | 'do not include';
 type RewardType = 'reward' | 'redemption' | 'refund' | 'cancel';
 
-interface CheckoutState {
-  deliveryOption: DeliveryOptionType;
-  timeFrame: ITimeFrame;
-  address?: ICheckoutAddress;
-  contact: IContact;
-  additional: IAdditionalOrderDetails;
-  reward: IReward;
+interface Checkout {
+  timeFrame: TimeFrame;
+  contact: Contact;
+  additional: AdditionalOrderDetails;
+  reward: Reward;
+  address: Address;
 }
 
-interface IUserResult {
-  address: ICheckoutAddress;
-  name: string;
-  phone: string;
-  reward: IReward;
-}
-
-interface IReward {
-  points: number;
-  transactions: IRewardTransaction[];
-}
-
-interface IRewardTransaction {
-  type: RewardType;
-  amount: number;
-  created_at: number;
-  updated_at: number;
-  order_id: string;
-}
-
-interface IContact {
-  name: string;
-  phone: string;
-}
-
-interface IAdditionalOrderDetails {
-  dropoff_option: DropoffOptionType;
-  delivery_notes: string;
-  kitchenNotes: string;
-  utensilOption: UtensilOptionType;
-}
-
-// =========================
-// TIME FRAME
-// =========================
-
-interface ITimeFrame {
+interface TimeFrame {
   type: TimeFrameType;
   selected: ScheduleTime | null;
 }
@@ -59,21 +21,56 @@ interface ScheduleTime {
   numeric: number;
 }
 
+interface Contact {
+  name: string;
+  phone: string;
+}
+
+interface AdditionalOrderDetails {
+  dropoff_option: DropoffOptionType;
+  delivery_notes: string;
+  kitchen_notes: string;
+  utensil_option: UtensilOptionType;
+}
+
+interface Reward {
+  points: number;
+  transactions: RewardTransaction[];
+}
+
+interface RewardTransaction {
+  type: RewardType;
+  amount: number;
+  created_at: number;
+  updated_at: number;
+  order_id: string;
+}
+
+interface Additional {
+  dropoff_option: DropoffOptionType;
+  delivery_notes: string;
+}
+
+interface KitchenOption {
+  kitchen_notes: string;
+  utensil_option: UtensilOptionType;
+}
+
 // =========================
 // ADDRESS
 // =========================
-interface ICheckoutAddress {
-  formatted_address: IFormattedAddress;
-  details: IAddressDetails;
+interface Address {
+  formatted_address: FormattedAddress | null;
+  details: AddressDetails | null;
 }
 
-interface IFormattedAddress {
+interface FormattedAddress {
   complete: string;
   street_name: string;
   city_state_zip: string;
 }
 
-interface IAddressDetails {
+interface AddressDetails {
   street_number: string;
   street_name: string;
   city: string;
@@ -86,4 +83,11 @@ interface IAddressDetails {
   delivery_fee: number;
   estimate_time: string;
   apartment_number: string;
+}
+
+interface UserResult {
+  address: Address;
+  name: string;
+  phone: string;
+  reward: Reward;
 }

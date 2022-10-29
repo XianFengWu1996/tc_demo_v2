@@ -1,4 +1,4 @@
-type DeliveryOption = 'delivery' | 'pickup';
+type DeliveryOptionType = 'delivery' | 'pickup';
 
 interface ICartItem {
   itemDetails: IDish;
@@ -22,7 +22,7 @@ interface CartItem {
 interface Cart {
   cart: CartItem[];
   summary: CartSummary;
-  delivery_option: DeliveryOption;
+  delivery_option: DeliveryOptionType;
 }
 
 interface CartSummary {

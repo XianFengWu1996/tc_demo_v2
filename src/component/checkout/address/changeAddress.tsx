@@ -2,14 +2,15 @@ import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { AiOutlineUser } from 'react-icons/ai';
 import { MdOutlineEventNote } from 'react-icons/md';
-import { DefaultCheckoutProps } from '.';
+import { useAppSelector } from '../../../store/hook';
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
 import { ChangeAddressDialog } from '../../dialog/changeAddressDialog.tsx';
 
-export const ChangeAddress = (props: DefaultCheckoutProps) => {
-  const { address, additional } = props.state;
-  const details = address?.details;
-  const format = address?.formatted_address;
+export const ChangeAddress = () => {
+  const { address, additional } = useAppSelector((state) => state.checkout);
+
+  const details = address.details;
+  const format = address.formatted_address;
 
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => {
@@ -54,12 +55,7 @@ export const ChangeAddress = (props: DefaultCheckoutProps) => {
         onClick={handleOpen}
       />
 
-      <ChangeAddressDialog
-        open={open}
-        handleClose={handleClose}
-        state={props.state}
-        setState={props.setState}
-      />
+      <ChangeAddressDialog open={open} handleClose={handleClose} />
     </>
   );
 };

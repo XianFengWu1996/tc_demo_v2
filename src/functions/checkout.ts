@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Dispatch, SetStateAction } from 'react';
-import { AddressState } from '../component/dialog/changeAddressDialog.tsx';
 import { auth } from '../config/firebaseConfig';
 import { generatePublicToken } from './auth';
 import snackbar from './utilities/snackbar';
@@ -57,7 +56,7 @@ export const updateCustomerName = async (name: string) => {
   });
 };
 
-export const updateAddress = async (address: AddressState) => {
+export const updateAddress = async (address: Address) => {
   return await axios({
     method: 'put',
     url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/customer/address`,

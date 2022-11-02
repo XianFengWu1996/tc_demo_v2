@@ -6,6 +6,7 @@ import {
   FormControlLabel,
   Radio,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import {
   PaymentElement,
@@ -22,6 +23,8 @@ import {
 } from '../styles';
 
 export const CreditCardDialog = (props: Dialog) => {
+  const isMobileScreen = useMediaQuery('(max-width: 600px)');
+
   const [component, setComponent] = useState<'saved_card' | 'new_card'>(
     'saved_card'
   );
@@ -77,7 +80,11 @@ export const CreditCardDialog = (props: Dialog) => {
   };
 
   return (
-    <CustomDialog open={props.open} onClose={props.handleClose}>
+    <CustomDialog
+      fullScreen={isMobileScreen}
+      open={props.open}
+      onClose={props.handleClose}
+    >
       <CustomDialogContent
         sx={{
           minHeight: '400px',

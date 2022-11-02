@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from '@firebase/auth';
-import { Grid } from '@mui/material';
+import { Box, Grid, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import { CartContent } from '../../component/checkout/cartContent';
@@ -21,6 +21,8 @@ export default function CheckoutPage() {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const isMediumScreen = useMediaQuery('(max-width:899px)');
+
   // get customer info
   useEffect(() => {
     try {
@@ -39,17 +41,23 @@ export default function CheckoutPage() {
   }, []);
 
   return (
-    <>
+    <Box
+      sx={{
+        minHeight: '100vh',
+      }}
+    >
       <CheckoutLogoDisplay />
       {isOpen ? (
         <LoadingScreen setIsOpen={setIsOpen} />
       ) : (
         <Grid container>
+          {isMediumScreen && <CartSummary />}
+
           <CartContent />
 
-          <CartSummary />
+          {!isMediumScreen && <CartSummary />}
         </Grid>
       )}
-    </>
+    </Box>
   );
 }

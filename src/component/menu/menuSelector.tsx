@@ -1,4 +1,12 @@
-import { Box, InputAdornment, Tab, Tabs, Typography } from '@mui/material';
+import {
+  Box,
+  InputAdornment,
+  styled,
+  Tab,
+  Tabs,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import { ChangeEventHandler } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { generateMenuTime } from '../../functions/time';
@@ -12,15 +20,23 @@ interface MenuSelectorProps {
   onSearch: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 }
 
+const MenuSelectorContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+
+  [theme.breakpoints.down('sm')]: {
+    alignItems: 'start',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+}));
+
 export const MenuSelector = (props: MenuSelectorProps) => {
+  const isMobileScreen = useMediaQuery('(max-width: 600px)');
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-    >
+    <MenuSelectorContainer>
       <Tabs
         TabIndicatorProps={{
           children: <span className="MuiTabs-indicatorSpan" />,
@@ -81,10 +97,11 @@ export const MenuSelector = (props: MenuSelectorProps) => {
         }
         placeholder="Search"
         styles={{
-          width: '250px',
+          width: isMobileScreen ? '100%' : '250px',
+          marginTop: isMobileScreen ? '10px' : 0,
         }}
         onChange={props.onSearch}
       />
-    </Box>
+    </MenuSelectorContainer>
   );
 };

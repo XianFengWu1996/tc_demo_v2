@@ -22,7 +22,9 @@ export const CheckoutNavigationButton = (
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
         py: 2,
+        borderRadius: 0,
         borderBottom: props.borderBottom ?? '1px solid rgba(0,0,0,0.2)',
         '&:disabled': {
           color: '#000',
@@ -30,7 +32,9 @@ export const CheckoutNavigationButton = (
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box>{props.icon}</Box>
+        <Box display={'flex'} alignItems={'center'}>
+          {props.icon}
+        </Box>
 
         <Box
           sx={{

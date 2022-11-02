@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import { setDeliveryOption } from '../../../store/slicer/cartSlicer';
+import { resetTimeFrame } from '../../../store/slicer/checkoutSlicer';
 import { DeliveryButton, PickupButton } from '../../button/checkoutButton';
 
 export const DeliveryOption = () => {
@@ -20,6 +21,7 @@ export const DeliveryOption = () => {
         <DeliveryButton
           onClick={() => {
             dispatch(setDeliveryOption('delivery'));
+            dispatch(resetTimeFrame());
           }}
           type={delivery_option}
         />
@@ -27,6 +29,7 @@ export const DeliveryOption = () => {
         <PickupButton
           onClick={() => {
             dispatch(setDeliveryOption('pickup'));
+            dispatch(resetTimeFrame());
           }}
           type={delivery_option}
         />

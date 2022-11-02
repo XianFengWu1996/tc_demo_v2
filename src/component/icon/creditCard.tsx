@@ -1,19 +1,21 @@
 import Image from 'next/image';
 
-type CreditCardType =
+export type PaymentIconType =
   | 'visa'
   | 'mastercard'
   | 'discover'
   | 'amex'
-  | 'creditcard';
+  | 'creditcard'
+  | 'cash'
+  | 'wallet';
 
 interface CreditCardIcons {
-  type: CreditCardType;
+  type: PaymentIconType;
   height?: number;
   width?: number;
 }
 
-const generateSrc = (type: CreditCardType) => {
+const generateSrc = (type: PaymentIconType) => {
   let url = '';
   switch (type) {
     case 'visa':
@@ -30,6 +32,14 @@ const generateSrc = (type: CreditCardType) => {
       break;
     case 'creditcard':
       url = 'https://img.icons8.com/fluency/48/000000/bank-card-back-side.png';
+      break;
+    case 'cash':
+      url =
+        'https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/60/000000/external-money-ecommerce-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png';
+      break;
+    case 'wallet':
+      url =
+        'https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/48/000000/external-wallet-ecommerce-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png';
       break;
     default:
       break;

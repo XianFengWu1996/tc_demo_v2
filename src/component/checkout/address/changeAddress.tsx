@@ -4,7 +4,7 @@ import { AiOutlineUser } from 'react-icons/ai';
 import { MdOutlineEventNote } from 'react-icons/md';
 import { useAppSelector } from '../../../store/hook';
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
-import { ChangeAddressDialog } from '../../dialog/changeAddressDialog.tsx';
+import { ChangeAddressDialog } from '../../dialog/changeAddressDialog';
 
 export const ChangeAddress = () => {
   const { address, additional } = useAppSelector((state) => state.checkout);

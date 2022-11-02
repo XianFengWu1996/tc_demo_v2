@@ -1,9 +1,23 @@
-import { Box, Typography } from '@mui/material';
+import { Box, styled, Typography } from '@mui/material';
 import { useAppSelector } from '../../../store/hook';
 import { CheckoutGrid } from '../styles';
 import { BackToMenu } from './backToMenu';
 import { CartDisplay } from './cartDisplay';
 import { DiscountDisplay } from './discountDisplay';
+
+const CartSummaryContainer = styled(Box)(({ theme }) => ({
+  width: '85%',
+  marginTop: '40px',
+
+  [theme.breakpoints.down('md')]: {
+    marginTop: '80px',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    marginTop: '80px',
+    width: '95%',
+  },
+}));
 
 export const CartSummary = () => {
   const { summary, delivery_option } = useAppSelector((state) => state.cart);
@@ -18,19 +32,14 @@ export const CartSummary = () => {
         bgcolor: 'rgba(200,200,200, 0.2)',
       }}
     >
-      <Box
-        sx={{
-          width: '85%',
-          mt: 5,
-        }}
-      >
+      <CartSummaryContainer>
         <BackToMenu />
 
         <CartDisplay />
 
         <DiscountDisplay />
 
-        <Box mt={2}>
+        <Box mt={2} mb={5}>
           {summary.discount.redemption > 0 && (
             <CartSummaryDiscountItem
               label="Point Redemption"
@@ -55,7 +64,7 @@ export const CartSummary = () => {
           )}
           <CartSummaryItem label="total" amount={summary.total} />
         </Box>
-      </Box>
+      </CartSummaryContainer>
     </CheckoutGrid>
   );
 };

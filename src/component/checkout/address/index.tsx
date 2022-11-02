@@ -6,19 +6,29 @@ import { DeliveryOption } from './deliveryOption';
 import { DisplayMap } from './displayMap';
 import { EditName } from './editName';
 import { KitchenOption } from './kitchenOption';
-import { AddressContainer, Title } from './styles';
 import { TimeFrame } from './timeFrame';
 
+import { Box, Button } from '@mui/material';
 import { useAppSelector } from '../../../store/hook';
+import { CheckoutExpandPanel } from '../expandPanel';
 import { EditPhone } from './editPhone';
 
-export const Address = () => {
+interface AddressProps {
+  showAddress: boolean;
+  handleProceed: () => void;
+  backToAddress: () => void;
+}
+
+export const Address = (props: AddressProps) => {
   const { delivery_option } = useAppSelector((state) => state.cart);
   const { address } = useAppSelector((state) => state.checkout);
-  return (
-    <AddressContainer>
-      <Title>Address</Title>
 
+  return (
+    <CheckoutExpandPanel
+      text="Address"
+      onClick={props.backToAddress}
+      show={props.showAddress}
+    >
       {delivery_option === 'delivery' &&
         address.details?.lat &&
         address.details?.lng && (
@@ -52,6 +62,16 @@ export const Address = () => {
       <EditPhone />
 
       <KitchenOption />
-    </AddressContainer>
+
+      <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+        <Button
+          variant="contained"
+          sx={{ mt: 1, mb: 3 }}
+          onClick={props.handleProceed}
+        >
+          Continue to Payment
+        </Button>
+      </Box>
+    </CheckoutExpandPanel>
   );
 };

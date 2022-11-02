@@ -17,7 +17,6 @@ const StyledMenuItem = styled(Box)(() => ({
 
 const StyledMenuItemContent = styled(Box)(() => ({
   padding: '10px',
-
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',
@@ -25,7 +24,7 @@ const StyledMenuItemContent = styled(Box)(() => ({
 
 export const MenuContent = (props: MenuContentProps) => {
   return (
-    <Grid container spacing={3} sx={{ mt: 1, mb: 5 }}>
+    <Grid container spacing={2} sx={{ mt: 1, mb: 5 }}>
       {props.dishes.map((dish) => {
         return (
           <Grid key={dish.id} item xs={12} sm={6} md={6} lg={4}>

@@ -18,6 +18,7 @@ import NProgressSetUp from '../functions/utilities/nprogress';
 import { Settings } from 'luxon';
 import { useCallback, useEffect } from 'react';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Footer } from '../component/home/Footer';
 import { handleCatchError } from '../functions/error';
 import { RequestStoreData } from '../functions/menu';
 import { useAppDispatch } from '../store/hook';
@@ -61,6 +62,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <>
       <SnackbarUtilsConfigurator />
       <Component {...pageProps} />
+      <Footer />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { styled, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { isEmpty } from 'lodash';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
@@ -10,6 +10,17 @@ import { MenuSelector } from '../../component/menu/menuSelector';
 import { getCurrentTime } from '../../functions/time';
 import snackbar from '../../functions/utilities/snackbar';
 import { useAppSelector } from '../../store/hook';
+
+const MenuContainer = styled(Box)(({ theme }) => ({
+  margin: '10px 50px',
+  [theme.breakpoints.down('md')]: {
+    margin: '10px 35px',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    margin: '10px',
+  },
+}));
 
 export default function MenuV2() {
   const { menus, dishes } = useAppSelector((state) => state.store);
@@ -172,7 +183,7 @@ export default function MenuV2() {
     <>
       <AppBarNav />
 
-      <Box sx={{ margin: '10px 50px' }}>
+      <MenuContainer>
         {menu && (
           <MenuSelector
             currentTime={currentTime}
@@ -183,7 +194,7 @@ export default function MenuV2() {
           />
         )}
 
-        {menu && category && (
+        {menu && category && !search && (
           <CategorySelector
             value={category.id}
             menu={menu}
@@ -203,7 +214,7 @@ export default function MenuV2() {
           handleClose={handleClose}
           dish={selectDish}
         />
-      </Box>
+      </MenuContainer>
     </>
   );
 }

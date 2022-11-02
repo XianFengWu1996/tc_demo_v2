@@ -20,7 +20,9 @@
     "**/*.ts",
     "**/*.tsx",
     "src/interface",
-    "src/component/dialog/menuItemDialog"
+    "src/component/dialog/menuItemDialog",
+    "src/component/dialog/paymentDialog",
+    "src/component/dialog/changeAddressDialog"
   ],
   "exclude": ["node_modules"]
 }

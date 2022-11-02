@@ -3,17 +3,20 @@ import { Box, styled, Typography } from '@mui/material';
 export const Title = styled(Typography)(() => ({
   fontSize: 20,
   fontWeight: 600,
-  marginBottom: '16px',
+  marginBottom: '20px',
 }));
 
-export const AddressContainer = styled(Box)(() => ({
-  backgroundColor: '#fff',
-  border: '1px solid rgba(0,0,0,0.1)',
-  borderRadius: '30px',
-  padding: '32px',
+export const SelectionContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+    alignItems: 'start',
+  },
 }));
 
-export const TimeFrameContainer = styled(Box)(() => ({
+export const TimeFrameContainer = styled(Box)(({ theme }) => ({
   border: `2.5px solid #000`,
   color: '#000',
   display: 'inline-block',
@@ -27,6 +30,15 @@ export const TimeFrameContainer = styled(Box)(() => ({
   ':first-of-type': {
     marginRight: '16px',
     marginLeft: '50px',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    ':first-of-type': {
+      marginLeft: '0px',
+    },
+    marginTop: '5px',
+    marginBottom: '5px',
+    width: '100%',
   },
 }));
 

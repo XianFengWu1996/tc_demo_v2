@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import Cookies from 'js-cookie';
@@ -8,12 +8,31 @@ import { Address } from './address';
 import { Payment } from './payment/payment';
 import { CheckoutGrid } from './styles';
 
+const CartContentContainer = styled(Box)(({ theme }) => ({
+  width: '70%',
+  marginTop: '40px',
+
+  [theme.breakpoints.down('md')]: {
+    marginTop: '60px',
+    marginBottom: '40px',
+    width: '85%',
+  },
+  [theme.breakpoints.down('sm')]: {
+    marginTop: '30px',
+    marginBottom: '60px',
+    width: '95%',
+  },
+}));
+
 export const CartContent = () => {
   const stripePromise = useMemo(
     () => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY),
     []
   );
   const [clientSecret, setClientSecret] = useState('');
+
+  const [showAddress, setShowAddress] = useState<boolean>(true);
+  const [showPayment, setShowPayment] = useState<boolean>(false);
 
   useEffect(() => {
     const getClientSecret = async () => {
@@ -37,6 +56,16 @@ export const CartContent = () => {
     };
   }, []);
 
+  const backToAddress = () => {
+    setShowAddress(true);
+    setShowPayment(false);
+  };
+
+  const proceedToPayment = () => {
+    setShowAddress(false);
+    setShowPayment(true);
+  };
+
   return (
     <CheckoutGrid
       item
@@ -47,8 +76,12 @@ export const CartContent = () => {
         bgcolor: 'rgba(200,200,200, 0.1)',
       }}
     >
-      <Box mt={5} width={'70%'}>
-        <Address />
+      <CartContentContainer>
+        <Address
+          showAddress={showAddress}
+          handleProceed={proceedToPayment}
+          backToAddress={backToAddress}
+        />
 
         {clientSecret && (
           <Elements
@@ -57,14 +90,13 @@ export const CartContent = () => {
               clientSecret,
             }}
           >
-            <Payment />
+            <Payment
+              showPayment={showPayment}
+              setShowPayment={setShowPayment}
+            />
           </Elements>
         )}
-      </Box>
-
-      <Button variant="contained" sx={{ my: 3 }}>
-        Place Order
-      </Button>
+      </CartContentContainer>
     </CheckoutGrid>
   );
 };

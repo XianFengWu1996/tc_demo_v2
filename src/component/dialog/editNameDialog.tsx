@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, useMediaQuery } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 import { updateCustomerName } from '../../functions/checkout';
@@ -18,6 +18,7 @@ import {
 export const EditNameDialog = (props: Dialog) => {
   const { contact } = useAppSelector((state) => state.checkout);
   const dispatch = useAppDispatch();
+  const isMobileScreen = useMediaQuery('(max-width: 600px)');
 
   const [name, setName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,7 +48,11 @@ export const EditNameDialog = (props: Dialog) => {
   };
 
   return (
-    <CustomDialog open={props.open} onClose={props.handleClose}>
+    <CustomDialog
+      fullScreen={isMobileScreen}
+      open={props.open}
+      onClose={props.handleClose}
+    >
       <CustomDialogContent>
         <CustomeDialogTitle>Change Name</CustomeDialogTitle>
 

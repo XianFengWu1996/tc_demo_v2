@@ -5,6 +5,7 @@ import {
   Radio,
   RadioGroup,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { GiForkKnifeSpoon } from 'react-icons/gi';
@@ -22,6 +23,7 @@ import { CustomInput } from '../../input/checkoutInput';
 
 export const KitchenOption = () => {
   const { additional } = useAppSelector((state) => state.checkout);
+  const isMobileScreen = useMediaQuery('(max-width: 600px)');
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -76,7 +78,11 @@ export const KitchenOption = () => {
         borderBottom="none"
       />
 
-      <CustomDialog open={open} onClose={handleClose}>
+      <CustomDialog
+        fullScreen={isMobileScreen}
+        open={open}
+        onClose={handleClose}
+      >
         <CustomDialogContent>
           <CustomeDialogTitle>For Kitchen</CustomeDialogTitle>
 

@@ -1,6 +1,5 @@
-import { Box, Tab, Tabs } from '@mui/material';
+import { Box, Tab, Tabs, useMediaQuery } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import { useAppSelector } from '../../store/hook';
 
 interface CategorySelectorProps {
   value: string;
@@ -9,10 +8,10 @@ interface CategorySelectorProps {
 }
 
 export const CategorySelector = (props: CategorySelectorProps) => {
+  const isMobileScreen = useMediaQuery('(max-width: 600px)');
+
   const ref = useRef<HTMLDivElement>();
   const [position, setPosition] = useState<number>(0);
-
-  const { today } = useAppSelector((state) => state.store);
 
   const handleScroll = () => {
     const position = window.pageYOffset;
@@ -39,7 +38,7 @@ export const CategorySelector = (props: CategorySelectorProps) => {
                 top: 0,
                 backgroundColor: '#fff',
                 borderBottom: '1px solid rgba(0,0,0,0.2)',
-                zIndex: 9999,
+                zIndex: 100,
               }
         }
       >
@@ -52,11 +51,11 @@ export const CategorySelector = (props: CategorySelectorProps) => {
             children: <span className="MuiTabs-indicatorSpan" />,
           }}
           variant="scrollable"
-          scrollButtons={false}
+          scrollButtons={isMobileScreen}
           allowScrollButtonsMobile
           aria-label="scrollable force tabs example"
           sx={{
-            maxWidth: '90vw',
+            maxWidth: isMobileScreen ? '100%' : '90vw',
             margin: '8px 0',
             '& .MuiTabs-indicator': {
               display: 'flex',

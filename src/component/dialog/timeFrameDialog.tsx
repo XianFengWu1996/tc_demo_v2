@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography, useMediaQuery } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 import { generateScheduleTime, getCurrentTime } from '../../functions/time';
@@ -15,6 +15,8 @@ import {
 } from './styles';
 
 export const TimeFrameDialog = (props: Dialog) => {
+  const isMobileScreen = useMediaQuery('(max-width: 600px)');
+
   const [scheduleTime, setScheduleTime] = useState<ScheduleTime[]>([]);
   const [selectTime, setSelectTime] = useState<ScheduleTime>({
     displayTime: '',
@@ -49,7 +51,7 @@ export const TimeFrameDialog = (props: Dialog) => {
       setScheduleTime([]);
       setSelectTime({
         displayTime: '',
-        numeric: 0,
+        numeric: -1,
       });
       setCurrentTime(0);
     };
@@ -76,6 +78,7 @@ export const TimeFrameDialog = (props: Dialog) => {
   return (
     <CustomDialog
       open={props.open}
+      fullScreen={isMobileScreen}
       keepMounted={false}
       onClose={props.handleClose}
     >

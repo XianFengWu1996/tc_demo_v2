@@ -54,6 +54,12 @@ export const checkoutSlicer = createSlice({
     setTimeFrameType: (state, { payload }: PayloadAction<TimeFrameType>) => {
       state.timeFrame.type = payload;
     },
+
+    resetTimeFrame: (state) => {
+      state.timeFrame.type = 'asap';
+      state.timeFrame.selected = null;
+    },
+
     setTimeFrameSelect: (state, { payload }: PayloadAction<ScheduleTime>) => {
       state.timeFrame.selected = payload;
     },
@@ -81,6 +87,7 @@ export const {
   setTimeFrameSelect,
   setAddress,
   setCheckout,
+  resetTimeFrame,
 } = checkoutSlicer.actions;
 
 export default checkoutSlicer.reducer;

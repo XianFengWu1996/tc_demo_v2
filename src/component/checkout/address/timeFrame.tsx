@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import { setTimeFrameType } from '../../../store/slicer/checkoutSlicer';
 import { TimeFrameDialog } from '../../dialog/timeFrameDialog';
 import {
+  SelectionContainer,
   TimeFrameCard,
   TimeFrameCardSubtitle,
   TimeFrameCardTitle,
@@ -22,18 +23,15 @@ export const TimeFrame = () => {
     setOpen(true);
   };
 
-  const handleDialogClose = (reason?: 'backdropClick' | 'escapeKeyDown') => {
-    if (reason) {
-      dispatch(setTimeFrameType('asap'));
-    }
+  const handleDialogClose = () => {
     setOpen(false);
   };
 
   return (
     <Box mt={2.5} mb={1}>
-      <TimeFrameTitle isDelivery={delivery_option === 'delivery'} />
+      <TimeFrameTitle />
 
-      <Box display={'flex'} alignItems={'center'}>
+      <SelectionContainer>
         <TimeFrameSelectionBox
           onClick={() => {
             dispatch(setTimeFrameType('asap'));
@@ -61,21 +59,18 @@ export const TimeFrame = () => {
         />
 
         <TimeFrameDialog open={open} handleClose={handleDialogClose} />
-      </Box>
+      </SelectionContainer>
     </Box>
   );
 };
 
-interface ITimeFrameTitleProps {
-  isDelivery: boolean;
-}
-
-const TimeFrameTitle = (props: ITimeFrameTitleProps) => {
+const TimeFrameTitle = () => {
+  const { delivery_option } = useAppSelector((state) => state.cart);
   return (
     <Box display="flex" alignItems={'center'} mb={1}>
       <MdTimer size={22} />
       <Typography ml={3} fontWeight={600}>
-        {props.isDelivery ? 'Delivery' : 'Pick Up'} Time
+        {delivery_option === 'delivery' ? 'Delivery' : 'Pick Up'} Time
       </Typography>
     </Box>
   );

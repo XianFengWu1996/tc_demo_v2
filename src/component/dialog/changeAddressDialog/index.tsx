@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, useMediaQuery } from '@mui/material';
 import { LoadScriptProps, useJsApiLoader } from '@react-google-maps/api';
 import { useEffect, useState } from 'react';
 import { MoonLoader } from 'react-spinners';
@@ -57,7 +57,6 @@ export const ChangeAddressDialog = (props: Dialog) => {
       formatted_address: address.formatted_address,
       details: address.details,
     });
-    console.log(additional);
     setLocalAdditional({
       delivery_notes: additional.delivery_notes,
       dropoff_option: additional.dropoff_option,
@@ -69,6 +68,8 @@ export const ChangeAddressDialog = (props: Dialog) => {
   const onCancel = () => {
     props.handleClose();
   };
+
+  const isMobileScreen = useMediaQuery('(max-width: 600px)');
 
   const onConfirm = async () => {
     try {
@@ -112,7 +113,11 @@ export const ChangeAddressDialog = (props: Dialog) => {
   };
 
   return (
-    <CustomDialog open={props.open} onClose={props.handleClose}>
+    <CustomDialog
+      fullScreen={isMobileScreen}
+      open={props.open}
+      onClose={props.handleClose}
+    >
       <CustomDialogContent>
         <CustomeDialogTitle>Change Address</CustomeDialogTitle>
         <Box>

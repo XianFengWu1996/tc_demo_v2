@@ -1,8 +1,16 @@
-import { Box, InputAdornment, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { ChangeEvent, ChangeEventHandler, ReactNode, useState } from 'react';
+import { FaRegTimesCircle } from 'react-icons/fa';
 import { MdOutlinePhone } from 'react-icons/md';
 import validator from 'validator';
 import { requestOTPCode, verifyOTPCode } from '../../../functions/checkout';
@@ -16,6 +24,7 @@ import { CountDownButton } from '../../button/countDownButton';
 import { LoadingButton } from '../../button/loadingButton';
 import {
   CustomDialog,
+  CustomDialogActions,
   CustomDialogContent,
   CustomeDialogTitle,
 } from '../../dialog/styles';
@@ -51,6 +60,7 @@ interface IPostVerify {
 }
 
 export const EditPhone = () => {
+  const isMobileScreen = useMediaQuery('(max-width: 600px)');
   const dispatch = useAppDispatch();
   const { contact } = useAppSelector((state) => state.checkout);
   const [status, setStatus] = useState<VerificationStatus>('pre');
@@ -154,8 +164,18 @@ export const EditPhone = () => {
         icon={<MdOutlinePhone size={22} />}
       />
 
-      <CustomDialog open={open} onClose={handleClose}>
-        <CustomDialogContent style={{ width: '400px' }}>
+      <CustomDialog
+        fullScreen={isMobileScreen}
+        open={open}
+        onClose={handleClose}
+      >
+        <CustomDialogContent>
+          {isMobileScreen && (
+            <IconButton onClick={handleClose} sx={{ mb: 2, p: 0 }}>
+              <FaRegTimesCircle size={35} color="000" />
+            </IconButton>
+          )}
+
           <CustomeDialogTitle>Edit Phone</CustomeDialogTitle>
 
           {status === 'pre' && (
@@ -182,6 +202,14 @@ export const EditPhone = () => {
             <PostVerify onClick={handleCompleteVerifying} />
           )}
         </CustomDialogContent>
+
+        {isMobileScreen && (
+          <CustomDialogActions>
+            <Button fullWidth onClick={handleClose}>
+              Cancel
+            </Button>
+          </CustomDialogActions>
+        )}
       </CustomDialog>
     </>
   );

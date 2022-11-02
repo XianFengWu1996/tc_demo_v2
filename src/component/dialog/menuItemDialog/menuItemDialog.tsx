@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, useMediaQuery } from '@mui/material';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -22,6 +22,8 @@ interface MenuItemDialogProps extends Dialog {
 }
 
 export const MenuItemDialog = (props: MenuItemDialogProps) => {
+  const isMobileScreen = useMediaQuery('(max-width: 600px)');
+
   const [choices, setChoices] = useState<SelectChoice[]>([]);
   const [comments, setComments] = useState<string>('');
   const [total, setTotal] = useState<number>(props.dish.price);
@@ -168,7 +170,11 @@ export const MenuItemDialog = (props: MenuItemDialogProps) => {
   };
 
   return (
-    <CustomDialog open={props.open} onClose={props.handleClose}>
+    <CustomDialog
+      fullScreen={isMobileScreen}
+      open={props.open}
+      onClose={props.handleClose}
+    >
       <CustomDialogContent>
         {/* display dish image */}
         {!isEmpty(props.dish.pic_url) && (
@@ -288,7 +294,7 @@ export const MenuItemDialog = (props: MenuItemDialogProps) => {
         >
           Add to cart | ${total.toFixed(2)}
         </Button>
-        <Button>cancel</Button>
+        <Button onClick={props.handleClose}>cancel</Button>
       </CustomDialogActions>
     </CustomDialog>
   );

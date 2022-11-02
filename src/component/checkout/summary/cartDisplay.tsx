@@ -68,7 +68,7 @@ export const CartDisplay = () => {
 
               {item.choices.map((choice) => {
                 return (
-                  <>
+                  <div key={choice.id}>
                     <Typography
                       key={choice.id}
                       sx={{
@@ -98,7 +98,7 @@ export const CartDisplay = () => {
                         </Typography>
                       );
                     })}
-                  </>
+                  </div>
                 );
               })}
 

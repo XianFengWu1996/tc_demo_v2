@@ -1,21 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { isNumber } from 'lodash';
+import { v4 } from 'uuid';
 
 const initialState: Cart = {
+  cartId: v4(),
   cart: [],
   summary: {
-    original_subtotal: 0,
+    originalSubtotal: 0,
     subtotal: 0,
     tax: 0,
     tip: 0,
+    tipType: '',
     total: 0,
-    cart_quantity: 0,
-    delivery_fee: 0,
+    cartQuantity: 0,
+    deliveryFee: 0,
     discount: {
       redemption: 0,
       lunch: 0,
     },
   },
-  delivery_option: 'delivery',
+  deliveryOption: 'delivery',
 };
 
 const calculateTotal = (state: Cart) => {
@@ -27,11 +31,11 @@ const calculateTotal = (state: Cart) => {
     subtotalCounter += state.total;
   });
 
-  state.summary.original_subtotal = Number(subtotalCounter.toFixed(2));
-  state.summary.cart_quantity = quantityCounter;
+  state.summary.originalSubtotal = Number(subtotalCounter.toFixed(2));
+  state.summary.cartQuantity = quantityCounter;
   state.summary.subtotal = Number(
     (
-      state.summary.original_subtotal -
+      state.summary.originalSubtotal -
       state.summary.discount.lunch -
       state.summary.discount.redemption
     ).toFixed(2)
@@ -40,7 +44,7 @@ const calculateTotal = (state: Cart) => {
   state.summary.total = Number(
     (
       state.summary.subtotal +
-      (state.delivery_option === 'delivery' ? state.summary.delivery_fee : 0) +
+      (state.deliveryOption === 'delivery' ? state.summary.deliveryFee : 0) +
       state.summary.tax +
       state.summary.tip
     ).toFixed(2)
@@ -104,7 +108,7 @@ export const cartSlicer = createSlice({
       { payload }: PayloadAction<number | undefined | null>
     ) => {
       if (payload) {
-        state.summary.delivery_fee = payload;
+        state.summary.deliveryFee = payload;
         calculateTotal(state);
       }
     },
@@ -118,7 +122,54 @@ export const cartSlicer = createSlice({
       state,
       { payload }: PayloadAction<DeliveryOptionType>
     ) => {
-      state.delivery_option = payload;
+      state.deliveryOption = payload;
+      calculateTotal(state);
+    },
+
+    updateTip: (state, { payload }: PayloadAction<TipType>) => {
+      switch (payload) {
+        case '10%':
+          state.summary.tip = Number(
+            (state.summary.originalSubtotal * 0.1).toFixed(2)
+          );
+          break;
+        case '15%':
+          state.summary.tip = Number(
+            (state.summary.originalSubtotal * 0.15).toFixed(2)
+          );
+          break;
+        case '18%':
+          state.summary.tip = Number(
+            (state.summary.originalSubtotal * 0.18).toFixed(2)
+          );
+          break;
+        case '20%':
+          state.summary.tip = Number(
+            (state.summary.originalSubtotal * 0.2).toFixed(2)
+          );
+          break;
+        default:
+          state.summary.tip = 0;
+          state.summary.tipType = '';
+          break;
+      }
+      state.summary.tipType = payload;
+      calculateTotal(state);
+    },
+    updateCustomTip: (state, { payload }: PayloadAction<string>) => {
+      if (isNumber(Number(payload))) {
+        state.summary.tip = Number(payload);
+      }
+      calculateTotal(state);
+    },
+
+    completeCartCheckout: (state) => {
+      (state.cart = []),
+        (state.deliveryOption = 'delivery'),
+        (state.summary.discount.redemption = 0);
+      state.summary.discount.lunch = 0;
+      state.summary.tip = 0;
+      state.summary.tipType = '';
       calculateTotal(state);
     },
   },
@@ -133,6 +184,9 @@ export const {
   updateDeliveryFee,
   addDiscount,
   setDeliveryOption,
+  completeCartCheckout,
+  updateTip,
+  updateCustomTip,
 } = cartSlicer.actions;
 
 export default cartSlicer.reducer;
@@ -176,7 +230,7 @@ export default cartSlicer.reducer;
 //       subtotal +
 //       state.cartSummary.tax +
 //       state.cartSummary.tip +
-//       state.cartSummary.delivery_fee
+//       state.cartSummary.deliveryFee
 //     ).toFixed(2)
 //   );
 //   // state.lunch_discount = (isLunchTime ? lunchDiscount : 0)

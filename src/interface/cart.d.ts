@@ -1,14 +1,5 @@
 type DeliveryOptionType = 'delivery' | 'pickup';
 
-interface ICartItem {
-  itemDetails: IDish;
-  comments: string;
-  quantity: number;
-  price: number;
-  total: number;
-  selectedChoices: ISelectedChoice[];
-}
-
 interface CartItem {
   id: string;
   details: Dish;
@@ -20,19 +11,21 @@ interface CartItem {
 }
 
 interface Cart {
+  cartId: string;
   cart: CartItem[];
   summary: CartSummary;
-  delivery_option: DeliveryOptionType;
+  deliveryOption: DeliveryOptionType;
 }
 
 interface CartSummary {
-  original_subtotal: number;
+  originalSubtotal: number;
   subtotal: number;
   tax: number;
   tip: number;
+  tipType: TipType;
   total: number;
-  cart_quantity: number;
-  delivery_fee: number;
+  cartQuantity: number;
+  deliveryFee: number;
   discount: {
     redemption: number;
     lunch: number;

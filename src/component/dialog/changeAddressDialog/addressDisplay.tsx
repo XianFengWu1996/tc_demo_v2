@@ -3,9 +3,9 @@ import { isEmpty } from 'lodash';
 import { AiOutlineEdit } from 'react-icons/ai';
 
 interface AddressDisplayProps {
-  street_name: string;
-  city_state_zip: string;
-  apartment_number: string;
+  streetName: string;
+  cityStateZip: string;
+  apartmentNumber: string;
   onClick: () => void;
 }
 
@@ -22,12 +22,12 @@ export const AddressDisplay = (props: AddressDisplayProps) => {
     >
       <Box>
         <Typography fontSize={14} fontWeight={600}>
-          {props.street_name}{' '}
-          {!isEmpty(props.apartment_number) && `#${props.apartment_number}`}
+          {props.streetName}{' '}
+          {!isEmpty(props.apartmentNumber) && `#${props.apartmentNumber}`}
         </Typography>
 
         <Typography fontSize={14} fontWeight={600}>
-          {props.city_state_zip}
+          {props.cityStateZip}
         </Typography>
       </Box>
 

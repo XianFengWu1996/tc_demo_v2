@@ -15,7 +15,7 @@ import {
 
 export const TimeFrame = () => {
   const [open, setOpen] = useState<boolean>(false); // handle dialog state
-  const { delivery_option } = useAppSelector((state) => state.cart);
+  const { deliveryOption } = useAppSelector((state) => state.cart);
   const { timeFrame, address } = useAppSelector((state) => state.checkout);
   const dispatch = useAppDispatch();
 
@@ -38,8 +38,8 @@ export const TimeFrame = () => {
           }}
           title="ASAP"
           subtitle={
-            delivery_option === 'delivery'
-              ? `${address.details?.estimate_time ?? '30-50min'}`
+            deliveryOption === 'delivery'
+              ? `${address.details?.estimateTime ?? '30-50min'}`
               : '10-20min'
           }
           isSelected={timeFrame.type === 'asap'}
@@ -65,12 +65,12 @@ export const TimeFrame = () => {
 };
 
 const TimeFrameTitle = () => {
-  const { delivery_option } = useAppSelector((state) => state.cart);
+  const { deliveryOption } = useAppSelector((state) => state.cart);
   return (
     <Box display="flex" alignItems={'center'} mb={1}>
       <MdTimer size={22} />
       <Typography ml={3} fontWeight={600}>
-        {delivery_option === 'delivery' ? 'Delivery' : 'Pick Up'} Time
+        {deliveryOption === 'delivery' ? 'Delivery' : 'Pick Up'} Time
       </Typography>
     </Box>
   );

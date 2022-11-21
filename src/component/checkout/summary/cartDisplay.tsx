@@ -30,7 +30,7 @@ export const CartDisplay = () => {
         }}
       >
         <Typography sx={{ textTransform: 'capitalize', fontWeight: 600 }}>
-          Cart ({summary.cart_quantity} items)
+          Cart ({summary.cartQuantity} items)
         </Typography>
 
         {showCart ? (

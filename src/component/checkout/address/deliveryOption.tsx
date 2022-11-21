@@ -6,7 +6,7 @@ import { DeliveryButton, PickupButton } from '../../button/checkoutButton';
 
 export const DeliveryOption = () => {
   const dispatch = useAppDispatch();
-  const { delivery_option } = useAppSelector((state) => state.cart);
+  const { deliveryOption } = useAppSelector((state) => state.cart);
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <Box
@@ -23,7 +23,7 @@ export const DeliveryOption = () => {
             dispatch(setDeliveryOption('delivery'));
             dispatch(resetTimeFrame());
           }}
-          type={delivery_option}
+          type={deliveryOption}
         />
 
         <PickupButton
@@ -31,7 +31,7 @@ export const DeliveryOption = () => {
             dispatch(setDeliveryOption('pickup'));
             dispatch(resetTimeFrame());
           }}
-          type={delivery_option}
+          type={deliveryOption}
         />
       </Box>
     </Box>

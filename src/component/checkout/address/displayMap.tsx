@@ -1,11 +1,22 @@
-import { GoogleMap, MarkerF } from '@react-google-maps/api';
+import {
+  GoogleMap,
+  LoadScriptProps,
+  MarkerF,
+  useJsApiLoader,
+} from '@react-google-maps/api';
 import { useCallback, useState } from 'react';
 
 interface DisplayMapProps {
-  lat: number;
-  lng: number;
+  lat?: number | null;
+  lng?: number | null;
 }
 export const DisplayMap = (props: DisplayMapProps) => {
+  const [libraries] = useState<LoadScriptProps['libraries']>(['places']);
+
+  useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_API,
+    libraries: libraries,
+  });
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
   const onLoad = useCallback((map: google.maps.Map) => {
@@ -19,7 +30,8 @@ export const DisplayMap = (props: DisplayMapProps) => {
   }, []);
 
   return (
-    google && (
+    window.google &&
+    (props.lat && props.lng ? (
       <GoogleMap
         mapContainerStyle={{
           width: '100%',
@@ -41,6 +53,21 @@ export const DisplayMap = (props: DisplayMapProps) => {
           }}
         />
       </GoogleMap>
-    )
+    ) : (
+      <GoogleMap
+        mapContainerStyle={{
+          width: '100%',
+          height: '150px',
+          margin: '10px 0',
+        }}
+        center={{
+          lat: Number(process.env.NEXT_PUBLIC_STORE_LAT),
+          lng: Number(process.env.NEXT_PUBLIC_STORE_LNG),
+        }}
+        zoom={10}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      />
+    ))
   );
 };

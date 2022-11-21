@@ -2,6 +2,14 @@ type TimeFrameType = 'asap' | 'later';
 type DropoffOptionType = 'hand_off' | 'leave_at_door';
 type UtensilOptionType = 'include' | 'do not include';
 type RewardType = 'reward' | 'redemption' | 'refund' | 'cancel';
+type StatusType =
+  | 'in_progress'
+  | 'complete'
+  | 'partial_refund'
+  | 'fully_refund'
+  | 'cancelled';
+
+type TipType = '' | '10%' | '15%' | '18%' | '20%' | 'cash' | 'custom';
 
 interface Checkout {
   timeFrame: TimeFrame;
@@ -9,6 +17,8 @@ interface Checkout {
   additional: AdditionalOrderDetails;
   reward: Reward;
   address: Address;
+  clientSecret: string | null;
+  cards: Card[];
 }
 
 interface TimeFrame {
@@ -27,10 +37,10 @@ interface Contact {
 }
 
 interface AdditionalOrderDetails {
-  dropoff_option: DropoffOptionType;
-  delivery_notes: string;
-  kitchen_notes: string;
-  utensil_option: UtensilOptionType;
+  dropoffOption: DropoffOptionType;
+  deliveryNotes: string;
+  kitchenNotes: string;
+  utensilOption: UtensilOptionType;
 }
 
 interface Reward {
@@ -41,53 +51,98 @@ interface Reward {
 interface RewardTransaction {
   type: RewardType;
   amount: number;
-  created_at: number;
-  updated_at: number;
-  order_id: string;
+  createdAt: number;
+  updatedAt: number;
+  orderId: string;
 }
 
 interface Additional {
-  dropoff_option: DropoffOptionType;
-  delivery_notes: string;
+  dropoffOption: DropoffOptionType;
+  deliveryNotes: string;
 }
 
 interface KitchenOption {
-  kitchen_notes: string;
-  utensil_option: UtensilOptionType;
+  kitchenNotes: string;
+  utensilOption: UtensilOptionType;
 }
 
 // =========================
 // ADDRESS
 // =========================
 interface Address {
-  formatted_address: FormattedAddress | null;
+  formattedAddress: FormattedAddress | null;
   details: AddressDetails | null;
 }
 
 interface FormattedAddress {
   complete: string;
-  street_name: string;
-  city_state_zip: string;
+  streetName: string;
+  cityStateZip: string;
 }
 
 interface AddressDetails {
-  street_number: string;
-  street_name: string;
+  streetNumber: string;
+  streetName: string;
   city: string;
   state: string;
   country: string;
-  postal_code: string;
+  postalCode: string;
   lat: number;
   lng: number;
-  place_id: string;
-  delivery_fee: number;
-  estimate_time: string;
-  apartment_number: string;
+  placeId: string;
+  deliveryFee: number;
+  estimateTime: string;
+  apartmentNumber: string;
 }
 
-interface UserResult {
+interface CheckoutResult {
+  user: User;
+  clientSecret: string;
+  cards: Card[];
+}
+
+interface User {
   address: Address;
   name: string;
   phone: string;
   reward: Reward;
+}
+
+interface Card {
+  id: string;
+  customer: string;
+  card: {
+    brand: string;
+    expMonth: number;
+    expYear: number;
+    last4: string;
+  };
+}
+
+interface CheckoutClient {
+  id: string;
+  createdAt: number;
+  contact: Contact;
+  deliveryOption: DeliveryOptionType;
+  timeFrame: TimeFrame;
+  delivery: {
+    address: Address;
+    deliveryNotes: string;
+    dropoffOption: DropoffOptionType;
+  } | null;
+  kitchen: KitchenOption;
+  cart: CartItem[];
+  summary: CartSummary;
+  reward: number;
+  orderStatus: {
+    status: StatusType;
+    refund: RefundCancel | null;
+    cancel: RefundCancel | null;
+  };
+}
+
+interface RefundCancel {
+  amount: number;
+  reason: string;
+  date: number;
 }

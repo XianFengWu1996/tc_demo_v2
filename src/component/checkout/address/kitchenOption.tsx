@@ -42,8 +42,8 @@ export const KitchenOption = () => {
   const onConfirm = () => {
     dispatch(
       setKitchenOption({
-        kitchen_notes: kitchenNotes,
-        utensil_option: utensilOption,
+        kitchenNotes: kitchenNotes,
+        utensilOption: utensilOption,
       })
     );
 
@@ -55,8 +55,8 @@ export const KitchenOption = () => {
   };
 
   useEffect(() => {
-    setKitchenNotes(additional.kitchen_notes);
-    setUtensilOption(additional.utensil_option);
+    setKitchenNotes(additional.kitchenNotes);
+    setUtensilOption(additional.utensilOption);
 
     return () => {
       setKitchenNotes('');
@@ -68,10 +68,10 @@ export const KitchenOption = () => {
     <>
       <CheckoutNavigationButton
         onClick={handleOpen}
-        title={`${additional.utensil_option} Utensil`}
+        title={`${additional.utensilOption} Utensil`}
         subtitle={
-          additional.kitchen_notes
-            ? `Kitchen Notes: ${additional.kitchen_notes}`
+          additional.kitchenNotes
+            ? `Kitchen Notes: ${additional.kitchenNotes}`
             : 'Add note for the kitchen'
         }
         icon={<GiForkKnifeSpoon size={22} />}
@@ -91,7 +91,7 @@ export const KitchenOption = () => {
             <Box>
               <RadioGroup
                 aria-labelledby="drop_off_option_label"
-                name="dropoff_option_radio_group"
+                name="dropoffOption_radio_group"
                 value={utensilOption}
                 onChange={(e, value) => {
                   setUtensilOption(value as UtensilOptionType);

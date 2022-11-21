@@ -1,9 +1,9 @@
 import { Box, styled } from '@mui/material';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import Cookies from 'js-cookie';
-import { useEffect, useMemo, useState } from 'react';
-import { getStripeClientSecret } from '../../functions/checkout';
+import { useMemo, useState } from 'react';
+import snackbar from '../../functions/utilities/snackbar';
+import { useAppSelector } from '../../store/hook';
 import { Address } from './address';
 import { Payment } from './payment/payment';
 import { CheckoutGrid } from './styles';
@@ -26,35 +26,19 @@ const CartContentContainer = styled(Box)(({ theme }) => ({
 
 export const CartContent = () => {
   const stripePromise = useMemo(
-    () => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY),
+    () =>
+      loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, {
+        betas: ['address_element_beta_1'],
+      }),
     []
   );
-  const [clientSecret, setClientSecret] = useState('');
+  const { contact, address, clientSecret } = useAppSelector(
+    (state) => state.checkout
+  );
+  const { deliveryOption } = useAppSelector((state) => state.cart);
 
   const [showAddress, setShowAddress] = useState<boolean>(true);
   const [showPayment, setShowPayment] = useState<boolean>(false);
-
-  useEffect(() => {
-    const getClientSecret = async () => {
-      // get the client secret from cookie
-      const clientSecret = Cookies.get('stripe_client');
-      if (clientSecret) {
-        setClientSecret(clientSecret);
-      } else {
-        const secret_result = await (await getStripeClientSecret()).data;
-        Cookies.set('stripe_client', secret_result.clientSecret, {
-          domain: 'localhost',
-          expires: 7,
-        });
-        setClientSecret(secret_result.clientSecret);
-      }
-    };
-    getClientSecret();
-
-    return () => {
-      setClientSecret('');
-    };
-  }, []);
 
   const backToAddress = () => {
     setShowAddress(true);
@@ -62,6 +46,20 @@ export const CartContent = () => {
   };
 
   const proceedToPayment = () => {
+    if (!contact.name) {
+      return snackbar.error('Please provide name for the order');
+    }
+
+    if (!contact.phone) {
+      return snackbar.error('Please provide phone for the order');
+    }
+
+    if (deliveryOption === 'delivery') {
+      if (!address.details || !address.formattedAddress) {
+        return snackbar.error('Please provide address for the order');
+      }
+    }
+
     setShowAddress(false);
     setShowPayment(true);
   };

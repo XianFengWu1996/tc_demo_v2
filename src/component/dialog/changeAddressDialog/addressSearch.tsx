@@ -82,24 +82,24 @@ export const AddressSearch = (props: AddressSearchProps) => {
           // set the state
           props.setState({
             ...props.state,
-            formatted_address: {
+            formattedAddress: {
               complete: `${street_number} ${street_name}, ${city}, ${state_name}, ${country}, ${postal_code}`,
-              street_name: `${street_number} ${street_name}`,
-              city_state_zip: `${city}, ${state_name}, ${country}, ${postal_code}`,
+              streetName: `${street_number} ${street_name}`,
+              cityStateZip: `${city}, ${state_name}, ${country}, ${postal_code}`,
             },
             details: {
-              street_name,
-              street_number,
+              streetName: street_name,
+              streetNumber: street_number,
               city,
               state: state_name,
               country,
-              postal_code,
+              postalCode: postal_code,
               lat: geometry.location.lat(),
               lng: geometry.location.lng(),
-              place_id: place_id,
-              delivery_fee: distance_and_fee.fee,
-              estimate_time: `${distance_and_fee.preparationTime.lower}-${distance_and_fee.preparationTime.upper}min`,
-              apartment_number: '',
+              placeId: place_id,
+              deliveryFee: distance_and_fee.fee,
+              estimateTime: `${distance_and_fee.preparationTime.lower}-${distance_and_fee.preparationTime.upper}min`,
+              apartmentNumber: '',
             },
           });
         }

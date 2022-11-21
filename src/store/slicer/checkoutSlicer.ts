@@ -14,15 +14,17 @@ const initialState: Checkout = {
     transactions: [],
   },
   additional: {
-    delivery_notes: '',
-    kitchen_notes: '',
-    dropoff_option: 'leave_at_door',
-    utensil_option: 'do not include',
+    deliveryNotes: '',
+    kitchenNotes: '',
+    dropoffOption: 'leave_at_door',
+    utensilOption: 'do not include',
   },
   address: {
-    formatted_address: null,
+    formattedAddress: null,
     details: null,
   },
+  clientSecret: null,
+  cards: [],
 };
 
 export const checkoutSlicer = createSlice({
@@ -42,13 +44,13 @@ export const checkoutSlicer = createSlice({
       state,
       { payload }: PayloadAction<Additional>
     ) => {
-      state.additional.dropoff_option = payload.dropoff_option;
-      state.additional.delivery_notes = payload.delivery_notes;
+      state.additional.dropoffOption = payload.dropoffOption;
+      state.additional.deliveryNotes = payload.deliveryNotes;
     },
 
     setKitchenOption: (state, { payload }: PayloadAction<KitchenOption>) => {
-      state.additional.kitchen_notes = payload.kitchen_notes;
-      state.additional.utensil_option = payload.utensil_option;
+      state.additional.kitchenNotes = payload.kitchenNotes;
+      state.additional.utensilOption = payload.utensilOption;
     },
 
     setTimeFrameType: (state, { payload }: PayloadAction<TimeFrameType>) => {
@@ -65,15 +67,35 @@ export const checkoutSlicer = createSlice({
     },
 
     setAddress: (state, { payload }: PayloadAction<Address>) => {
-      (state.address.details = payload.details),
-        (state.address.formatted_address = payload.formatted_address);
+      state.address.details = payload.details;
+      state.address.formattedAddress = payload.formattedAddress;
     },
 
-    setCheckout: (state, { payload }: PayloadAction<UserResult>) => {
-      (state.address = payload.address),
-        (state.contact.name = payload.name),
-        (state.contact.phone = payload.phone),
-        (state.reward = payload.reward);
+    setCheckout: (state, { payload }: PayloadAction<CheckoutResult>) => {
+      (state.address = payload.user.address ?? {}),
+        (state.contact.name = payload.user.name),
+        (state.contact.phone = payload.user.phone),
+        (state.reward = payload.user.reward);
+      state.clientSecret = payload.clientSecret;
+      state.cards = payload.cards;
+    },
+
+    setClientSecret: (state, { payload }: PayloadAction<string>) => {
+      state.clientSecret = payload;
+    },
+
+    completeCheckout: (state) => {
+      state.clientSecret = null;
+      (state.timeFrame = {
+        type: 'asap',
+        selected: null,
+      }),
+        (state.additional = {
+          deliveryNotes: '',
+          kitchenNotes: '',
+          dropoffOption: 'leave_at_door',
+          utensilOption: 'do not include',
+        });
     },
   },
 });
@@ -88,6 +110,8 @@ export const {
   setAddress,
   setCheckout,
   resetTimeFrame,
+  setClientSecret,
+  completeCheckout,
 } = checkoutSlicer.actions;
 
 export default checkoutSlicer.reducer;

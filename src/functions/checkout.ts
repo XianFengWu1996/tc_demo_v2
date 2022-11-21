@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Dispatch, SetStateAction } from 'react';
 import { auth } from '../config/firebaseConfig';
-import { generatePublicToken } from './auth';
 import snackbar from './utilities/snackbar';
 
 export const requestOTPCode = async (
@@ -67,16 +66,6 @@ export const updateAddress = async (address: Address) => {
   });
 };
 
-export const getStripeClientSecret = async () => {
-  return await axios({
-    method: 'get',
-    url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/payment/initiate_intent`,
-    headers: {
-      authorization: `Bearer ${generatePublicToken()}`,
-    },
-  });
-};
-
 export const getUserData = async (token: string | undefined) => {
   return await axios({
     method: 'get',
@@ -84,5 +73,80 @@ export const getUserData = async (token: string | undefined) => {
     headers: {
       authorization: `Bearer ${token}`,
     },
+  });
+};
+
+const generatePaymentRequestData = (
+  cartState: Cart,
+  checkoutState: Checkout
+) => {
+  const { deliveryOption, cart, summary, cartId } = cartState;
+  const { clientSecret, contact, address, additional, timeFrame } =
+    checkoutState;
+
+  return {
+    clientSecret,
+    contact,
+    deliveryOption: deliveryOption,
+    delivery:
+      deliveryOption === 'delivery'
+        ? {
+            address: address,
+            deliveryNotes: additional.deliveryNotes,
+            dropoffOption: additional.dropoffOption,
+          }
+        : null,
+    kitchen: {
+      kitchenNotes: additional.kitchenNotes,
+      utensilOption: additional.utensilOption,
+    },
+    cartId: cartId,
+    timeFrame,
+    cart,
+    summary,
+  };
+};
+
+export const updateIntent = async (
+  amount: number,
+  clientSecret: string,
+  save: boolean
+) => {
+  return await axios({
+    method: 'put',
+    url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/checkout/payment/intent`,
+    headers: {
+      authorization: `Bearer ${await auth.currentUser?.getIdToken()} `,
+    },
+    data: { amount, clientSecret, save },
+  });
+};
+
+export const InPersonPayment = async (
+  cartState: Cart,
+  checkoutState: Checkout
+) => {
+  return await axios({
+    method: 'POST',
+    url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/checkout/payment/in_person`,
+    headers: {
+      authorization: `Bearer ${await auth.currentUser?.getIdToken()}`,
+    },
+    data: generatePaymentRequestData(cartState, checkoutState),
+  });
+};
+
+export const newCardPayment = async (
+  cartState: Cart,
+  checkoutState: Checkout
+) => {
+  console.log(generatePaymentRequestData(cartState, checkoutState));
+  return await axios({
+    method: 'POST',
+    url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/checkout/payment/new_card`,
+    headers: {
+      authorization: `Bearer ${await auth.currentUser?.getIdToken()}`,
+    },
+    data: generatePaymentRequestData(cartState, checkoutState),
   });
 };

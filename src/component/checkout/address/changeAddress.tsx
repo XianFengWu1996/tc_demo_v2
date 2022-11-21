@@ -10,7 +10,7 @@ export const ChangeAddress = () => {
   const { address, additional } = useAppSelector((state) => state.checkout);
 
   const details = address.details;
-  const format = address.formatted_address;
+  const format = address.formattedAddress;
 
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => {
@@ -22,7 +22,7 @@ export const ChangeAddress = () => {
   };
 
   const displayDropoffOption = () => {
-    if (additional.dropoff_option === 'hand_off') {
+    if (additional.dropoffOption === 'hand_off') {
       return 'Hand it to me';
     }
 
@@ -33,13 +33,13 @@ export const ChangeAddress = () => {
     <>
       <CheckoutNavigationButton
         title={
-          format && details && !isEmpty(format.street_name)
-            ? `${format.street_name} ${
-                details.apartment_number && `#${details.apartment_number}`
+          format && details && !isEmpty(format.streetName)
+            ? `${format.streetName} ${
+                details.apartmentNumber && `#${details.apartmentNumber}`
               }`
             : 'Add your address'
         }
-        subtitle={format && format.city_state_zip}
+        subtitle={format && format.cityStateZip}
         icon={<AiOutlineUser size={22} />}
         onClick={handleOpen}
       />
@@ -47,8 +47,8 @@ export const ChangeAddress = () => {
       <CheckoutNavigationButton
         title={displayDropoffOption() as string}
         subtitle={
-          !isEmpty(additional.delivery_notes)
-            ? `Delivery Note: "${additional.delivery_notes}"`
+          !isEmpty(additional.deliveryNotes)
+            ? `Delivery Note: "${additional.deliveryNotes}"`
             : 'Add note for driver'
         }
         icon={<MdOutlineEventNote size={22} />}

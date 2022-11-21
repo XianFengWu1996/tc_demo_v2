@@ -1,10 +1,10 @@
 import { Box, Button, Radio, Typography } from '@mui/material';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
+import { useAppDispatch } from '../../../store/hook';
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
-import { InPersonDialog } from '../../dialog/inpersonDialog';
-import { NewCardDialog } from '../../dialog/newCardDialog';
-import { SaveCardDialog } from '../../dialog/savedCardDialog';
+import { InPersonDialog } from '../../dialog/paymentDialog/inpersonDialog';
+import { NewCardDialog } from '../../dialog/paymentDialog/newCardDialog';
 import { CreditCardIcon, PaymentIconType } from '../../icon/creditCard';
 import { CheckoutExpandPanel } from '../expandPanel';
 
@@ -21,6 +21,7 @@ export const Payment = (props: PaymentProps) => {
   const [saved, setSaved] = useState<boolean>(false);
   // new card dialog
   const [newCard, setNewCard] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   return (
     <CheckoutExpandPanel show={props.showPayment} text={'payment'}>
@@ -31,13 +32,15 @@ export const Payment = (props: PaymentProps) => {
         title="Pay In Person"
         icon={<CreditCardIcon type="cash" />}
       />
+
       <CheckoutNavigationButton
         onClick={() => {
           setSaved(true);
         }}
-        title="Pay with Saved cards"
+        title="Use Saved Payment"
         icon={<CreditCardIcon type="wallet" />}
       />
+
       <CheckoutNavigationButton
         onClick={() => {
           setNewCard(true);
@@ -50,13 +53,6 @@ export const Payment = (props: PaymentProps) => {
         open={inPerson}
         handleClose={() => {
           setInPerson(false);
-        }}
-      />
-
-      <SaveCardDialog
-        open={saved}
-        handleClose={() => {
-          setSaved(false);
         }}
       />
 
@@ -88,8 +84,8 @@ export const PaymentChoice = (props: PaymentChoiceProps) => {
       <Button
         fullWidth
         onClick={() => {
-          if (props.onClick) {
-            props.onClick(props.value!);
+          if (props.onClick && props.value) {
+            props.onClick(props.value);
           }
         }}
         sx={{

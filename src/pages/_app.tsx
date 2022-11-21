@@ -32,7 +32,13 @@ Settings.defaultZone = 'America/New_York';
 function MyApp(props: AppProps) {
   // const [isDark, setIsDark] = useState(false);
   return (
-    <SnackbarProvider maxSnack={3}>
+    <SnackbarProvider
+      maxSnack={3}
+      style={{
+        fontFamily: 'Montserrat',
+        fontWeight: 600,
+      }}
+    >
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={null}>
           <ThemeProvider theme={lightTheme}>
@@ -58,6 +64,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       handleCatchError(e);
     });
   }, [getStoreData]);
+
   return (
     <>
       <SnackbarUtilsConfigurator />

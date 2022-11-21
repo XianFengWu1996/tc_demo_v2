@@ -108,7 +108,7 @@ export const AppBarNav = () => {
 
             <CartButton onClick={handleCartOpen}>
               <AiOutlineShoppingCart color={'#fff'} />
-              <CartCount>{summary.cart_quantity}</CartCount>
+              <CartCount>{summary.cartQuantity}</CartCount>
             </CartButton>
           </Toolbar>
         </StyleAppbar>

@@ -23,7 +23,7 @@ export const DropoffOption = (props: DropoffOptionProps) => {
         <RadioGroup
           aria-labelledby="drop_off_option_label"
           value={props.value}
-          name="dropoff_option_radio_group"
+          name="dropoffOption_radio_group"
           onChange={props.onChange}
         >
           <FormControlLabel

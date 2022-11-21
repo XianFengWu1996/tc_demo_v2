@@ -7,7 +7,7 @@ import { EditNameDialog } from '../../dialog/editNameDialog';
 
 export const EditName = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const { delivery_option } = useAppSelector((state) => state.cart);
+  const { deliveryOption } = useAppSelector((state) => state.cart);
   const { contact } = useAppSelector((state) => state.checkout);
 
   const handleOpen = () => {
@@ -22,7 +22,7 @@ export const EditName = () => {
       <CheckoutNavigationButton
         onClick={handleOpen}
         title={
-          delivery_option === 'delivery' ? 'Customer Name' : 'Name for Pickup'
+          deliveryOption === 'delivery' ? 'Customer Name' : 'Name for Pickup'
         }
         subtitle={
           !isEmpty(contact.name) ? contact.name : 'Please provide your name'

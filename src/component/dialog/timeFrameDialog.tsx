@@ -26,9 +26,9 @@ export const TimeFrameDialog = (props: Dialog) => {
   const [currentTime, setCurrentTime] = useState<number>(0);
 
   const { today } = useAppSelector((state) => state.store);
-  const { delivery_option } = useAppSelector((state) => state.cart);
+  const { deliveryOption } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
-  const increment = delivery_option === 'delivery' ? 30 : 20;
+  const increment = deliveryOption === 'delivery' ? 30 : 20;
 
   useEffect(() => {
     if (today) {
@@ -100,7 +100,7 @@ export const TimeFrameDialog = (props: Dialog) => {
           }}
         >
           <Typography sx={{ fontWeight: 600, my: 1 }}>
-            Desire {delivery_option === 'pickup' ? 'pickup' : 'delivery'} time
+            Desire {deliveryOption === 'pickup' ? 'pickup' : 'delivery'} time
           </Typography>
           <Typography sx={{ fontSize: 10, fontWeight: 600 }}>
             (All times in US/Eastern)

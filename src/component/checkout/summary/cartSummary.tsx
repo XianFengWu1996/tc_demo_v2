@@ -20,7 +20,7 @@ const CartSummaryContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const CartSummary = () => {
-  const { summary, delivery_option } = useAppSelector((state) => state.cart);
+  const { summary, deliveryOption } = useAppSelector((state) => state.cart);
 
   return (
     <CheckoutGrid
@@ -56,10 +56,10 @@ export const CartSummary = () => {
           <CartSummaryItem label="subtotal" amount={summary.subtotal} />
           <CartSummaryItem label="tax" amount={summary.tax} />
           <CartSummaryItem label="tip" amount={summary.tip} />
-          {delivery_option === 'delivery' && (
+          {deliveryOption === 'delivery' && (
             <CartSummaryItem
               label="delivery fee"
-              amount={summary.delivery_fee}
+              amount={summary.deliveryFee}
             />
           )}
           <CartSummaryItem label="total" amount={summary.total} />

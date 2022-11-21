@@ -20,7 +20,7 @@ interface AddressProps {
 }
 
 export const Address = (props: AddressProps) => {
-  const { delivery_option } = useAppSelector((state) => state.cart);
+  const { deliveryOption } = useAppSelector((state) => state.cart);
   const { address } = useAppSelector((state) => state.checkout);
 
   return (
@@ -29,13 +29,10 @@ export const Address = (props: AddressProps) => {
       onClick={props.backToAddress}
       show={props.showAddress}
     >
-      {delivery_option === 'delivery' &&
-        address.details?.lat &&
-        address.details?.lng && (
-          <DisplayMap lat={address.details.lat} lng={address.details.lng} />
-        )}
-
-      {delivery_option === 'pickup' && (
+      {deliveryOption === 'delivery' && (
+        <DisplayMap lat={address?.details?.lat} lng={address?.details?.lng} />
+      )}
+      {deliveryOption === 'pickup' && (
         <DisplayMap
           lat={Number(process.env.NEXT_PUBLIC_STORE_LAT)}
           lng={Number(process.env.NEXT_PUBLIC_STORE_LNG)}
@@ -48,7 +45,7 @@ export const Address = (props: AddressProps) => {
 
       <EditName />
 
-      {delivery_option === 'delivery' ? (
+      {deliveryOption === 'delivery' ? (
         <ChangeAddress />
       ) : (
         <CheckoutNavigationButton

@@ -1,14 +1,13 @@
 import { Box, Button, Radio, Typography } from '@mui/material';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
-import { useAppDispatch } from '../../../store/hook';
+import { useAppSelector } from '../../../store/hook';
 import { CheckoutNavigationButton } from '../../button/checkoutButton';
 import { InPersonDialog } from '../../dialog/paymentDialog/inpersonDialog';
 import { NewCardDialog } from '../../dialog/paymentDialog/newCardDialog';
+import { SaveCardDialog } from '../../dialog/paymentDialog/savedCardDialog';
 import { CreditCardIcon, PaymentIconType } from '../../icon/creditCard';
 import { CheckoutExpandPanel } from '../expandPanel';
-
-type PaymentType = 'inperson' | 'saved' | 'new';
 
 interface PaymentProps {
   showPayment: boolean;
@@ -21,7 +20,8 @@ export const Payment = (props: PaymentProps) => {
   const [saved, setSaved] = useState<boolean>(false);
   // new card dialog
   const [newCard, setNewCard] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
+
+  const { cards } = useAppSelector((state) => state.checkout);
 
   return (
     <CheckoutExpandPanel show={props.showPayment} text={'payment'}>
@@ -33,13 +33,15 @@ export const Payment = (props: PaymentProps) => {
         icon={<CreditCardIcon type="cash" />}
       />
 
-      <CheckoutNavigationButton
-        onClick={() => {
-          setSaved(true);
-        }}
-        title="Use Saved Payment"
-        icon={<CreditCardIcon type="wallet" />}
-      />
+      {cards.length >= 1 && (
+        <CheckoutNavigationButton
+          onClick={() => {
+            setSaved(true);
+          }}
+          title="Use Saved Payment"
+          icon={<CreditCardIcon type="wallet" />}
+        />
+      )}
 
       <CheckoutNavigationButton
         onClick={() => {
@@ -53,6 +55,13 @@ export const Payment = (props: PaymentProps) => {
         open={inPerson}
         handleClose={() => {
           setInPerson(false);
+        }}
+      />
+
+      <SaveCardDialog
+        open={saved}
+        handleClose={() => {
+          setSaved(false);
         }}
       />
 
@@ -71,9 +80,9 @@ interface PaymentChoiceProps {
   type: PaymentIconType;
   text: string;
   subText?: string;
-  value?: PaymentType;
+  value?: string;
   content?: ReactNode;
-  onClick?: (arg1: PaymentType) => void;
+  onClick?: (arg1: string | undefined) => void;
 
   iconHeight?: number;
   iconWidth?: number;
@@ -84,9 +93,9 @@ export const PaymentChoice = (props: PaymentChoiceProps) => {
       <Button
         fullWidth
         onClick={() => {
-          if (props.onClick && props.value) {
-            props.onClick(props.value);
-          }
+          if (!props.onClick) return;
+
+          props.onClick(props.value);
         }}
         sx={{
           border: `1.5px solid ${props.selected ? '#4bb543' : '#000'}`,

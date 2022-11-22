@@ -97,7 +97,7 @@ export const TipSelection = () => {
           />
         </Box>
 
-        <Box sx={{ mt: 2, display: 'flex' }}>
+        <Box sx={{ mt: 2, mb: 1.5, display: 'flex' }}>
           <TipButton
             value="custom"
             selected={summary.tipType === 'custom'}

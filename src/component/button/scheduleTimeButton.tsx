@@ -54,7 +54,7 @@ export const ScheduleTimeButton = (props: IScheduleTimeButtonProps) => {
         disabled={props.currentTime >= props.time.numeric}
       >
         <Typography fontSize={14} fontWeight={600}>
-          {props.time.displayTime} {props.currentTime}
+          {props.time.displayTime}
         </Typography>
       </ScheduleTimeButtonStyle>
     </Grid>

@@ -128,7 +128,9 @@ export const NewCardDialog = (props: Dialog) => {
           text={`Place Order | $${cart.summary.total.toFixed(2)}`}
         />
 
-        <Button fullWidth>Cancel</Button>
+        <Button fullWidth onClick={props.handleClose}>
+          Cancel
+        </Button>
       </CustomDialogContent>
     </CustomDialog>
   );

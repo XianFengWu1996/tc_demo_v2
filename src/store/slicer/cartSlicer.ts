@@ -170,6 +170,7 @@ export const cartSlicer = createSlice({
       state.summary.discount.lunch = 0;
       state.summary.tip = 0;
       state.summary.tipType = '';
+      state.cartId = v4();
       calculateTotal(state);
     },
   },

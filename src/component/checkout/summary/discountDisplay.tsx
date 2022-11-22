@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useRef, useState } from 'react';
 import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
+import snackbar from '../../../functions/utilities/snackbar';
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import { addDiscount } from '../../../store/slicer/cartSlicer';
 import { CustomeDialogSubTitle } from '../../dialog/styles';
@@ -16,6 +17,16 @@ export const DiscountDisplay = () => {
 
   const dispatch = useAppDispatch();
   const { reward } = useAppSelector((state) => state.checkout);
+
+  const handlePointRedemption = () => {
+    const pt = Number(points);
+    if (pt < 0) return;
+
+    if (pt > reward.points) {
+      return snackbar.error('Not enough points');
+    }
+    dispatch(addDiscount(pt));
+  };
 
   return (
     <>
@@ -74,10 +85,7 @@ export const DiscountDisplay = () => {
               ml: 2,
               flex: 1,
             }}
-            onClick={() => {
-              const pt = Number(points);
-              dispatch(addDiscount(pt));
-            }}
+            onClick={handlePointRedemption}
           >
             Enter
           </Button>

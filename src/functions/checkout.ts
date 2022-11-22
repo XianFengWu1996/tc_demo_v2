@@ -140,7 +140,6 @@ export const newCardPayment = async (
   cartState: Cart,
   checkoutState: Checkout
 ) => {
-  console.log(generatePaymentRequestData(cartState, checkoutState));
   return await axios({
     method: 'POST',
     url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/checkout/payment/new_card`,
@@ -148,5 +147,23 @@ export const newCardPayment = async (
       authorization: `Bearer ${await auth.currentUser?.getIdToken()}`,
     },
     data: generatePaymentRequestData(cartState, checkoutState),
+  });
+};
+
+export const saveCardPayment = async (
+  cartState: Cart,
+  checkoutState: Checkout,
+  card: Card
+) => {
+  return await axios({
+    method: 'POST',
+    url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/checkout/payment/saved_card`,
+    headers: {
+      authorization: `Bearer ${await auth.currentUser?.getIdToken()}`,
+    },
+    data: {
+      ...generatePaymentRequestData(cartState, checkoutState),
+      card,
+    },
   });
 };

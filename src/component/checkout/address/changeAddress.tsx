@@ -55,7 +55,12 @@ export const ChangeAddress = () => {
         onClick={handleOpen}
       />
 
-      <ChangeAddressDialog open={open} handleClose={handleClose} />
+      <ChangeAddressDialog
+        open={open}
+        handleClose={handleClose}
+        type="checkout"
+        onComplete={() => console.log('first')}
+      />
     </>
   );
 };

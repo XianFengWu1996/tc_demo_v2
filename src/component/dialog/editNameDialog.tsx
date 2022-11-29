@@ -36,7 +36,12 @@ export const EditNameDialog = (props: Dialog) => {
       setLoading(true);
       await updateCustomerName(name);
 
-      dispatch(setContactName(name));
+      if (props.onComplete) {
+        props.onComplete(name);
+      } else {
+        dispatch(setContactName(name));
+      }
+
       snackbar.success('Name has been updated');
 
       props.handleClose();

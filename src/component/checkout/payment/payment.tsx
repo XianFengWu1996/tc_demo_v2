@@ -1,4 +1,4 @@
-import { Box, Button, Radio, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { useAppSelector } from '../../../store/hook';
@@ -161,63 +161,5 @@ export const PaymentChoice = (props: PaymentChoiceProps) => {
         </Box>
       </Button>
     </>
-  );
-};
-
-export const CreditCardButton = () => {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'start',
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          border: '2px solid rgba(0,0,0,0.6)',
-          borderRadius: '13px',
-          padding: '10px 20px',
-          width: '100%',
-          mb: 1.5,
-        }}
-      >
-        <Box display={'flex'}>
-          <Radio
-            checked={true}
-            onChange={(e) => {
-              console.log(e.target.value);
-            }}
-            value="a"
-            name="radio-buttons"
-          />
-
-          <Box ml={2}>
-            <Typography sx={{ fontSize: 15, fontWeight: 600 }}>Visa</Typography>
-            <Box display={'flex'} alignItems={'center'}>
-              <Typography sx={{ fontSize: 15, fontWeight: 600 }}>
-                •••• •••• ••••{' '}
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: 13,
-                  fontWeight: 600,
-                  ml: 1,
-                }}
-              >
-                3125
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Box>
-          <CreditCardIcon type="visa" height={30} width={30} />
-        </Box>
-      </Box>
-    </Box>
   );
 };

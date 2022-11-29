@@ -13,7 +13,7 @@ export const HomePage = () => {
   const router = useRouter();
 
   const handleContainedButtonOnClick = () => {
-    router.push('/order');
+    router.push('/menu');
   };
 
   const handleOutlinedButtonOnClick = () => {

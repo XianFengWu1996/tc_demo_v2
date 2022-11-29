@@ -20,13 +20,9 @@ import {
 } from 'react-icons/ai';
 import { HiOutlineReceiptTax } from 'react-icons/hi';
 import { MdOutlineRestaurantMenu } from 'react-icons/md';
+import { RiCoinsLine } from 'react-icons/ri';
 import { auth } from '../../../config/firebaseConfig';
 import snackbar from '../../../functions/utilities/snackbar';
-// import { useAppDispatch } from "../../../store/store";
-
-// import { onAuthStateChanged, User } from 'firebase/auth'
-// import { fbAuth, handleLogout } from "../../../utils/functions/auth";
-// import snackbar from "../../snackbar";
 
 interface IMenuDrawerProps {
   open: boolean;
@@ -71,31 +67,35 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
       id: '4a6db2eb-f038-4c78-8079-82ef5b958273',
       text: 'Menu',
       icon: <MdOutlineRestaurantMenu />,
-      path: '/order',
+      path: '/menu',
     },
-    {
+    user && {
       id: '8a7d5046-0247-43a3-b6d8-f4a295cfa05d',
       text: 'Checkout',
       icon: <AiOutlineShoppingCart />,
-      path: '/order/checkout',
+      path: '/checkout',
     },
 
-    user
-      ? {
-          id: 'beb85444-bccf-4f34-90ca-ac274b086950',
-          text: 'Order',
-          icon: <HiOutlineReceiptTax />,
-          path: `/account?redirect=order`,
-        }
-      : null,
-    user
-      ? {
-          id: '38d4df12-3c06-4c9b-90de-c1d79152fe3d',
-          text: 'Setting',
-          icon: <AiOutlineSetting />,
-          path: `/account?redirect=setting`,
-        }
-      : null,
+    user && {
+      id: 'beb85444-bccf-4f34-90ca-ac274b086950',
+      text: 'Order',
+      icon: <HiOutlineReceiptTax />,
+      path: `/account?to=order`,
+    },
+
+    user && {
+      id: 'beb85444-bccf-a123-90ca-ac274b086950',
+      text: 'Rewards',
+      icon: <RiCoinsLine />,
+      path: `/account?to=rewards`,
+    },
+
+    user && {
+      id: '38d4df12-3c06-4c9b-90de-c1d79152fe3d',
+      text: 'Account',
+      icon: <AiOutlineSetting />,
+      path: `/account?to=personal`,
+    },
   ];
 
   const handleSigninLogout = () => {

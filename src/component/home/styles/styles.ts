@@ -1,7 +1,7 @@
 import { Button, Card, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import BgImage from '../../../../public/assets/images/dumpling_background.jpg';
 import CustomerBg from '../../../../public/assets/images/customer-background.jpeg';
+import BgImage from '../../../../public/assets/images/dumpling_background.jpg';
 
 // ========================================
 //      Home Styled Components
@@ -95,6 +95,7 @@ export const StoreDetailGrid = styled(Grid)(({ theme }) => ({
 
 export const StoreDetailCardContainer = styled(Card)(({ theme }) => ({
   height: '45vh',
+  padding: '0 25px',
   [theme.breakpoints.down('md')]: {
     height: '30vh',
   },

@@ -11,6 +11,7 @@ import { CartSummary } from '../../component/checkout/summary/cartSummary';
 import { auth } from '../../config/firebaseConfig';
 import { getUserData } from '../../functions/checkout';
 import { handleCatchError } from '../../functions/error';
+import snackbar from '../../functions/utilities/snackbar';
 import { useAppDispatch } from '../../store/hook';
 import {
   setDeliveryOption,
@@ -35,9 +36,16 @@ export default function CheckoutPage() {
 
   // get customer info
   useEffect(() => {
-    try {
-      onAuthStateChanged(auth, async (fbUser) => {
+    onAuthStateChanged(auth, async (fbUser) => {
+      try {
         setLoading(true);
+
+        if (!fbUser) {
+          // if no user exist, redirect to signin page
+          snackbar.info('Please sign in before checkout');
+          return Router.push('/auth/signin');
+        }
+
         const token = await fbUser?.getIdToken();
         // get the user information
         const result = (await (
@@ -50,12 +58,12 @@ export default function CheckoutPage() {
         );
         dispatch(setDeliveryOption('delivery'));
         setLoading(false);
-      });
-    } catch (error) {
-      handleCatchError(error);
-      setDataError(true);
-      setLoading(false);
-    }
+      } catch (error) {
+        handleCatchError(error);
+        setDataError(true);
+        setLoading(false);
+      }
+    });
   }, [dispatch]);
 
   return (

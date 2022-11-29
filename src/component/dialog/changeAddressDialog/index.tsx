@@ -1,4 +1,5 @@
 import { Box, Button, useMediaQuery } from '@mui/material';
+import { LoadScriptProps, useJsApiLoader } from '@react-google-maps/api';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 import { updateAddress } from '../../../functions/checkout';
@@ -30,7 +31,17 @@ const defaultAdditional: Additional = {
   deliveryNotes: '',
 };
 
-export const ChangeAddressDialog = (props: Dialog) => {
+interface ChangeAddressDialogProps extends Dialog {
+  type: 'checkout' | 'account';
+}
+
+export const ChangeAddressDialog = (props: ChangeAddressDialogProps) => {
+  const [libraries] = useState<LoadScriptProps['libraries']>(['places']);
+  useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_API,
+    libraries: libraries,
+  });
+
   const isMobileScreen = useMediaQuery('(max-width: 600px)');
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,6 +54,7 @@ export const ChangeAddressDialog = (props: Dialog) => {
   const [state, setState] = useState<Address>();
 
   const dispatch = useAppDispatch();
+
   const { address, additional } = useAppSelector((state) => state.checkout);
 
   useEffect(() => {
@@ -77,13 +89,16 @@ export const ChangeAddressDialog = (props: Dialog) => {
       if (state.details && state.formattedAddress) {
         await updateAddress(state);
 
+        if (props.onComplete) {
+          props.onComplete(state);
+        }
+
         dispatch(
           setAdditionalDeliveryOption({
             deliveryNotes: localAdditional.deliveryNotes,
             dropoffOption: localAdditional.dropoffOption,
           })
         );
-
         dispatch(
           setAddress({
             details: state.details,
@@ -197,19 +212,27 @@ export const ChangeAddressDialog = (props: Dialog) => {
                   onChange={handleApartmentChange}
                 />
 
-                <DropoffOption
-                  value={localAdditional.dropoffOption}
-                  onChange={handleDropoffOptionChange}
-                />
+                {props.type === 'checkout' && (
+                  <DropoffOption
+                    value={localAdditional.dropoffOption}
+                    onChange={handleDropoffOptionChange}
+                  />
+                )}
 
-                <CustomeDialogSubTitle>Delivery Notes</CustomeDialogSubTitle>
-                <CustomInput
-                  fullWidth
-                  multiline
-                  minRows={3}
-                  value={localAdditional.deliveryNotes}
-                  onChange={handleDeliveryNoteChange}
-                />
+                {props.type === 'checkout' && (
+                  <>
+                    <CustomeDialogSubTitle>
+                      Delivery Notes
+                    </CustomeDialogSubTitle>
+                    <CustomInput
+                      fullWidth
+                      multiline
+                      minRows={3}
+                      value={localAdditional.deliveryNotes}
+                      onChange={handleDeliveryNoteChange}
+                    />
+                  </>
+                )}
               </>
             )
           )}

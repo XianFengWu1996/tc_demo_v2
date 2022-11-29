@@ -8,6 +8,7 @@ type StatusType =
   | 'partial_refund'
   | 'fully_refund'
   | 'cancelled';
+type VerificationStatus = 'pre' | 'verifying' | 'complete';
 
 type TipType = '' | '10%' | '15%' | '18%' | '20%' | 'cash' | 'custom';
 
@@ -145,4 +146,32 @@ interface RefundCancel {
   amount: number;
   reason: string;
   date: number;
+}
+
+declare namespace PhoneVerification {
+  interface Before {
+    phone: string;
+    loading: boolean;
+    onChange:
+      | ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+      | undefined;
+    onClick: () => void;
+  }
+  interface During extends Before {
+    otp: string;
+    onResend: () => Promise<void>;
+  }
+  interface Complete {
+    onClick: () => void;
+  }
+}
+
+interface EditPhoneContent {
+  title?: string;
+  subTitle?: string | ReactNode;
+  content?: ReactNode;
+  buttonDisabled?: boolean;
+  buttonText: string;
+  onClick?: () => void;
+  loading?: boolean;
 }

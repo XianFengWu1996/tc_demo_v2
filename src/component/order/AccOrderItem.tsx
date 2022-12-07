@@ -41,9 +41,12 @@ export const AccOrderItem = (props: AccOrderItemProps) => {
   const dt = DateTime.fromMillis(order.createdAt);
   const date = dt.toFormat('LLL dd, y');
 
+  const paymentData = order.payment.stripe;
+
   const handleExpand = () => {
     setExpand(!expand);
   };
+
   return (
     <Box>
       <Box
@@ -114,6 +117,38 @@ export const AccOrderItem = (props: AccOrderItemProps) => {
             mx: 1,
           }}
         >
+          <SmallBoldFont>
+            Order Status: {order.orderStatus.status.replace('_', ' ')}
+          </SmallBoldFont>
+          <Box sx={{ mb: 2 }}>
+            <SmallBoldFont>
+              Payment:{' '}
+              {order.payment.paymentType === 'in_person'
+                ? 'In Person'
+                : 'Online'}
+            </SmallBoldFont>
+            {paymentData && (
+              <Box>
+                <SmallBoldFont>
+                  Payment Option: {paymentData.public.type}
+                </SmallBoldFont>
+                {paymentData.public.card && (
+                  <Box>
+                    <SmallLightFont>
+                      {paymentData.public.card.brand}
+                    </SmallLightFont>
+                    <SmallLightFont>
+                      XX-{paymentData.public.card.last4}
+                    </SmallLightFont>
+                    <SmallLightFont>
+                      Exp: {paymentData.public.card.expMonth}/
+                      {paymentData.public.card.expYear}
+                    </SmallLightFont>
+                  </Box>
+                )}
+              </Box>
+            )}
+          </Box>
           <Box sx={{ display: 'flex' }}>
             <Label sx={{ flex: 3 }}>Item Name</Label>
             <Label>Quantity</Label>
@@ -131,44 +166,42 @@ export const AccOrderItem = (props: AccOrderItemProps) => {
                     {item.details.label_id}. {item.details.en_name}{' '}
                     {item.details.ch_name}
                   </Typography>
-                  <Typography>
-                    {item.choices.map((choice) => {
-                      return (
-                        <Box key={choice.id} sx={{ ml: 2 }}>
-                          <Typography
-                            sx={{
-                              fontSize: 11,
-                              fontWeight: 500,
-                              color: 'rgba(0,0,0,0.7)',
-                              textTransform: 'capitalize',
-                            }}
-                          >
-                            {choice.en_name} {choice.ch_name}
-                          </Typography>
+                  {item.choices.map((choice) => {
+                    return (
+                      <Box key={choice.id} sx={{ ml: 2 }}>
+                        <Typography
+                          sx={{
+                            fontSize: 11,
+                            fontWeight: 500,
+                            color: 'rgba(0,0,0,0.7)',
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {choice.en_name} {choice.ch_name}
+                        </Typography>
 
-                          {choice.selectOptions.map((option) => {
-                            return (
-                              <Typography
-                                key={option.id}
-                                sx={{
-                                  fontSize: 10,
-                                  fontWeight: 500,
-                                  ml: 2,
-                                  color: 'rgba(0,0,0,0.7)',
-                                  textTransform: 'capitalize',
-                                }}
-                              >
-                                - {option.en_name} {option.ch_name}{' '}
-                                {option.is_spicy && <GoFlame color="red" />}
-                                {option.price > 0 &&
-                                  `$${option.price.toFixed(2)}`}
-                              </Typography>
-                            );
-                          })}
-                        </Box>
-                      );
-                    })}
-                  </Typography>
+                        {choice.selectOptions.map((option) => {
+                          return (
+                            <Typography
+                              key={option.id}
+                              sx={{
+                                fontSize: 10,
+                                fontWeight: 500,
+                                ml: 2,
+                                color: 'rgba(0,0,0,0.7)',
+                                textTransform: 'capitalize',
+                              }}
+                            >
+                              - {option.en_name} {option.ch_name}{' '}
+                              {option.is_spicy && <GoFlame color="red" />}
+                              {option.price > 0 &&
+                                `$${option.price.toFixed(2)}`}
+                            </Typography>
+                          );
+                        })}
+                      </Box>
+                    );
+                  })}
 
                   {!isEmpty(item.comments) && (
                     <Typography sx={{ fontSize: 11, color: 'red' }}>
@@ -227,6 +260,7 @@ export const AccOrderItem = (props: AccOrderItemProps) => {
                     fontSize: 12,
                     fontWeight: 500,
                     textTransform: 'capitalize',
+                    color: 'red',
                   }}
                 >
                   Notes for kitchen: {order.kitchen.kitchenNotes}
@@ -254,6 +288,7 @@ export const AccOrderItem = (props: AccOrderItemProps) => {
                       fontSize: 12,
                       fontWeight: 500,
                       textTransform: 'capitalize',
+                      color: 'red',
                     }}
                   >
                     Notes for driver: {order.delivery.deliveryNotes}

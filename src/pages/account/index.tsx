@@ -114,7 +114,6 @@ export default function AccountPage() {
 
   return (
     <>
-      <Typography>{redirect}</Typography>
       <AppBarNav />
 
       <Grid container>

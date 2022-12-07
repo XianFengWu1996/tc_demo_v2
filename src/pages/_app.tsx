@@ -7,7 +7,7 @@ import type { AppProps } from 'next/app';
 import { lightTheme } from '../functions/theme';
 
 // import { darkTheme, lightTheme } from '../functions/theme';
-import { ThemeProvider } from '@mui/material';
+import { Alert, AlertTitle, ThemeProvider } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import { Provider } from 'react-redux';
 import { SnackbarUtilsConfigurator } from '../functions/utilities/snackbar';
@@ -67,6 +67,10 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
+      <Alert severity="info">
+        <AlertTitle>IMPORTANT</AlertTitle>
+        This is a demo page, for testing purpose only
+      </Alert>
       <SnackbarUtilsConfigurator />
       <Component {...pageProps} />
       <Footer />

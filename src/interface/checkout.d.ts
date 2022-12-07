@@ -135,6 +135,12 @@ interface Order {
   cart: CartItem[];
   summary: CartSummary;
   reward: number;
+  payment: {
+    paymentType: Payment.Type;
+    stripe: {
+      public: Payment.Public;
+    } | null;
+  };
   orderStatus: {
     status: OrderStatus.StatusType;
     refund: OrderStatus.Details | null;
@@ -142,9 +148,26 @@ interface Order {
   };
 }
 
+declare namespace Payment {
+  type Type = 'in_person' | 'online';
+
+  interface Public {
+    type: string;
+    card: {
+      last4: string;
+      expMonth: number;
+      expYear: number;
+      brand: string;
+    } | null;
+    created: number;
+    clientSecret: string;
+  }
+}
+
 declare namespace OrderStatus {
   type StatusType =
     | 'in_progress'
+    | 'preparing'
     | 'complete'
     | 'partial_refund'
     | 'fully_refund'

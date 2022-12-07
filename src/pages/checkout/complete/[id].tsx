@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AppBarNav } from '../../../component/appbar/appbar';
 
@@ -57,6 +58,8 @@ export default function CheckoutComplete() {
           >
             Back to Home
           </Button>
+
+          <Link href="/simulate/order">Check simulated orders for store</Link>
         </Box>
       </Box>
     </>

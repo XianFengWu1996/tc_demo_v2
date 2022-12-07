@@ -34,7 +34,7 @@ export const AccOrder = () => {
         orders.slice(page * numberPerPage - numberPerPage, numberPerPage * page)
       );
     }
-  }, [page, numberOfPage, orders]);
+  }, [page, numberOfPage, orders, numberPerPage]);
 
   const handlePageChange = (
     event: ChangeEvent<unknown>,

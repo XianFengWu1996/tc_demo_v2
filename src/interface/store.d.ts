@@ -123,3 +123,17 @@ interface Status {
   };
   serverOn: boolean;
 }
+
+declare namespace Simulate {
+  type ContactUsMessageStatus = 'requested' | 'required_followup' | 'complete';
+
+  interface ContactUsMessage {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    id: string;
+    createdAt: number;
+    status: ContactUsMessageStatus;
+  }
+}

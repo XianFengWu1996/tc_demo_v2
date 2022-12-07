@@ -1,6 +1,7 @@
 import { Box, styled, Typography } from '@mui/material';
 import axios from 'axios';
 import { isEmpty } from 'lodash';
+import Link from 'next/link';
 import { ChangeEvent, useState } from 'react';
 import isEmail from 'validator/lib/isEmail';
 import { AppBarNav } from '../../component/appbar/appbar';
@@ -173,6 +174,10 @@ export default function Contact() {
             onClick={handleSubmit}
             text={'Submit'}
           />
+
+          <Link href={'/simulate/contactus'}>
+            Check Simulate Message for Server
+          </Link>
         </Box>
       </Box>
     </>

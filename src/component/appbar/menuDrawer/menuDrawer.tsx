@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import {
   AiOutlineClose,
   AiOutlineHome,
+  AiOutlinePhone,
   AiOutlineSetting,
   AiOutlineShoppingCart,
   AiOutlineUser,
@@ -95,6 +96,12 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
       text: 'Account',
       icon: <AiOutlineSetting />,
       path: `/account?redirect_to=personal`,
+    },
+    {
+      id: '38dasd-123c9b-90de-c1d79152fe3d',
+      text: 'Contact Us',
+      icon: <AiOutlinePhone />,
+      path: `/contact`,
     },
   ];
 

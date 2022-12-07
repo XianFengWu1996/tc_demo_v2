@@ -20,14 +20,14 @@ export const generateScheduleTime = (
   close: number,
   increment: number
 ) => {
-  const scheduleTime: ScheduleTime[] = [];
+  const scheduleTime: TimeFrame.SelectedTime[] = [];
 
   for (
     let index = open + increment;
     index <= close - increment;
     index += increment
   ) {
-    const data: ScheduleTime = {
+    const data: TimeFrame.SelectedTime = {
       displayTime: `${timeToStringFormat(index)}-${timeToStringFormat(
         index + increment
       )}`,

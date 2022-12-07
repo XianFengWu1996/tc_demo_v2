@@ -19,8 +19,8 @@ import {
   AiOutlineUser,
 } from 'react-icons/ai';
 import { HiOutlineReceiptTax } from 'react-icons/hi';
+import { IoWalletOutline } from 'react-icons/io5';
 import { MdOutlineRestaurantMenu } from 'react-icons/md';
-import { RiCoinsLine } from 'react-icons/ri';
 import { auth } from '../../../config/firebaseConfig';
 import snackbar from '../../../functions/utilities/snackbar';
 
@@ -80,21 +80,21 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
       id: 'beb85444-bccf-4f34-90ca-ac274b086950',
       text: 'Order',
       icon: <HiOutlineReceiptTax />,
-      path: `/account?to=order`,
+      path: `/account?redirect_to=order`,
     },
 
     user && {
-      id: 'beb85444-bccf-a123-90ca-ac274b086950',
-      text: 'Rewards',
-      icon: <RiCoinsLine />,
-      path: `/account?to=rewards`,
+      id: 'beb8jkjwqelk-34f34-90ca-ac274b086950',
+      text: 'Wallet',
+      icon: <IoWalletOutline />,
+      path: `/account?redirect_to=wallet`,
     },
 
     user && {
       id: '38d4df12-3c06-4c9b-90de-c1d79152fe3d',
       text: 'Account',
       icon: <AiOutlineSetting />,
-      path: `/account?to=personal`,
+      path: `/account?redirect_to=personal`,
     },
   ];
 

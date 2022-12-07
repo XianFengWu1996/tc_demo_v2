@@ -51,7 +51,7 @@ export const ChangeAddressDialog = (props: ChangeAddressDialogProps) => {
 
   const [localAdditional, setLocalAdditional] =
     useState<Additional>(defaultAdditional);
-  const [state, setState] = useState<Address>();
+  const [state, setState] = useState<Address.Details>();
 
   const dispatch = useAppDispatch();
 

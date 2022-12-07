@@ -73,7 +73,7 @@ interface CartSummaryItem {
   label: string;
   amount: number;
 }
-const CartSummaryItem = (props: CartSummaryItem) => {
+export const CartSummaryItem = (props: CartSummaryItem) => {
   return (
     <Box
       sx={{
@@ -95,7 +95,7 @@ const CartSummaryItem = (props: CartSummaryItem) => {
   );
 };
 
-const CartSummaryDiscountItem = (props: CartSummaryItem) => {
+export const CartSummaryDiscountItem = (props: CartSummaryItem) => {
   return (
     <Box
       sx={{

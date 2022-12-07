@@ -34,8 +34,8 @@ const options = {
 };
 
 interface AddressSearchProps {
-  state?: Address;
-  setState: Dispatch<SetStateAction<Address | undefined>>;
+  state?: Address.Details;
+  setState: Dispatch<SetStateAction<Address.Details | undefined>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
 }
 export const AddressSearch = (props: AddressSearchProps) => {

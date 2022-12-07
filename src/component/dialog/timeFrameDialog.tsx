@@ -17,8 +17,10 @@ import {
 export const TimeFrameDialog = (props: Dialog) => {
   const isMobileScreen = useMediaQuery('(max-width: 600px)');
 
-  const [scheduleTime, setScheduleTime] = useState<ScheduleTime[]>([]);
-  const [selectTime, setSelectTime] = useState<ScheduleTime>({
+  const [scheduleTime, setScheduleTime] = useState<TimeFrame.SelectedTime[]>(
+    []
+  );
+  const [selectTime, setSelectTime] = useState<TimeFrame.SelectedTime>({
     displayTime: '',
     numeric: -1,
   });
@@ -75,12 +77,28 @@ export const TimeFrameDialog = (props: Dialog) => {
     props.handleClose();
   };
 
+  const handleCancel = () => {
+    props.handleClose();
+
+    dispatch(setTimeFrameType('asap'));
+    dispatch(
+      setTimeFrameSelect({
+        displayTime: '',
+        numeric: 0,
+      })
+    );
+  };
+
   return (
     <CustomDialog
       open={props.open}
       fullScreen={isMobileScreen}
       keepMounted={false}
-      onClose={props.handleClose}
+      onClose={(_, reason) => {
+        if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
+          handleCancel();
+        }
+      }}
     >
       <CustomDialogContent
         sx={{
@@ -132,7 +150,7 @@ export const TimeFrameDialog = (props: Dialog) => {
           Confirm{' '}
           {!isEmpty(selectTime.displayTime) && `| ${selectTime.displayTime}`}
         </Button>
-        <Button onClick={props.handleClose}>Cancel</Button>
+        <Button onClick={handleCancel}>Cancel</Button>
       </CustomDialogActions>
     </CustomDialog>
   );

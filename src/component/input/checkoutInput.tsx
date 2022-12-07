@@ -4,6 +4,7 @@ import { merge } from 'lodash';
 import { ChangeEventHandler, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 interface CustomInputProps {
+  name?: string;
   multiline?: boolean;
   fullWidth?: boolean;
   minRows?: number;
@@ -22,6 +23,7 @@ interface CustomInputProps {
 export const CustomInput = (props: CustomInputProps) => {
   return (
     <InputBase
+      name={props.name ?? ''}
       type={props.type ?? ('text' as HTMLInputTypeAttribute)}
       value={props.value}
       placeholder={props.placeholder ?? ''}

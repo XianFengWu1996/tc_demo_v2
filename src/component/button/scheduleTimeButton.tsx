@@ -3,9 +3,9 @@ import { Dispatch, SetStateAction } from 'react';
 import { getCurrentTime } from '../../functions/time';
 
 interface IScheduleTimeButtonProps {
-  time: ScheduleTime;
-  selected: ScheduleTime;
-  setSelectTime: Dispatch<SetStateAction<ScheduleTime>>;
+  time: TimeFrame.SelectedTime;
+  selected: TimeFrame.SelectedTime;
+  setSelectTime: Dispatch<SetStateAction<TimeFrame.SelectedTime>>;
   currentTime: number;
   increment: number;
   setUpdateCurrentTime: Dispatch<SetStateAction<number>>;

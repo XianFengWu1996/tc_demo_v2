@@ -1,4 +1,4 @@
-type AccountRedirects = 'personal' | 'wallet' | 'order' | 'legal' | 'contact';
+type AccountRedirects = 'account' | 'wallet' | 'order' | 'legal';
 
 interface NavigationItem {
   id: string;

@@ -1,19 +1,12 @@
-type TimeFrameType = 'asap' | 'later';
 type DropoffOptionType = 'hand_off' | 'leave_at_door';
 type UtensilOptionType = 'include' | 'do not include';
-type RewardType = 'reward' | 'redemption' | 'refund' | 'cancel';
-type StatusType =
-  | 'in_progress'
-  | 'complete'
-  | 'partial_refund'
-  | 'fully_refund'
-  | 'cancelled';
+
 type VerificationStatus = 'pre' | 'verifying' | 'complete';
 
 type TipType = '' | '10%' | '15%' | '18%' | '20%' | 'cash' | 'custom';
 
 interface Checkout {
-  timeFrame: TimeFrame;
+  timeFrame: TimeFrame.Scheduling;
   contact: Contact;
   additional: AdditionalOrderDetails;
   reward: Reward;
@@ -22,19 +15,75 @@ interface Checkout {
   cards: Card[];
 }
 
-interface TimeFrame {
-  type: TimeFrameType;
-  selected: ScheduleTime | null;
+declare namespace TimeFrame {
+  type Type = 'asap' | 'later';
+
+  interface Scheduling {
+    type: Type;
+    selected: SelectedTime | null;
+  }
+
+  interface SelectedTime {
+    displayTime: string;
+    numeric: number;
+  }
 }
 
-interface ScheduleTime {
-  displayTime: string;
-  numeric: number;
+declare namespace User {
+  interface User {
+    address: Address;
+    name: string;
+    phone: string;
+    reward: Reward;
+  }
+
+  interface Contact {
+    name: string;
+    phone: string;
+  }
+
+  interface Reward {
+    points: number;
+    transactions: RewardTransaction[];
+  }
+
+  type RewardType = 'reward' | 'redemption' | 'refund' | 'cancel';
+
+  interface RewardTransaction {
+    type: RewardType;
+    amount: number;
+    createdAt: number;
+    updatedAt: number;
+    orderId: string;
+  }
 }
 
-interface Contact {
-  name: string;
-  phone: string;
+declare namespace Address {
+  interface Details {
+    formattedAddress: FormattedAddress | null;
+    details: AddressDetails | null;
+  }
+
+  interface FormattedAddress {
+    complete: string;
+    streetName: string;
+    cityStateZip: string;
+  }
+
+  interface AddressDetails {
+    streetNumber: string;
+    streetName: string;
+    city: string;
+    state: string;
+    country: string;
+    postalCode: string;
+    lat: number;
+    lng: number;
+    placeId: string;
+    deliveryFee: number;
+    estimateTime: string;
+    apartmentNumber: string;
+  }
 }
 
 interface AdditionalOrderDetails {
@@ -42,19 +91,6 @@ interface AdditionalOrderDetails {
   deliveryNotes: string;
   kitchenNotes: string;
   utensilOption: UtensilOptionType;
-}
-
-interface Reward {
-  points: number;
-  transactions: RewardTransaction[];
-}
-
-interface RewardTransaction {
-  type: RewardType;
-  amount: number;
-  createdAt: number;
-  updatedAt: number;
-  orderId: string;
 }
 
 interface Additional {
@@ -67,46 +103,10 @@ interface KitchenOption {
   utensilOption: UtensilOptionType;
 }
 
-// =========================
-// ADDRESS
-// =========================
-interface Address {
-  formattedAddress: FormattedAddress | null;
-  details: AddressDetails | null;
-}
-
-interface FormattedAddress {
-  complete: string;
-  streetName: string;
-  cityStateZip: string;
-}
-
-interface AddressDetails {
-  streetNumber: string;
-  streetName: string;
-  city: string;
-  state: string;
-  country: string;
-  postalCode: string;
-  lat: number;
-  lng: number;
-  placeId: string;
-  deliveryFee: number;
-  estimateTime: string;
-  apartmentNumber: string;
-}
-
 interface CheckoutResult {
   user: User;
   clientSecret: string;
   cards: Card[];
-}
-
-interface User {
-  address: Address;
-  name: string;
-  phone: string;
-  reward: Reward;
 }
 
 interface Card {
@@ -120,14 +120,14 @@ interface Card {
   };
 }
 
-interface CheckoutClient {
+interface Order {
   id: string;
   createdAt: number;
-  contact: Contact;
+  contact: User.Contact;
   deliveryOption: DeliveryOptionType;
-  timeFrame: TimeFrame;
+  timeFrame: TimeFrame.Scheduling;
   delivery: {
-    address: Address;
+    address: Address.Details;
     deliveryNotes: string;
     dropoffOption: DropoffOptionType;
   } | null;
@@ -136,16 +136,25 @@ interface CheckoutClient {
   summary: CartSummary;
   reward: number;
   orderStatus: {
-    status: StatusType;
-    refund: RefundCancel | null;
-    cancel: RefundCancel | null;
+    status: OrderStatus.StatusType;
+    refund: OrderStatus.Details | null;
+    cancel: OrderStatus.Details | null;
   };
 }
 
-interface RefundCancel {
-  amount: number;
-  reason: string;
-  date: number;
+declare namespace OrderStatus {
+  type StatusType =
+    | 'in_progress'
+    | 'complete'
+    | 'partial_refund'
+    | 'fully_refund'
+    | 'cancelled';
+
+  interface Details {
+    amount: number;
+    reason: string;
+    date: number;
+  }
 }
 
 declare namespace PhoneVerification {

@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material';
+import { isEmpty } from 'lodash';
 import { MouseEventHandler, useState } from 'react';
 import { HiCheckCircle } from 'react-icons/hi';
 import { MdOutlineRadioButtonUnchecked, MdTimer } from 'react-icons/md';
@@ -51,7 +52,7 @@ export const TimeFrame = () => {
           }}
           title="Schedule for later"
           subtitle={
-            timeFrame.selected
+            timeFrame.selected && !isEmpty(timeFrame.selected.displayTime)
               ? timeFrame.selected.displayTime
               : 'Choose a time'
           }

@@ -55,7 +55,7 @@ export const updateCustomerName = async (name: string) => {
   });
 };
 
-export const updateAddress = async (address: Address) => {
+export const updateAddress = async (address: Address.Details) => {
   return await axios({
     method: 'put',
     url: `${process.env.NEXT_PUBLIC_CLOUD_FUNC_URL}/v2/customer/address`,

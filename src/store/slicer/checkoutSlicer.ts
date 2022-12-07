@@ -53,7 +53,7 @@ export const checkoutSlicer = createSlice({
       state.additional.utensilOption = payload.utensilOption;
     },
 
-    setTimeFrameType: (state, { payload }: PayloadAction<TimeFrameType>) => {
+    setTimeFrameType: (state, { payload }: PayloadAction<TimeFrame.Type>) => {
       state.timeFrame.type = payload;
     },
 
@@ -62,11 +62,14 @@ export const checkoutSlicer = createSlice({
       state.timeFrame.selected = null;
     },
 
-    setTimeFrameSelect: (state, { payload }: PayloadAction<ScheduleTime>) => {
+    setTimeFrameSelect: (
+      state,
+      { payload }: PayloadAction<TimeFrame.SelectedTime>
+    ) => {
       state.timeFrame.selected = payload;
     },
 
-    setAddress: (state, { payload }: PayloadAction<Address>) => {
+    setAddress: (state, { payload }: PayloadAction<Address.Details>) => {
       state.address.details = payload.details;
       state.address.formattedAddress = payload.formattedAddress;
     },

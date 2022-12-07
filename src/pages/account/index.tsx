@@ -9,12 +9,13 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiOutlineExclamationCircle, AiOutlineUser } from 'react-icons/ai';
-import { BsTelephone } from 'react-icons/bs';
 import { IoReceiptOutline, IoWalletOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
+import { AccOrder } from '../../component/account/order';
 import { AccPersonal } from '../../component/account/personalnfo';
 import { AccWallet } from '../../component/account/wallet';
 import { AppBarNav } from '../../component/appbar/appbar';
@@ -25,9 +26,9 @@ import { handleCatchError } from '../../functions/error';
 const navigationList: NavigationItem[] = [
   {
     id: v4(),
-    redirect_url: '?redirect_to=personal',
-    text: 'Personal Info',
-    value: 'personal',
+    redirect_url: '?redirect_to=account',
+    text: 'Account',
+    value: 'account',
     icon: AiOutlineUser,
   },
   {
@@ -51,22 +52,15 @@ const navigationList: NavigationItem[] = [
     value: 'legal',
     icon: AiOutlineExclamationCircle,
   },
-  {
-    id: v4(),
-    redirect_url: '?redirect_to=contact',
-    text: 'Contact Us',
-    value: 'contact',
-    icon: BsTelephone,
-  },
 ];
 
 export default function AccountPage() {
-  const [redirect, setRedirect] = useState<AccountRedirects>('personal');
+  const [redirect, setRedirect] = useState<AccountRedirects>('account');
   const router = useRouter();
   const isMediumScreen = useMediaQuery('(max-width:899px)');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState<User.User>({
     name: '',
     phone: '',
     address: {
@@ -97,7 +91,7 @@ export default function AccountPage() {
 
   const generateContents = () => {
     switch (redirect) {
-      case 'personal':
+      case 'account':
         return <AccPersonal user={user} setUser={setUser} loading={loading} />;
       case 'wallet':
         return <AccWallet />;
@@ -105,9 +99,6 @@ export default function AccountPage() {
         return <AccOrder />;
       case 'legal':
         return <AccLegal />;
-      case 'contact':
-        return <AccCotactUs />;
-
       default:
         break;
     }
@@ -222,19 +213,25 @@ export default function AccountPage() {
   );
 }
 
-export const AccAddress = () => {
-  return <>Address</>;
-};
-
-export const AccOrder = () => {
-  return <>Order hisotry</>;
-};
-export const AccRewards = () => {
-  return <>rewards</>;
-};
 export const AccLegal = () => {
-  return <>legal</>;
-};
-export const AccCotactUs = () => {
-  return <>contact us</>;
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        fontSize: 16,
+        fontWeight: 600,
+        color: 'blue',
+        textDecoration: 'underline',
+      }}
+    >
+      <Box mb={2}>
+        <Link href="/legal/privacy_policy">Privacy Policy</Link>
+      </Box>
+
+      <Box>
+        <Link href="/legal/terms_and_conditions">Terms and Conditions</Link>
+      </Box>
+    </Box>
+  );
 };

@@ -17,8 +17,8 @@ const PersonalInfoItem = styled(Box)(() => ({
 }));
 
 interface AccPersonalProps {
-  user: User;
-  setUser: Dispatch<SetStateAction<User>>;
+  user: User.User;
+  setUser: Dispatch<SetStateAction<User.User>>;
   loading?: boolean;
 }
 export const AccPersonal = (props: AccPersonalProps) => {
@@ -48,7 +48,7 @@ const AccEditName = (props: AccPersonalProps) => {
     setNameDialog(false);
   };
 
-  const handleOnComplete = (val: string | number | Address) => {
+  const handleOnComplete = (val: string | number | Address.Details) => {
     props.setUser((prev) => ({
       ...prev,
       name: val as string,
@@ -87,7 +87,7 @@ const AccEditPhone = (props: AccPersonalProps) => {
     setPhoneDialog(false);
   };
 
-  const handleOnComplete = (phone: string | number | Address) => {
+  const handleOnComplete = (phone: string | number | Address.Details) => {
     props.setUser((prev) => ({
       ...prev,
       phone: phone as string,
@@ -130,10 +130,10 @@ const AccEditAddress = (props: AccPersonalProps) => {
     setAddressDialog(false);
   };
 
-  const handleOnComplete = (val: string | number | Address) => {
+  const handleOnComplete = (val: string | number | Address.Details) => {
     props.setUser((prev) => ({
       ...prev,
-      address: val as Address,
+      address: val as Address.Details,
     }));
   };
 

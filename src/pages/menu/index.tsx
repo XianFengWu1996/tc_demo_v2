@@ -23,7 +23,7 @@ const MenuContainer = styled(Box)(({ theme }) => ({
 }));
 
 export default function MenuV2() {
-  const { menus, dishes } = useAppSelector((state) => state.store);
+  const { menus, dishes, today } = useAppSelector((state) => state.store);
 
   const [menu, setMenu] = useState<Menu>();
   const [category, setCategory] = useState<Category>();
@@ -107,9 +107,7 @@ export default function MenuV2() {
     setCurrentTime(time);
     // if we are changing to the lunch menu, we will want to check if its still during lunch time
 
-    console.log(time);
-
-    if (time > 1422) {
+    if (today && time > today.hours.lunch.close) {
       const found = menus.find((menu) => {
         return menu.id === process.env.NEXT_PUBLIC_FULLDAY_MENU;
       });

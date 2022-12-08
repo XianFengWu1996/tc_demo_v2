@@ -7,7 +7,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { GiForkKnifeSpoon } from 'react-icons/gi';
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import { setKitchenOption } from '../../../store/slicer/checkoutSlicer';
@@ -27,9 +27,12 @@ export const KitchenOption = () => {
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState<boolean>(false);
 
-  const [utensilOption, setUtensilOption] =
-    useState<UtensilOptionType>('do not include');
-  const [kitchenNotes, setKitchenNotes] = useState<string>('');
+  const [utensilOption, setUtensilOption] = useState<UtensilOptionType>(
+    additional.utensilOption ?? 'do not include'
+  );
+  const [kitchenNotes, setKitchenNotes] = useState<string>(
+    additional.kitchenNotes ?? ''
+  );
 
   const handleOpen = () => {
     setOpen(true);
@@ -53,16 +56,6 @@ export const KitchenOption = () => {
   const onCancel = () => {
     handleClose();
   };
-
-  useEffect(() => {
-    setKitchenNotes(additional.kitchenNotes);
-    setUtensilOption(additional.utensilOption);
-
-    return () => {
-      setKitchenNotes('');
-      setUtensilOption('do not include');
-    };
-  }, [open]);
 
   return (
     <>

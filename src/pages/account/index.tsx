@@ -95,7 +95,7 @@ export default function AccountPage() {
     return () => {
       subscribe();
     };
-  }, []);
+  }, [router]);
 
   const generateContents = () => {
     switch (redirect) {

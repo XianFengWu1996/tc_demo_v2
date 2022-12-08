@@ -1,5 +1,5 @@
 import { Box, Tab, Tabs, useMediaQuery } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 interface CategorySelectorProps {
   value: string;
@@ -11,20 +11,6 @@ export const CategorySelector = (props: CategorySelectorProps) => {
   const isMobileScreen = useMediaQuery('(max-width: 600px)');
 
   const ref = useRef<HTMLDivElement>();
-  const [position, setPosition] = useState<number>(0);
-
-  const handleScroll = () => {
-    const position = window.pageYOffset;
-    setPosition(position);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  });
 
   return (
     <>

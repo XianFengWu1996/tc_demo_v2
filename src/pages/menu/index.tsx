@@ -29,8 +29,6 @@ export default function MenuV2() {
   const [category, setCategory] = useState<Category>();
   const [dish, setDish] = useState<Dish[]>([]);
 
-  const [currentTime, setCurrentTime] = useState(getCurrentTime());
-
   const [search, setSearch] = useState<boolean>(false);
 
   const [selectDish, setSelectDish] = useState<Dish>({
@@ -104,7 +102,6 @@ export default function MenuV2() {
 
   const onMenuChange = (val: string) => {
     const time = getCurrentTime();
-    setCurrentTime(time);
     // if we are changing to the lunch menu, we will want to check if its still during lunch time
 
     if (today && time > today.hours.lunch.close) {

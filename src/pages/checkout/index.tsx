@@ -11,7 +11,6 @@ import { CartSummary } from '../../component/checkout/summary/cartSummary';
 import { auth } from '../../config/firebaseConfig';
 import { getUserData } from '../../functions/checkout';
 import { handleCatchError } from '../../functions/error';
-import snackbar from '../../functions/utilities/snackbar';
 import { useAppDispatch } from '../../store/hook';
 import {
   setDeliveryOption,
@@ -41,8 +40,6 @@ export default function CheckoutPage() {
         setLoading(true);
 
         if (!fbUser) {
-          // if no user exist, redirect to signin page
-          snackbar.info('Please sign in before checkout');
           return Router.push(`/auth/signin?redirect=/checkout`);
         }
 

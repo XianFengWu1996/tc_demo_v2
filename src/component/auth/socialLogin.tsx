@@ -18,32 +18,41 @@ import {
 export const SocialLogin = () => {
   const router = useRouter();
   const { redirect } = router.query;
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = () => {
     const provider = new GoogleAuthProvider();
 
-    await signInWithPopup(auth, provider).catch((error) => {
-      snackbar.error(error.message ?? 'Failed to sign in with Google');
-    });
+    signInWithPopup(auth, provider)
+      .then(() => {
+        router.push(redirect as string);
+      })
+      .catch((error) => {
+        snackbar.error(error.message ?? 'Failed to sign in with Google');
+      });
     router.push(redirect as string);
   };
 
-  const handleAppleSignIn = async () => {
+  const handleAppleSignIn = () => {
     const provider = new OAuthProvider('apple.com');
 
-    await signInWithPopup(auth, provider).catch((error) => {
-      snackbar.error(error.message ?? 'Failed to sign in with Apple');
-    });
-
-    router.push(redirect as string);
+    signInWithPopup(auth, provider)
+      .then(() => {
+        router.push(redirect as string);
+      })
+      .catch((error) => {
+        snackbar.error(error.message ?? 'Failed to sign in with Apple');
+      });
   };
 
-  const hanldeFacebookSignIn = async () => {
+  const hanldeFacebookSignIn = () => {
     const provider = new FacebookAuthProvider();
 
-    await signInWithPopup(auth, provider).catch((error) => {
-      snackbar.error(error.message ?? 'Failed to sign in with Facebook');
-    });
-    router.push(redirect as string);
+    signInWithPopup(auth, provider)
+      .then(() => {
+        router.push(redirect as string);
+      })
+      .catch((error) => {
+        snackbar.error(error.message ?? 'Failed to sign in with Facebook');
+      });
   };
   return (
     <>

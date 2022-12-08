@@ -73,13 +73,13 @@ const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     const interval = setInterval(() => {
       // if the currentTime is greater than the close time, remove the lunch discount
-      if (process.env.NEXT_PUBLIC_LUNCH_END < getCurrentTime()) {
+      if (Number(process.env.NEXT_PUBLIC_LUNCH_END) < getCurrentTime()) {
         dispatch(removeLunchDiscount());
         dispatch(disableLunch(true));
       } else {
         dispatch(disableLunch(false));
       }
-    }, 6000);
+    }, 60 * 1000);
 
     return () => clearInterval(interval);
   }, [dispatch]);

@@ -1,34 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+// =====  MENU PAGE =======
+// FOR TESTING PURPOSE, ONLY THE DISH LABEL A1.Chilled Jelly Fish 凉拌海蜇123 CONTAINS EXTRA FEATURES SUCH AS ALLOWING ADDING ADDITIONAL PROTEINS
+// ADDING MORE CHOICES AND OPTION CAN BE DONE IN THE SERVER OR WITH AN ADMIN SITE
 
-## Getting Started
+// LUNCH HOUR IS BETWEEN 11AM - 16PM EST
+// EVERY 3 LUNCH ITEMS WILL RESULT IN A $2.95 DISCOUNT
 
-First, run the development server:
+// STORE HOUR IS BETWEEN 11AM - 9:40PM EST,
+// THE CHECKOUT PAGE WILL SHOW A PAGE TO INFORM USER THE STORE HAS CLOSED
+// IF THE USER SOME HOW GOT IN, THE 'PLACE ORDER' AND THE MIDDLEWARE IN THE SERVER WILL INFORM THE USER THE STORE HAS CLOSE AND WILL NOT 
+// ALLOW THE USER TO PROCESS THE ORDER
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+// ===== CHECKOUT PAGE ======
+// THE CHECKOUT PAGE WILL REQUIRED A FEW FIELD TO BE FILL OUT BEFORE ALLOW TO PROCEED
+// == REQUIRED FIELDS ==
+//  - NAME 
+//  - PHONE
+//    - THE CODE WILL BE DISPLAY IN THE DIALOG, BUT THE CODE FOR SENDING MESSAGE ARE IN THE CODE FOR THE SERVER. 
+//  - ADDRESS (IF DELIVERY)
+//    - THE RESULT WILL DISPLAY ADDRESS CLOSE TO THE SET LAT/LNG
+//    - BUT THERE IS STILL A SET DISTANCE WHICH THE STORE WILL DELIVERY TO, TRY ADDRESS WITHIN QUINCY, QUINCY CENTER, PART OF DORCHESTER
+//      PART OF MILTON, AND PART OF BRAINTREE WHICH ARE CLOSER TO THE QUINCY AREA.
+//    - THE DELIVERY FEE WILL BE AUTOMATICALLY CALULATED IN THE BACKEND AND SAVE TO THE DATABASE
+//    - DELIVERY WILL ALSO HAVE A MINIMUM THRESHOLD OF $15, THE $15 IN SUBTOTAL HAS TO BE AFTER DISCOUNTS
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+//  == OPTIONAL FIELDS == 
+//  - DELIVERY NOTES
+//  - DROPOFF OPTION
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+//  - KITCHEN NOTES
+//  - UTENSIL OPTION
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+//  == PAYMENT ==
+// THERE ARE ESSENTIALLY THREE WAYS FOR PAYMENT
+// IN PERSON
+//    - THIS IS THE SIMPLEST, FOR PICKUP, THE CUSTOMER WILL HEAD TO THE STORE AND PAYMENT WILL BE PROCESS IN THE STORE
+// NEW CARDS
+//    - STRIPE IS SET TO TESTING MODE SINCE I DONT WANT ANYONE TO ACTUALLY USE THEIR CREDIT CARD TO TEST IT SINCE IT IS JUST A DEMO PROJECT
+//    - THIS IS ALL THE TESTING CREDIT CARDS FOR STRIPE  https://stripe.com/docs/testing
+//    - SELECTING THE CHECKBOX FOR FUTURE USE WILL ALSO ATTACH A PAYMENT METHOD FOR STRIPE WHICH GIVE THE USER ACCESS TO THE CARD WITHOUT 
+//      ENTERING THE CARD NUMBER ALL OVER AGAIN
+// SAVED CARDS
+//    - ONLY WHEN THE CUSTOMER CHOOSE TO SAVE THE CARD FOR FUTURE USE, THEN THERE WILL BE CARD DISPLAY FOR PAYMENT
+//    - THE PAYMENT METHOD CAN ALSO BE REMOVE IN THE WALLET PAGE WITHIN THE ACCOUNT PAGE
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+// SIGNIN PAGE
+// ALLOW SIGN IN METHODS INCLUDES EMAIL/PASSWORD, FACEBOOK, GOOGLE, AND APPLE
+// FORGOT PASSWORD, INSTEAD OF USING DEFAULT PASSWORD RESET PROVIDE BY FIREBASE, WE WILL CUSTOM FORGOT PASSWORD PAGE TO RESET PASSWORD FOR THE USER
+//  - IT WILL ALSO GENERATE A FORGET PASSWORD LINK TO THE EMAIL
 
-## Learn More
+// ACCOUNT PAGE
+// CONTAINS A PAGE TO DISPLAY THE CUSTOMER INFORMATION, A PAGE TO VIEW ORDER HISTORY AND A PAGE FOR VIEW AND DELETING SAVE CARDS FROM STRIPE
 
-To learn more about Next.js, take a look at the following resources:
+// CONTACT PAGE
+// WILL SAVE A MESSAGE TO BE VIEW BY THE ADMIN OR STAFF
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+// THERE ARE TWO SPECIAL PAGE 
+// https://tc-demo-v2.vercel.app/simulate/order
+// THE PURPOSE OF THIS PAGE IS TO SIMULATE WHAT THE STORE MIGHT SEE, HOWEVER THE STORE APP WAS PREVIOUS CREATED WITH FLUTTER, SO THIS PAGE IN TRYING TO SIMULATE A SIMILAR EFFECT
+// https://tc-demo-v2.vercel.app/simulate/contactus
+// THE PURPOSE OF THIS PAGE IS TO SIMULATE THE MESSAGE THE STORE WILL SEE, THE ADMIN OR THE STAFF CAN MANUALLY REPLY THE CUSTOMER BASE ON THE MESSAGE THEY HAVE PROVIDED
+// IF THE STAFF CAN RESOLVE IT RIGHT AWAY, THEY CAN SIMPLY MARK IT AS COMPLETE, ELSE THEY CAN MARK IT AS REQUIRED FOLLOW UP

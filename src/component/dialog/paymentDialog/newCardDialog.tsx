@@ -9,6 +9,7 @@ import { ChangeEvent, useState } from 'react';
 import { auth } from '../../../config/firebaseConfig';
 import { newCardPayment, updateIntent } from '../../../functions/checkout';
 import { handleCatchError } from '../../../functions/error';
+import { checkStoreHours } from '../../../functions/payment';
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import {
   completeCartCheckout,
@@ -25,6 +26,7 @@ import { TipSelection } from './tipSelection';
 
 export const NewCardDialog = (props: Dialog) => {
   const cart = useAppSelector((state) => state.cart);
+  const store = useAppSelector((state) => state.store);
   const checkout = useAppSelector((state) => state.checkout);
   const dispatch = useAppDispatch();
 
@@ -47,6 +49,8 @@ export const NewCardDialog = (props: Dialog) => {
 
       setLoading(true);
       // first, update the intent
+
+      checkStoreHours(store.today);
 
       const intent = await stripe.retrievePaymentIntent(checkout.clientSecret);
 

@@ -6,7 +6,6 @@ import {
   ListItemIcon,
   ListItemText,
   SwipeableDrawer,
-  useMediaQuery,
 } from '@mui/material';
 import { styled } from '@mui/system';
 import Router from 'next/router';
@@ -17,7 +16,6 @@ import {
   AiOutlinePhone,
   AiOutlineSetting,
   AiOutlineShoppingCart,
-  AiOutlineUser,
 } from 'react-icons/ai';
 import { HiOutlineReceiptTax } from 'react-icons/hi';
 import { IoWalletOutline } from 'react-icons/io5';
@@ -42,9 +40,6 @@ const SignInLogoutButton = styled(Button)(() => ({
 }));
 
 export const MenuDrawer = (props: IMenuDrawerProps) => {
-  const isMobile = useMediaQuery('(max-width: 480px)');
-  // const dispatch = useAppDispatch();
-
   const [user, setUser] = useState<User | null>();
 
   useEffect(() => {
@@ -95,7 +90,7 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
       id: '38d4df12-3c06-4c9b-90de-c1d79152fe3d',
       text: 'Account',
       icon: <AiOutlineSetting />,
-      path: `/account?redirect_to=personal`,
+      path: `/account?redirect_to=account`,
     },
     {
       id: '38dasd-123c9b-90de-c1d79152fe3d',
@@ -111,7 +106,7 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
       signOut(auth); // sign out of the firebase
       snackbar.warning("You've successfully logged out");
     } else {
-      Router.push('/auth/signin');
+      Router.push(`/auth/signin?redirect=/menu`);
     }
   };
 
@@ -145,16 +140,6 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
         }}
       >
         <div>
-          {isMobile ? (
-            <DrawerItem>
-              <ListItem button onClick={() => Router.push('/account')}>
-                <ListItemIcon>
-                  <AiOutlineUser />
-                </ListItemIcon>
-                <ListItemText primary={'Account'} />
-              </ListItem>
-            </DrawerItem>
-          ) : null}
           {navigation_list.map((item) => {
             if (item) {
               return (
@@ -163,6 +148,7 @@ export const MenuDrawer = (props: IMenuDrawerProps) => {
                     button
                     onClick={() => {
                       Router.push(item.path);
+                      props.handleClose();
                     }}
                   >
                     <ListItemIcon sx={{ color: '#000' }}>

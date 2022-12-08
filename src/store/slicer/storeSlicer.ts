@@ -4,6 +4,7 @@ import { localTime } from '../../functions/time';
 // Define a type for the slice state
 interface StoreSlicerState extends StoreAxiosResult {
   today: RegularHour | undefined;
+  disableLunch: boolean;
 }
 
 // Define the initial state using that type
@@ -34,6 +35,7 @@ const initialState: StoreSlicerState = {
     },
     serverOn: false,
   },
+  disableLunch: false,
 };
 
 export const storeSlicer = createSlice({
@@ -56,9 +58,12 @@ export const storeSlicer = createSlice({
       state.status = payload.status;
       state.dishes = payload.dishes;
     },
+    disableLunch: (state, { payload }: PayloadAction<boolean>) => {
+      state.disableLunch = payload;
+    },
   },
 });
 
-export const { retrieveStoreRelatedData } = storeSlicer.actions;
+export const { retrieveStoreRelatedData, disableLunch } = storeSlicer.actions;
 
 export default storeSlicer.reducer;

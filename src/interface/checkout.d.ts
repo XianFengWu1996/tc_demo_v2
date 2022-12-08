@@ -191,6 +191,7 @@ declare namespace PhoneVerification {
   }
   interface During extends Before {
     otp: string;
+    testingCode: string;
     onResend: () => Promise<void>;
   }
   interface Complete {

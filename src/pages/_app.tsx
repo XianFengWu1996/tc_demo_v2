@@ -21,8 +21,13 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Footer } from '../component/home/Footer';
 import { handleCatchError } from '../functions/error';
 import { RequestStoreData } from '../functions/menu';
+import { getCurrentTime } from '../functions/time';
 import { useAppDispatch } from '../store/hook';
-import { retrieveStoreRelatedData } from '../store/slicer/storeSlicer';
+import { removeLunchDiscount } from '../store/slicer/cartSlicer';
+import {
+  disableLunch,
+  retrieveStoreRelatedData,
+} from '../store/slicer/storeSlicer';
 
 NProgressSetUp();
 
@@ -64,6 +69,20 @@ const App = ({ Component, pageProps }: AppProps) => {
       handleCatchError(e);
     });
   }, [getStoreData]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // if the currentTime is greater than the close time, remove the lunch discount
+      if (process.env.NEXT_PUBLIC_LUNCH_END < getCurrentTime()) {
+        dispatch(removeLunchDiscount());
+        dispatch(disableLunch(true));
+      } else {
+        dispatch(disableLunch(false));
+      }
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [dispatch]);
 
   return (
     <>

@@ -10,10 +10,10 @@ import {
 import { ChangeEventHandler } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { generateMenuTime } from '../../functions/time';
+import { useAppSelector } from '../../store/hook';
 import { CustomInput } from '../input/checkoutInput';
 
 interface MenuSelectorProps {
-  currentTime: number;
   menus: Menu[];
   value: string;
   onChange: (value: string) => void;
@@ -34,6 +34,7 @@ const MenuSelectorContainer = styled(Box)(({ theme }) => ({
 
 export const MenuSelector = (props: MenuSelectorProps) => {
   const isMobileScreen = useMediaQuery('(max-width: 600px)');
+  const { disableLunch } = useAppSelector((state) => state.store);
 
   return (
     <MenuSelectorContainer>
@@ -65,8 +66,7 @@ export const MenuSelector = (props: MenuSelectorProps) => {
               key={item.id}
               value={item.id}
               disabled={
-                item.id === process.env.NEXT_PUBLIC_LUNCH_MENU &&
-                props.currentTime > item.hours.end
+                item.id === process.env.NEXT_PUBLIC_LUNCH_MENU && disableLunch
               }
               label={
                 <>

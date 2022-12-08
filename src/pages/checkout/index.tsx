@@ -43,7 +43,7 @@ export default function CheckoutPage() {
         if (!fbUser) {
           // if no user exist, redirect to signin page
           snackbar.info('Please sign in before checkout');
-          return Router.push('/auth/signin');
+          return Router.push(`/auth/signin?redirect=/checkout`);
         }
 
         const token = await fbUser?.getIdToken();
@@ -73,7 +73,7 @@ export default function CheckoutPage() {
       }}
     >
       <CheckoutLogoDisplay />
-      {isOpen ? (
+      {!isOpen ? (
         <LoadingScreen setIsOpen={setIsOpen} />
       ) : (
         <div

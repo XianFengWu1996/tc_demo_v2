@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from '@mui/material';
+import { Box, Card, IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
 // ========================================
@@ -16,8 +16,8 @@ export const SocialLoginIconGroup = styled(Box)(() => ({
   my: 3,
 }));
 
-export const SocialLoginIconContainer = styled(Box)(() => ({
-  borderRadius: '3px',
+export const SocialLoginIconContainer = styled(IconButton)(() => ({
+  borderRadius: '15px',
   width: '50px',
   height: '50px',
   bgcolor: '#f59c9e47',

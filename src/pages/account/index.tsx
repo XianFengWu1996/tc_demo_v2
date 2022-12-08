@@ -74,19 +74,27 @@ export default function AccountPage() {
   });
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
+    const subscribe = onAuthStateChanged(auth, async (user) => {
       try {
-        setLoading(true);
-        const token = await user?.getIdToken();
-        const result = await getUserData(token);
+        if (user) {
+          setLoading(true);
+          const token = await user?.getIdToken();
+          const result = await getUserData(token);
 
-        setUser(result.data.user);
+          setUser(result.data.user);
+        } else {
+          router.push(`/auth/signin?redirect=/account?redirect_to=account`);
+        }
       } catch (error) {
         handleCatchError(error);
       } finally {
         setLoading(false);
       }
     });
+
+    return () => {
+      subscribe();
+    };
   }, []);
 
   const generateContents = () => {

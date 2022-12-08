@@ -1,14 +1,21 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import blackLogo from '../../../public/assets/images/blacklogo.png';
 
 export const CheckoutLogoDisplay = () => {
+  const router = useRouter();
+  const handleOnClick = () => {
+    router.push('/menu');
+  };
   return (
     <div
+      onClick={handleOnClick}
       style={{
         padding: '15px 30px',
         position: 'absolute',
-        top: '5px',
+        top: '70px',
         left: '10px',
+        cursor: 'pointer',
       }}
     >
       <Image

@@ -26,15 +26,14 @@ const CartContentContainer = styled(Box)(({ theme }) => ({
 
 export const CartContent = () => {
   const stripePromise = useMemo(
-    () =>
-      loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, {
-        betas: ['address_element_beta_1'],
-      }),
+    () => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY),
     []
   );
   const { contact, address, clientSecret } = useAppSelector(
     (state) => state.checkout
   );
+
+  const { summary } = useAppSelector((state) => state.cart);
   const { deliveryOption } = useAppSelector((state) => state.cart);
 
   const [showAddress, setShowAddress] = useState<boolean>(true);
@@ -57,6 +56,10 @@ export const CartContent = () => {
     if (deliveryOption === 'delivery') {
       if (!address.details || !address.formattedAddress) {
         return snackbar.error('Please provide address for the order');
+      }
+
+      if (summary.subtotal < 15) {
+        return snackbar.error('The minimum for delivery is $15 before fees');
       }
     }
 

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isNumber } from 'lodash';
 import { v4 } from 'uuid';
+import { getCurrentTime } from '../../functions/time';
 
 const initialState: Cart = {
   cartId: v4(),
@@ -25,11 +26,21 @@ const initialState: Cart = {
 const calculateTotal = (state: Cart) => {
   let quantityCounter = 0;
   let subtotalCounter = 0;
+  let lunchCounter = 0;
 
   state.cart.forEach((state) => {
     quantityCounter += state.quantity;
     subtotalCounter += state.total;
+
+    if (state.details.is_lunch) {
+      lunchCounter += state.quantity;
+    }
   });
+
+  state.summary.discount.lunch =
+    process.env.NEXT_PUBLIC_LUNCH_END < getCurrentTime()
+      ? 0
+      : Number((Math.floor(lunchCounter / 3) * 2.95).toFixed(2));
 
   state.summary.originalSubtotal = Number(subtotalCounter.toFixed(2));
   state.summary.cartQuantity = quantityCounter;
@@ -57,7 +68,18 @@ export const cartSlicer = createSlice({
   initialState,
   reducers: {
     addItemToCart: (state, { payload }: PayloadAction<CartItem>) => {
-      state.cart = [...state.cart, payload];
+      const index = state.cart.findIndex((item) => {
+        return item.id === payload.id;
+      });
+
+      // if not found
+      if (index === -1) {
+        state.cart = [...state.cart, payload];
+      } else {
+        // if found, update the quantity and total
+        state.cart[index].quantity += payload.quantity;
+        state.cart[index].total += payload.total;
+      }
       calculateTotal(state);
     },
     clearCart: (state) => {
@@ -162,7 +184,10 @@ export const cartSlicer = createSlice({
       }
       calculateTotal(state);
     },
-
+    removeLunchDiscount: (state) => {
+      state.summary.discount.lunch = 0;
+      calculateTotal(state);
+    },
     completeCartCheckout: (state) => {
       (state.cart = []),
         (state.deliveryOption = 'delivery'),
@@ -188,52 +213,7 @@ export const {
   completeCartCheckout,
   updateTip,
   updateCustomTip,
+  removeLunchDiscount,
 } = cartSlicer.actions;
 
 export default cartSlicer.reducer;
-
-// const calculateTotal = (state: ICartSlicer) => {
-//   // handle lunch count and discount
-//   // let lunchCount = 0;
-//   // let lunchDiscount = 0;
-//   // let point_redemption_discount = 0;
-
-//   let original_subtotal = 0;
-//   let cart_quantity = 0;
-
-//   state.cart.forEach((item) => {
-//     //   if(item.dish.is_lunch){
-//     //     lunchCount += item.quantity;
-//     //   }
-//     original_subtotal += item.total;
-//     cart_quantity += item.quantity;
-//   });
-
-//   // if(isEmpty(state.cart)){
-//   //   point_redemption_discount = 0;
-//   //   state.point_redemption = 0;
-//   // } else {
-//   //   point_redemption_discount = Number((state.point_redemption / 100).toFixed(2));
-//   // }
-
-//   // lunchDiscount = Math.floor(lunchCount / 3) * 2.9;
-//   original_subtotal = Number(original_subtotal.toFixed(2));
-
-//   // const subtotal = Number((original_subtotal - point_redemption_discount - (isLunchTime ? lunchDiscount : 0)).toFixed(2))
-//   const subtotal = Number(original_subtotal.toFixed(2));
-
-//   state.cartSummary.quantity = cart_quantity;
-//   state.cartSummary.original_subtotal = original_subtotal;
-//   state.cartSummary.subtotal = subtotal;
-//   state.cartSummary.tax = Number((subtotal * 0.07).toFixed(2));
-//   state.cartSummary.total = Number(
-//     (
-//       subtotal +
-//       state.cartSummary.tax +
-//       state.cartSummary.tip +
-//       state.cartSummary.deliveryFee
-//     ).toFixed(2)
-//   );
-//   // state.lunch_discount = (isLunchTime ? lunchDiscount : 0)
-//   // state.payment_type = '' // reset the payment type
-// };

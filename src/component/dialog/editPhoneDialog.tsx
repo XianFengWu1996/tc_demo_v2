@@ -43,6 +43,8 @@ export const EditPhoneDialog = (props: Dialog) => {
   const [otp, setOtp] = useState<string>('');
   const [token, setToken] = useState<string>('');
 
+  const [testingCode, setTestingCode] = useState<string>('');
+
   const handlePreOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -54,8 +56,9 @@ export const EditPhoneDialog = (props: Dialog) => {
   const handlePreOnClick = async () => {
     try {
       setLoading(true);
-      await requestOTPCode(phone, setToken);
+      const result = await requestOTPCode(phone, setToken);
       setStatus('verifying');
+      setTestingCode(result.data.codeForTestingPurpose);
     } catch (error) {
       handleCatchError(error);
     } finally {
@@ -73,7 +76,8 @@ export const EditPhoneDialog = (props: Dialog) => {
 
   const handleOnResend = async () => {
     try {
-      await requestOTPCode(phone, setToken);
+      const result = await requestOTPCode(phone, setToken);
+      setTestingCode(result.data.codeForTestingPurpose);
     } catch (error) {
       handleCatchError(error);
     }
@@ -137,6 +141,7 @@ export const EditPhoneDialog = (props: Dialog) => {
 
         {status === 'verifying' && (
           <Verifying
+            testingCode={testingCode}
             otp={otp}
             phone={phone}
             loading={loading}
@@ -231,36 +236,47 @@ const PreVerify = (props: PhoneVerification.Before) => {
 
 const Verifying = (props: PhoneVerification.During) => {
   return (
-    <EditPhoneContent
-      title={`Please enter the one-time verification code sent to +1${props.phone}`}
-      subTitle={
-        <>
-          Didn&apos;t get the code?
-          <CountDownButton
-            sx={{
-              fontSize: 12,
-              color: blue[300],
-            }}
-            loaderColor={blue[300]}
-            text="Resend"
-            onClick={props.onResend}
+    <>
+      <EditPhoneContent
+        title={`Please enter the one-time verification code sent to +1${props.phone}`}
+        subTitle={
+          <>
+            Didn&apos;t get the code?
+            <CountDownButton
+              sx={{
+                fontSize: 12,
+                color: blue[300],
+              }}
+              loaderColor={blue[300]}
+              text="Resend"
+              onClick={props.onResend}
+            />
+          </>
+        }
+        content={
+          <CustomInput
+            placeholder="ex: 123456"
+            type={'number'}
+            value={props.otp}
+            onChange={props.onChange}
+            fullWidth
           />
-        </>
-      }
-      content={
-        <CustomInput
-          placeholder="ex: 123456"
-          type={'number'}
-          value={props.otp}
-          onChange={props.onChange}
-          fullWidth
-        />
-      }
-      loading={props.loading}
-      buttonText="verify"
-      buttonDisabled={props.otp.length < 6}
-      onClick={props.onClick}
-    />
+        }
+        loading={props.loading}
+        buttonText="verify"
+        buttonDisabled={props.otp.length < 6}
+        onClick={props.onClick}
+      />
+      <Typography sx={{ fontSize: 13, fontWeight: 600 }}>
+        For testing purpose, text message will not be send. The otp is{' '}
+        {props.testingCode}
+      </Typography>
+
+      <Typography sx={{ fontSize: 13, fontWeight: 600 }}>
+        Codes for sending message through Teleynx or Twilio can be viewed on the
+        server
+      </Typography>
+    </>
   );
 };
 

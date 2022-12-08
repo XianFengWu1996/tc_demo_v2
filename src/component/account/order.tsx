@@ -6,6 +6,7 @@ import {
   MenuItem,
   Pagination,
   Select,
+  Typography,
 } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { auth } from '../../config/firebaseConfig';
@@ -70,45 +71,56 @@ export const AccOrder = () => {
           {displayOrder.map((order) => {
             return <AccOrderItem key={order.id} order={order} />;
           })}
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Pagination
-              count={numberOfPage}
-              page={page}
-              onChange={handlePageChange}
-              variant="outlined"
-              sx={{ mt: 2 }}
-            />
-
-            <FormControl sx={{ mt: 2 }}>
-              <InputLabel id="numberPerPage" size="small" variant="outlined">
-                Per Page
-              </InputLabel>
-              <Select
-                labelId="numberPerPage"
+          {displayOrder.length > 0 ? (
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Pagination
+                count={numberOfPage}
+                page={page}
+                onChange={handlePageChange}
                 variant="outlined"
-                size="small"
-                sx={{ width: '200px' }}
-                value={numberPerPage}
-                label="Per Page"
-                onChange={(e) => {
-                  setNumberPerPage(Number(e.target.value));
-                }}
-              >
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
-                <MenuItem value={4}>4</MenuItem>
-                <MenuItem value={5}>5</MenuItem>
-                <MenuItem value={orders.length}>All</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+                sx={{ mt: 2 }}
+              />
+
+              <FormControl sx={{ mt: 2 }}>
+                <InputLabel id="numberPerPage" size="small" variant="outlined">
+                  Per Page
+                </InputLabel>
+                <Select
+                  labelId="numberPerPage"
+                  variant="outlined"
+                  size="small"
+                  sx={{ width: '200px' }}
+                  value={numberPerPage}
+                  label="Per Page"
+                  onChange={(e) => {
+                    setNumberPerPage(Number(e.target.value));
+                  }}
+                >
+                  <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={3}>3</MenuItem>
+                  <MenuItem value={4}>4</MenuItem>
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={orders.length}>All</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          ) : (
+            <Typography
+              sx={{
+                fontSize: 18,
+                fontWeight: 600,
+              }}
+            >
+              There is no order found, try placing an order...
+            </Typography>
+          )}
         </Box>
       )}
     </Box>

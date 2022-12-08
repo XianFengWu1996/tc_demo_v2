@@ -3,6 +3,7 @@ import Router from 'next/router';
 import { useState } from 'react';
 import { InPersonPayment } from '../../../functions/checkout';
 import { handleCatchError } from '../../../functions/error';
+import { checkStoreHours } from '../../../functions/payment';
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import { completeCartCheckout } from '../../../store/slicer/cartSlicer';
 import { completeCheckout } from '../../../store/slicer/checkoutSlicer';
@@ -17,6 +18,7 @@ import {
 
 export const InPersonDialog = (props: Dialog) => {
   const cart = useAppSelector((state) => state.cart);
+  const store = useAppSelector((state) => state.store);
   const checkout = useAppSelector((state) => state.checkout);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,6 +26,7 @@ export const InPersonDialog = (props: Dialog) => {
   const handleSubmitOrder = async () => {
     try {
       setLoading(true);
+      checkStoreHours(store.today);
       const result = await InPersonPayment(cart, checkout);
 
       if (result.status === 200) {

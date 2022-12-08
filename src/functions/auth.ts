@@ -27,7 +27,8 @@ export const emailLoginWithFirebase = async (
   password: string,
   setLoading: Dispatch<SetStateAction<boolean>>,
   setEmailError: Dispatch<SetStateAction<string>>,
-  setPasswordError: Dispatch<SetStateAction<string>>
+  setPasswordError: Dispatch<SetStateAction<string>>,
+  redirect: string
 ) => {
   setEmailError('');
   setPasswordError('');
@@ -47,7 +48,7 @@ export const emailLoginWithFirebase = async (
     await signInWithEmailAndPassword(auth, email, password);
 
     // send the user to the menu route
-    Router.push('/menu');
+    Router.push(redirect);
     // maybe place the destination into the query of the url, and redirect base on it
   } catch (error) {
     setLoading(false);
@@ -117,7 +118,7 @@ export const emailSignupWithFirebase = async (
     await sendEmailVerification(user.user);
 
     await auth.signOut();
-    Router.push('/auth/signin?from=signup&status=success');
+    Router.push(`/auth/signin?from=signup&status=success&redirect=/menu`);
   } catch (error) {
     // end loading and display error message
     setLoading(false);
@@ -144,7 +145,7 @@ export const sendResetPasswordLink = async (email: string) => {
 };
 
 export const backToLogin = () => {
-  Router.push('/auth/signin');
+  Router.push(`/auth/signin?redirect=/menu`);
 };
 
 export const backToForgotPassword = () => {

@@ -17,6 +17,8 @@ declare global {
       NEXT_PUBLIC_MAP_API: string;
       NEXT_PUBLIC_FULLDAY_MENU: string;
       NEXT_PUBLIC_LUNCH_MENU: string;
+      NEXT_PUBLIC_LUNCH_END: number;
+
       NEXT_PUBLIC_STORE_LAT: number;
       NEXT_PUBLIC_STORE_LNG: number;
       NEXT_PUBLIC_PUB_TOKEN: string;

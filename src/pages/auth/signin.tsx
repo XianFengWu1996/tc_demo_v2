@@ -10,7 +10,7 @@ import { ViaEmailDivider } from '../../component/auth/viaEmailDivider';
 import { AuthLink } from '../../component/link/authLink';
 
 import Router, { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { EmailVerificationNotification } from '../../component/auth/notification';
 import { LoadingButton } from '../../component/button/loadingButton';
 import { EmailInput, PasswordInput } from '../../component/input/authInput';
@@ -27,7 +27,7 @@ export default function SignIn() {
   const [passwordError, setPasswordError] = useState<string>('');
 
   const router = useRouter();
-  const { from, status } = router.query;
+  const { from, status, redirect } = router.query;
 
   useEffect(() => {
     if (from === 'signup' && status === 'success') {
@@ -44,6 +44,34 @@ export default function SignIn() {
     };
   }, [from, status]);
 
+  const handleOnEmailChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setEmail(e.target.value);
+  };
+
+  const handleOnPasswordChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSignIn = () => {
+    emailLoginWithFirebase(
+      email,
+      password,
+      setLoading,
+      setEmailError,
+      setPasswordError,
+      redirect as string
+    );
+  };
+
+  const handleEmailDismiss = () => {
+    setEmailVerify(false); // dismiss the notification
+    Router.replace(`/auth/signin?redirect=/menu`); // replace the url query
+  };
+
   return (
     <>
       <AppBarNav />
@@ -52,12 +80,7 @@ export default function SignIn() {
         <Grid item xs={12} sm={12} md={7} lg={6}>
           <AuthContentContainer>
             {emailVerify && (
-              <EmailVerificationNotification
-                onDismiss={() => {
-                  setEmailVerify(false); // dismiss the notification
-                  Router.replace('/auth/signin'); // replace the url query
-                }}
-              />
+              <EmailVerificationNotification onDismiss={handleEmailDismiss} />
             )}
 
             <SocialLogin />
@@ -68,9 +91,7 @@ export default function SignIn() {
               <EmailInput
                 autoComplete="new-password"
                 value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
+                onChange={handleOnEmailChange}
                 error={emailError}
               />
 
@@ -78,9 +99,7 @@ export default function SignIn() {
                 placeholder="Password"
                 autoComplete="new-password"
                 value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
+                onChange={handleOnPasswordChange}
                 error={passwordError}
               />
 
@@ -90,15 +109,7 @@ export default function SignIn() {
                 fullWidth
                 loading={loading}
                 text="login"
-                onClick={() => {
-                  emailLoginWithFirebase(
-                    email,
-                    password,
-                    setLoading,
-                    setEmailError,
-                    setPasswordError
-                  );
-                }}
+                onClick={handleSignIn}
               />
 
               <AuthLink linkTo="signup" text={"Don't have an account yet?"} />

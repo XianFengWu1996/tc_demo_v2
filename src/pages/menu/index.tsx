@@ -184,7 +184,6 @@ export default function MenuV2() {
       <MenuContainer>
         {menu && (
           <MenuSelector
-            currentTime={currentTime}
             menus={menus}
             value={menu.id}
             onChange={onMenuChange}

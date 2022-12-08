@@ -21,7 +21,7 @@ export const CartDrawerList = () => {
   return (
     <List sx={{ pb: 10, backgroundColor: 'background.default' }}>
       {cartState.cart.map((item) => {
-        return <CartDrawerItem key={item.details.id} item={item} />;
+        return <CartDrawerItem key={item.id} item={item} />;
       })}
     </List>
   );
